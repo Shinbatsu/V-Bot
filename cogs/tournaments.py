@@ -10,7 +10,7 @@ class Tournaments(commands.Cog, name="tournaments"):
 
     @commands.hybrid_command(
         name="tournament",
-        description="This is a testing command that does nothing.",
+        description="This is a command that creates tournament room.",
     )
     @commands.has_role("Creator")
     async def tournament(self, ctx, tournament_name=""):
@@ -29,6 +29,7 @@ class Tournaments(commands.Cog, name="tournaments"):
                 )
                 await guild.create_text_channel("Text", category=category, reason=None)
                 await ctx.send("Tournament room created!")
+
         except Exception as e:
             print(f"what? {e}")
 
