@@ -1,0 +1,8 @@
+python-dotenv
+aiogram
+aiohttp
+aiosqlite
+discord
+discord.py
+valorant
+riotwatcher
