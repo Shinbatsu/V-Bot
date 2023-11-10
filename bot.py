@@ -19,6 +19,7 @@ else:
     with open(f"{os.path.realpath(os.path.dirname(__file__))}/config.json") as file:
         config = json.load(file)
 
+
 class LoggingFormatter(logging.Formatter):
     # Colors
     black = "\x1b[30m"
@@ -156,6 +157,9 @@ class DiscordBot(commands.Bot):
         if message.author == self.user or message.author.bot:
             return
         await self.process_commands(message)
+
+    async def on_ready(self):
+        await self.tree.sync()
 
     async def on_command_completion(self, context: Context) -> None:
         """
