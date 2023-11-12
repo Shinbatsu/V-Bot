@@ -5,9 +5,7 @@ class DatabaseManager:
     def __init__(self, *, connection: aiosqlite.Connection) -> None:
         self.connection = connection
 
-    async def add_warn(
-        self, user_id: int, server_id: int, moderator_id: int, reason: str
-    ) -> int:
+    async def add_warn(self, user_id: int, server_id: int, moderator_id: int, reason: str) -> int:
         """
         This function will add a warn to the database.
 
@@ -86,3 +84,44 @@ class DatabaseManager:
             for row in result:
                 result_list.append(row)
             return result_list
+
+    async def add_user_room(self, user_id: int, room_id: int):
+        rows = await self.connection.execute(
+            "SELECT id FROM user_rooms WHERE user_id=? ORDER BY id DESC LIMIT 1",
+            (user_id,),
+        )
+        async with rows as cursor:
+            result = await cursor.fetchone()
+            id = result[0] + 1 if result is not None else 1
+            await self.connection.execute(
+                "INSERT INTO user_rooms(id, user_id, room_id) VALUES (?, ?, ?)",
+                (
+                    id,
+                    user_id,
+                    room_id
+                ),
+            )
+            await self.connection.commit()
+            return room_id
+    async def get_user_room(self,user_id:int):
+        rows = await self.connection.execute(
+            "SELECT user_id, strftime('%s', created_at) FROM user_rooms WHERE user_id=?",
+            (
+                user_id
+            ),
+        )
+        async with rows as cursor:
+            result = await cursor.fetchall()
+            result_list = []
+            for row in result:
+                result_list.append(row)
+            return result_list
+    async def delete_user_room(self,user_id:int):
+        await self.connection.execute(
+            "DELETE FROM user_rooms WHERE user_id=?",
+            (
+                user_id,
+            ),
+        )
+        await self.connection.commit()
+    
