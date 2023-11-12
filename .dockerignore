@@ -1,0 +1,12 @@
+.github
+.gitignore
+
+LICENSE
+
+README.md
+
+.env*
+
+docker-compose.yml
+
+pm2.json
