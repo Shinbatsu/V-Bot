@@ -23,55 +23,33 @@ class Testing(commands.Cog, name="testing"):
     def __init__(self, bot) -> None:
         self.bot = bot
 
-    @commands.command()
-    async def sql(self, context: Context):
-        await context.defer()
-        user_id=383943093310980096
-        room_id=711201810110742550
-        room =  await self.bot.database.add_user_room(user_id, room_id)
-        embed = discord.Embed(
-            description=f"**{user_id}** add into the database by **{context.author}**, your personal room is {room}",
-            color=0xBEBEFE,
-        )
-        await context.send(embed=embed)
+    @commands.hybrid_command(with_app_command=True)
+    async def clear(self, context: Context):
+        try:
+            await context.channel.purge(limit=100)
+        except:
+            context.send("Больше нечего удалять!", ephemeral=True)
+    async def rps_autocomplete(
+        self,
+        interaction: discord.Interaction,
+        current: str,
+    ):
+        choices = ["Rock", "Paper", "Scissors"]
+        return [app_commands.Choice(name=choice, value=choice) for choice in choices if current.lower() in choice.lower()]
 
-    @commands.command()
-    async def sql2(self, context: Context):
-        await context.defer()
-        user_id=383943093310980096
-        total = await self.bot.database.add_warn(
-            user_id, context.guild.id, context.author.id, "Idiot"
-        )
-        embed = discord.Embed(
-            description=f"**{context.author.id}** was warned by **{context.author}**!\nTotal warns for this user: {total}",
-            color=0xBEBEFE,
-        )
-        embed.add_field(name="Reason:", value="Idiot")
-        await context.send(embed=embed)
-        await context.send(
-                f"{context.author.id}, you were warned by **{context.author}**!\nReason:"
-            )
-    # @commands.Cog.listener()
-    # async def on_message_edit(self, before, after):
-    #     embed=discord.Embed(title="Message Edited", color=0x00FFFF)
-    #     embed.add_field(name='Before:', value=before.content + "u200b", inline=False)
-    #     embed.add_field(name="After:", value=after.content + "u200b", inline=False)
-    #     channel = self.bot.get_channel(self.bot.config["LOG_CHANNEL_ID"])
-    #     await channel.send("DADADAD")
+    # If that does not work, try
+    @commands.hybrid_command(name="rps", description="Limit the number of user(s) in your private channel.")
+    @app_commands.autocomplete(choices=rps_autocomplete)
+    async def rps(self, interaction: discord.Interaction, choices: str):
+        choices = choices.lower()
+        if choices == "rock":
+            counter = "paper"
+        elif choices == "paper":
+            counter = "scissors"
+        else:
+            counter = "rock"
+        await interaction.send(f"works, {counter}", ephemeral=True)
 
-    # @commands.Cog.listener()
-    # async def on_message_delete(self, message):
-    #     channel = self.bot.get_channel(self.bot.config["LOG_CHANNEL_ID"])
-    #     self.bot.logger.info(f"On message delete")
-    #     if not message.author.bot:
-    #         embed = discord.Embed(
-    #             title="Message Deleted",
-    #             description=f"{message.author.mention} deleted a message in {message.channel.mention}",
-    #             color=discord.Color.red(),
-    #         )
-    #         embed.add_field(name="Content", value=message.content, inline=False)
-    #         embed.set_footer(text=f"User ID: {message.author.id} | Deleted at {discord.utils.utcnow()}")
-    #         await channel.send(embed=embed)
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
 async def setup(bot) -> None:
     await bot.add_cog(Testing(bot))
