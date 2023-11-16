@@ -6,3 +6,4 @@ discord
 discord.py
 valorant
 riotwatcher
+Discord-Anti-Spam
