@@ -41,8 +41,8 @@ class Avatar(commands.Cog, name="avatar"):
         with_app_command=True,
         description="Отображает твой профиль на сервере",
     )
-    @commands.has_role("Member")
     async def avatar(self, ctx, user_id=None):
+        await ctx.defer()
         if user_id is None:
             user = ctx.author
         else:

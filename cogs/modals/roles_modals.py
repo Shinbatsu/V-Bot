@@ -45,10 +45,11 @@ class RankModal(Modal, title="RIOT ник"):
         self.bot = bot
 
     async def on_submit(self, interaction) -> None:
+        await interaction.defer() 
         riot_username = str(self.rank.value)
         riot_username_repeat = str(self.rank_check.value)
         if riot_username != riot_username_repeat:
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_different_nicknames_embed(self.bot, riot_username, riot_username_repeat)
             )
         else:
@@ -60,7 +61,7 @@ class RankModal(Modal, title="RIOT ник"):
                     nickname=riot_username
                 )
                 user = self.bot.get_user(int(who_has_this_nick_id))
-                await interaction.response.send_message(
+                await interaction.followup.send_message(
                     embed=get_already_has_nickname_embed(self.bot, user.name)
                 )
             else:
@@ -73,11 +74,11 @@ class RankModal(Modal, title="RIOT ник"):
                     await interaction.user.add_roles(
                         discord.utils.get(interaction.user.guild.roles, name=rank)
                     )
-                    await interaction.response.send_message(
+                    await interaction.followup.send_message(
                         embed=get_you_got_rank_embed(self.bot, username=username, rank=rank),
                         ephemeral=True,
                     )
                 else:
-                    await interaction.response.send_message(
+                    await interaction.followup.send_message(
                         embed=get_cant_get_rank_embed(self.bot), ephemeral=True
                     )

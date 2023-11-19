@@ -69,7 +69,7 @@ class UserRoleView(View):
         custom_id="UserRoleView:get_rank",
     )
     async def get_rank(self, interaction, button):
-        await interaction.response.send_modal(RankModal(self.bot))
+        await interaction.followup.send_modal(RankModal(self.bot))
 
     @button(
         label="⠀⠀⠀⠀⠀UPDATE⠀⠀⠀⠀",
@@ -78,9 +78,10 @@ class UserRoleView(View):
         custom_id="UserRoleView:update_rank",
     )
     async def update_rank(self, interaction, button):
+        await interaction.defer()
         valorant_nick_name = await self.bot.database.get_valorant_nickname(interaction.user.id)
         if not valorant_nick_name:
-            return await interaction.response.send_message(
+            return await interaction.followup.send_message(
                 embed=get_cant_update_rank_embed(
                     self.bot,
                 ),
@@ -95,20 +96,21 @@ class UserRoleView(View):
             await interaction.user.add_roles(
                 discord.utils.get(interaction.user.guild.roles, name=rank)
             )
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_you_update_rank_embed(
                     self.bot, username=interaction.user.name, rank=rank
                 ),
                 ephemeral=True,
             )
         else:
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_cant_update_rank_embed(self.bot),
                 ephemeral=True,
             )
 
 
 class PickColorView(View):
+
     def __init__(self, bot):
         super().__init__(timeout=None)
         self.bot = bot
@@ -128,25 +130,26 @@ class PickColorView(View):
         custom_id="PickColorView:color",
     )
     async def color(self, interaction, select):
+        await interaction.defer()
         user_pick = select.values[0]
         user_roles = [role.name for role in interaction.user.roles]
         if user_pick in user_roles or user_pick == "Remove":
             for role in color_roles:
                 await interaction.user.remove_roles(get(interaction.user.guild.roles, name=role))
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_color_nick_removed_embed(self.bot), ephemeral=True
             )
         elif any([x in color_roles for x in user_roles]):
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_color_already_selected_embed(self.bot), ephemeral=True
             )
         elif user_pick != "Remove":
             await interaction.user.add_roles(get(interaction.user.guild.roles, name=user_pick))
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_color_nick_added_embed(self.bot), ephemeral=True
             )
         else:
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_no_color_to_remove_embed(self.bot), ephemeral=True
             )
 
@@ -168,16 +171,16 @@ class PickAgentsView(View):
         user_pick = select.values[0]
         if user_pick in user_roles:
             await interaction.user.remove_roles(get(interaction.user.guild.roles, name=user_pick))
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_agent_removed_embed(self.bot), ephemeral=True
             )
         elif any([x in guardian_roles for x in user_roles]):
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_agent_already_selected_embed(self.bot), ephemeral=True
             )
         else:
             await interaction.user.add_roles(get(interaction.user.guild.roles, name=user_pick))
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_agent_added_embed(self.bot), ephemeral=True
             )
 
@@ -193,16 +196,16 @@ class PickAgentsView(View):
         user_pick = select.values[0]
         if user_pick in user_roles:
             await interaction.user.remove_roles(get(interaction.user.guild.roles, name=user_pick))
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_agent_removed_embed(self.bot), ephemeral=True
             )
         elif any([x in duelist_roles for x in user_roles]):
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_agent_already_selected_embed(self.bot), ephemeral=True
             )
         else:
             await interaction.user.add_roles(get(interaction.user.guild.roles, name=user_pick))
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_agent_added_embed(self.bot), ephemeral=True
             )
 
@@ -218,16 +221,16 @@ class PickAgentsView(View):
         user_pick = select.values[0]
         if user_pick in user_roles:
             await interaction.user.remove_roles(get(interaction.user.guild.roles, name=user_pick))
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_agent_removed_embed(self.bot), ephemeral=True
             )
         elif any([x in initiator_roles for x in user_roles]):
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_agent_already_selected_embed(self.bot), ephemeral=True
             )
         else:
             await interaction.user.add_roles(get(interaction.user.guild.roles, name=user_pick))
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_agent_added_embed(self.bot), ephemeral=True
             )
 
@@ -243,15 +246,15 @@ class PickAgentsView(View):
         user_pick = select.values[0]
         if user_pick in user_roles:
             await interaction.user.remove_roles(get(interaction.user.guild.roles, name=user_pick))
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_agent_removed_embed(self.bot), ephemeral=True
             )
         elif any([x in specialist_roles for x in user_roles]):
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_agent_already_selected_embed(self.bot), ephemeral=True
             )
         else:
             await interaction.user.add_roles(get(interaction.user.guild.roles, name=user_pick))
-            await interaction.response.send_message(
+            await interaction.followup.send_message(
                 embed=get_agent_added_embed(self.bot), ephemeral=True
             )
