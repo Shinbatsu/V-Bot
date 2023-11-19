@@ -7,3 +7,5 @@ discord.py
 valorant
 riotwatcher
 Discord-Anti-Spam
+pillow
+beautifulsoup4
