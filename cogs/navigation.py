@@ -9,13 +9,15 @@ from discord import PermissionOverwrite
 class NavigationView(
     View,
 ):
-    def __init__(self, bot, rank_room_url, roles_room_url):
+    def __init__(self, bot, rank_room_url, roles_room_url, settinigs_room_url):
         super().__init__()
         self.bot = bot
-        roles_link = Button(label="⠀⠀Получить роли⠀⠀⠀", style=ButtonStyle.url, url=roles_room_url)
-        rank_link = Button(label="Профиль на сервере", style=ButtonStyle.url, url=rank_room_url)
+        roles_link = Button(label="⠀⠀Роли⠀⠀", style=ButtonStyle.url, url=roles_room_url)
+        rank_link = Button(label="⠀Профиль", style=ButtonStyle.url, url=rank_room_url)
+        settings_link = Button(label="Настройки", style=ButtonStyle.url, url=settinigs_room_url)
         self.add_item(roles_link)
         self.add_item(rank_link)
+        self.add_item(settings_link)
 
 
 # Here we name the cog and create a new class for the cog.
@@ -38,6 +40,10 @@ class Navigator(commands.Cog, name="navigator"):
         invite_link = await self.roles_room.create_invite(unique=True)
         self.roles_room_url = invite_link.url
 
+        self.settings_room = self.bot.get_channel(self.bot.config["ROOM_SETTINGS_CHANNEL_ID"])
+        invite_link = await self.settings_room.create_invite(unique=True)
+        self.settings_room_url = invite_link.url
+
     @commands.hybrid_command(
         name="panel_navigation",
         with_app_command=True,
@@ -50,7 +56,9 @@ class Navigator(commands.Cog, name="navigator"):
         await ctx.send(navigation_banner)
         await ctx.send(
             embed=get_navigation_room_embed(self.bot),
-            view=NavigationView(self.bot, self.rank_room_url, self.roles_room_url),
+            view=NavigationView(
+                self.bot, self.rank_room_url, self.roles_room_url, self.settings_room_url
+            ),
         )
 
 

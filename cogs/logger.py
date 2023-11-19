@@ -61,7 +61,7 @@ class Log(commands.Cog, name="log"):
                 color=Colour.from_str(self.bot.config["INFO_COLOR"]),
             )
             embed.set_footer(
-                text=f"User ID: {message.author.id} | Изменено: {discord.utils.utcnow()}"
+                text=f"User ID: {member.id} | Изменено: {discord.utils.utcnow()}"
             )
             await self.log_channel.send(embed=embed)
 

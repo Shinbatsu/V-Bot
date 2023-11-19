@@ -1,12 +1,6 @@
 from discord.ext import commands
-from discord import ui, PartialEmoji, ButtonStyle, PermissionOverwrite
-from discord.ui import View, button, Button
-from discord.utils import get
 from .embeds.ticket_embed import *
-from .modals.ticket_modals import *
 from .views.ticket_views import *
-from discord import PermissionOverwrite
-
 
 
 class Ticket(commands.Cog, name="ticket"):
@@ -21,7 +15,10 @@ class Ticket(commands.Cog, name="ticket"):
     @commands.has_role("Администратор")
     async def panel_ticket(self, ctx):
         await ctx.send(ticket_banner)
-        await ctx.send(embed=get_ticket_embed(self.bot),view=TicketView(self.bot))
+        await ctx.send(embed=get_ticket_embed(self.bot), view=TicketView(self.bot))
+
+    async def setup_hook(self) -> None:
+        self.add_view(TicketView(self.bot))
 
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.

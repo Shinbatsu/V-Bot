@@ -1,12 +1,13 @@
 from discord.ui import View, select, Modal, TextInput
 from ..embeds.ticket_embed import *
 from discord import TextStyle, SelectOption
+from discord.ext import commands
 import asyncio
 
 
 class CreateReportModal(Modal, title="Создание жалобы"):
     reported_user = TextInput(
-        label="Введите ID пользователя",
+        label="Введите ID пользователя или уникальное имя",
         placeholder="Пример: 383943093310980096",
         default="",
         style=TextStyle.short,
@@ -25,22 +26,32 @@ class CreateReportModal(Modal, title="Создание жалобы"):
     def __init__(self, bot):
         super().__init__()
         self.bot = bot
+        self.guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
+        
+
+    def get_member_by_name(self, username):
+        for member in self.guild.members:
+            if member.name == username:
+                return member
 
     async def on_submit(self, interaction) -> None:
-        if int(self.reported_user.value) == interaction.user.id:
+        if self.reported_user.value.isdigit():
+            self.reported_user = self.guild.get_member(int(self.reported_user.value))
+        else:
+            self.reported_user = self.get_member_by_name(self.reported_user.value)
+        if self.reported_user.id == interaction.user.id:
             await interaction.response.send_message(
                 embed=get_report_sent_embed(self.bot), ephemeral=True
             )
-        report_channel = self.bot.get_channel(
-            self.bot.config["REPORT_CHANNEL_ID"])
-        user = self.bot.get_user(int(self.reported_user.value))
+        report_channel = self.bot.get_channel(self.bot.config["REPORT_CHANNEL_ID"])
         description = self.description.value
         message = await report_channel.send(".")
         message_url = message.jump_url
         await message.edit(
-            embed=get_report_info_embed(self.bot, interaction.user.name,
-                                        user.name, description),
-            view=ModeratorActionView(self.bot, user, message_url),
+            embed=get_report_info_embed(
+                self.bot, interaction.user.name, self.reported_user.name, description
+            ),
+            view=ModeratorActionView(self.bot, self.reported_user, message_url),
         )
         await interaction.response.send_message(
             embed=get_report_sent_embed(self.bot), ephemeral=True
@@ -78,24 +89,19 @@ class ModeratorActionView(View):
                 )
             )
         elif user_pick == "Отправить предупреждение":
-            await interaction.response.send_modal(
-                UserWarnModal(self.bot, self.user_to_action))
+            await interaction.response.send_modal(UserWarnModal(self.bot, self.user_to_action))
         elif user_pick == "Кик":
-            await interaction.response.send_modal(
-                UserKickModal(self.bot, self.user_to_action))
+            await interaction.response.send_modal(UserKickModal(self.bot, self.user_to_action))
         elif user_pick == "Временный мут":
-            await interaction.response.send_modal(
-                TempMuteModal(self.bot, self.user_to_action))
+            await interaction.response.send_modal(TempMuteModal(self.bot, self.user_to_action))
         elif user_pick == "Временный запрет печати":
             await interaction.response.send_modal(
                 TempStopTypingModal(self.bot, self.user_to_action)
             )
         elif user_pick == "Временный бан":
-            await interaction.response.send_modal(
-                TempBanModal(self.bot, self.user_to_action))
+            await interaction.response.send_modal(TempBanModal(self.bot, self.user_to_action))
         elif user_pick == "Бан-хаммер":
-            await interaction.response.send_modal(
-                BanForeverModal(self.bot, self.user_to_action))
+            await interaction.response.send_modal(BanForeverModal(self.bot, self.user_to_action))
 
 
 class UserWarnModal(Modal, title="Замечание"):
@@ -115,8 +121,7 @@ class UserWarnModal(Modal, title="Замечание"):
 
     async def on_submit(self, interaction) -> None:
         description = self.description.value
-        await self.user_to_warn.send(
-            embed=get_user_warn_embed(self.bot, description))
+        await self.user_to_warn.send(embed=get_user_warn_embed(self.bot, description))
         await interaction.response.send_message(
             embed=get_user_warn_sent_embed(self.bot), ephemeral=True
         )
@@ -139,8 +144,7 @@ class UserKickModal(Modal, title="Кик"):
 
     async def on_submit(self, interaction) -> None:
         description = self.description.value
-        await self.user_to_kick.send(
-            embed=get_user_kick_embed(self.bot, description))
+        await self.user_to_kick.send(embed=get_user_kick_embed(self.bot, description))
         await interaction.response.send_message(
             embed=get_user_kick_sent_embed(self.bot), ephemeral=True
         )
@@ -172,12 +176,10 @@ class TempMuteModal(Modal, title="Временный мут"):
 
     async def on_submit(self, interaction) -> None:
         description = self.description.value
-        mute_role = [*filter(lambda role: role.name == "M", self.guild.roles)][
-            0]
+        mute_role = [*filter(lambda role: role.name == "M", self.guild.roles)][0]
         await self.user_to_mute.add_roles(mute_role)
         time = int(self.seconds.value)
-        await self.user_to_mute.send(
-            embed=get_user_temp_mute_embed(self.bot, description, time))
+        await self.user_to_mute.send(embed=get_user_temp_mute_embed(self.bot, description, time))
         await interaction.response.send_message(
             embed=get_user_temp_mute_sent_embed(self.bot), ephemeral=True
         )
@@ -212,8 +214,7 @@ class TempStopTypingModal(Modal, title="Временный запрет печа
 
     async def on_submit(self, interaction) -> None:
         description = self.description.value
-        stop_typing_role = \
-        [*filter(lambda role: role.name == "T", self.guild.roles)][0]
+        stop_typing_role = [*filter(lambda role: role.name == "T", self.guild.roles)][0]
         await self.user_to_stop_typing.add_roles(stop_typing_role)
         time = int(self.seconds.value)
         await self.user_to_stop_typing.send(
@@ -224,8 +225,7 @@ class TempStopTypingModal(Modal, title="Временный запрет печа
         )
         await asyncio.sleep(time)
         await self.user_to_stop_typing.remove_roles(stop_typing_role)
-        await self.user_to_stop_typing.send(
-            embed=get_user_temp_unstop_typing_embed(self.bot))
+        await self.user_to_stop_typing.send(embed=get_user_temp_unstop_typing_embed(self.bot))
 
 
 class TempBanModal(Modal, title="Временный бан"):
@@ -254,8 +254,7 @@ class TempBanModal(Modal, title="Временный бан"):
 
     async def on_submit(self, interaction) -> None:
         description = self.description.value
-        temp_ban_role = \
-        [*filter(lambda role: role.name == "B", self.guild.roles)][0]
+        temp_ban_role = [*filter(lambda role: role.name == "B", self.guild.roles)][0]
         await self.user_to_ban.add_roles(temp_ban_role)
         time = int(self.seconds.value)
         await self.user_to_ban.send(
@@ -288,8 +287,7 @@ class BanForeverModal(Modal, title="Вечный бан"):
 
     async def on_submit(self, interaction) -> None:
         description = self.description.value
-        await self.user_to_ban.send(
-            embed=get_user_ban_embed(self.bot, description))
+        await self.user_to_ban.send(embed=get_user_ban_embed(self.bot, description))
         await interaction.response.send_message(
             embed=get_user_ban_sent_embed(self.bot), ephemeral=True
         )

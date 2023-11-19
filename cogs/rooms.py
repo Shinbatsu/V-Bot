@@ -2,6 +2,7 @@ from discord.ext import commands
 from .embeds.rooms_embed import *
 from .views.rooms_views import *
 
+
 class Rooms(commands.Cog, name="rooms"):
     def __init__(self, bot) -> None:
         self.bot = bot
@@ -12,12 +13,10 @@ class Rooms(commands.Cog, name="rooms"):
     @commands.Cog.listener()
     async def on_ready(self):
         self.guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
-        self.entry_room = self.bot.get_channel(
-            self.bot.config["ENTRY_ROOM_CHANNEL_ID"])
+        self.entry_room = self.bot.get_channel(self.bot.config["ENTRY_ROOM_CHANNEL_ID"])
         self.category = [
             *filter(
-                lambda category: category.id == self.bot.config[
-                    "ACTIVE_NOW_CATEGORY_ID"],
+                lambda category: category.id == self.bot.config["ACTIVE_NOW_CATEGORY_ID"],
                 self.guild.categories,
             )
         ][0]
@@ -32,16 +31,13 @@ class Rooms(commands.Cog, name="rooms"):
                 user_room = await self.guild.create_voice_channel(
                     room_name, category=self.category, user_limit=5
                 )
-                await self.bot.database.add_user_room(member.id, user_room.id,
-                                                      room_name)
+                await self.bot.database.add_user_room(member.id, user_room.id, room_name)
                 await member.edit(voice_channel=user_room)
                 invite_link = await user_room.create_invite(unique=True)
-                await member.send(
-                    embed=get_room_link_embed(self.bot, invite_link.url))
+                await member.send(embed=get_room_link_embed(self.bot, invite_link.url))
                 return
             else:
-                user_room_id = await self.bot.database.get_user_room_id(
-                    member.id)
+                user_room_id = await self.bot.database.get_user_room_id(member.id)
                 room = self.bot.get_channel(user_room_id)
                 await member.edit(voice_channel=room)
                 return
@@ -71,10 +67,11 @@ class Rooms(commands.Cog, name="rooms"):
         if ctx.channel.id != self.bot.config["ROOM_SETTINGS_CHANNEL_ID"]:
             return
         await ctx.send(room_settings_banner)
-        await ctx.send(embed=get_room_settings_embed(self.bot),
-                       view=RoomSettingsView(self.bot))
+        await ctx.send(embed=get_room_settings_embed(self.bot), view=RoomSettingsView(self.bot))
+        
+    async def setup_hook(self) -> None:
+        self.add_view(RoomSettingsView(self.bot))
 
 
-# And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
 async def setup(bot) -> None:
     await bot.add_cog(Rooms(bot))

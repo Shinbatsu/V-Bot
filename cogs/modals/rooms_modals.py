@@ -5,7 +5,7 @@ from ..embeds.rooms_embed import *
 
 class KickModal(Modal, title="Изгнать пользователя"):
     person_id = TextInput(
-        label="Введите ID пользователя:",
+        label="Введите ID пользователя или уникальное имя:",
         placeholder="",
         default="",
         style=TextStyle.short,

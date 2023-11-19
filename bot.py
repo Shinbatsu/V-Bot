@@ -139,6 +139,7 @@ class DiscordBot(commands.Bot):
             )
         )
 
+
     async def on_message(self, message: discord.Message) -> None:
         if message.author == self.user or message.author.bot:
             return

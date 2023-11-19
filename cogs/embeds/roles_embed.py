@@ -2,6 +2,17 @@ from discord import Embed, Colour
 from discord import Client
 from .url_icons import *
 from .embed_utils import *
+
+@error_color()
+def get_slow_down_embed(bot: Client, cooldown: float) -> Embed:
+    embed = Embed(
+        title="Подождите!",
+    )
+    embed.add_field(
+        name=f"Нельзя использовать так часто! Попробуйте снова через {cooldown} сек.", value=""
+    )
+    return embed
+
 def get_pick_rank_embed(bot: Client) -> Embed:
     embed = Embed(
         title="Получите ваш VALORANT ранг!",

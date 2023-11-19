@@ -1,8 +1,10 @@
 from discord import ButtonStyle, SelectOption
 from discord.ui import View, button, select
 from discord.utils import get
+from discord.ext import commands
 from ..embeds.roles_embed import *
 from ..modals.roles_modals import *
+
 activity_roles = []
 rank_roles = [
     "Radiant",
@@ -53,16 +55,28 @@ specialist_roles = [
     "Harbor",
 ]
 
+
 class UserRoleView(View):
     def __init__(self, bot):
-        super().__init__()
+        super().__init__(timeout=None)
         self.bot = bot
+        self.cooldown = commands.CooldownMapping.from_cooldown(1, 39, commands.BucketType.member)
 
-    @button(label="⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀GET RANK⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", row=1, style=ButtonStyle.success)
+    @button(
+        label="⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀GET RANK⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+        row=1,
+        style=ButtonStyle.success,
+        custom_id="UserRoleView:get_rank",
+    )
     async def get_rank(self, interaction, button):
         await interaction.response.send_modal(RankModal(self.bot))
 
-    @button(label="⠀⠀⠀⠀⠀UPDATE⠀⠀⠀⠀", row=1, style=ButtonStyle.grey)
+    @button(
+        label="⠀⠀⠀⠀⠀UPDATE⠀⠀⠀⠀",
+        row=1,
+        style=ButtonStyle.grey,
+        custom_id="UserRoleView:update_rank",
+    )
     async def update_rank(self, interaction, button):
         valorant_nick_name = await self.bot.database.get_valorant_nickname(interaction.user.id)
         if not valorant_nick_name:
@@ -96,7 +110,7 @@ class UserRoleView(View):
 
 class PickColorView(View):
     def __init__(self, bot):
-        super().__init__()
+        super().__init__(timeout=None)
         self.bot = bot
 
     @select(
@@ -111,8 +125,9 @@ class PickColorView(View):
             SelectOption(label="Orange"),
             SelectOption(label="Remove"),
         ],
+        custom_id="PickColorView:color",
     )
-    async def callback(self, interaction, select):
+    async def color(self, interaction, select):
         user_pick = select.values[0]
         user_roles = [role.name for role in interaction.user.roles]
         if user_pick in user_roles or user_pick == "Remove":
@@ -138,7 +153,7 @@ class PickColorView(View):
 
 class PickAgentsView(View):
     def __init__(self, bot):
-        super().__init__()
+        super().__init__(timeout=None)
         self.bot = bot
 
     @select(
@@ -146,6 +161,7 @@ class PickAgentsView(View):
         min_values=1,
         max_values=1,
         options=[SelectOption(label=x) for x in guardian_roles],
+        custom_id="PickAgentsView:guardians_callback",
     )
     async def guardians_callback(self, interaction, select):
         user_roles = [role.name for role in interaction.user.roles]
@@ -170,6 +186,7 @@ class PickAgentsView(View):
         min_values=1,
         max_values=1,
         options=[SelectOption(label=x) for x in duelist_roles],
+        custom_id="PickAgentsView:duelist_callback",
     )
     async def duelist_callback(self, interaction, select):
         user_roles = [role.name for role in interaction.user.roles]
@@ -194,6 +211,7 @@ class PickAgentsView(View):
         min_values=1,
         max_values=1,
         options=[SelectOption(label=x) for x in initiator_roles],
+        custom_id="PickAgentsView:initiator_callback",
     )
     async def initiator_callback(self, interaction, select):
         user_roles = [role.name for role in interaction.user.roles]
@@ -218,6 +236,7 @@ class PickAgentsView(View):
         min_values=1,
         max_values=1,
         options=[SelectOption(label=x) for x in specialist_roles],
+        custom_id="PickAgentsView:specialist_callback",
     )
     async def specialist_callback(self, interaction, select):
         user_roles = [role.name for role in interaction.user.roles]
@@ -236,4 +255,3 @@ class PickAgentsView(View):
             await interaction.response.send_message(
                 embed=get_agent_added_embed(self.bot), ephemeral=True
             )
-

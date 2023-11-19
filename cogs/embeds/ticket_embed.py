@@ -4,6 +4,15 @@ from datetime import datetime
 from .url_icons import *
 from .embed_utils import *
 
+@error_color()
+def get_slow_down_embed(bot: Client, cooldown: float) -> Embed:
+    embed = Embed(
+        title="Подождите!",
+    )
+    embed.add_field(
+        name=f"Нельзя использовать так часто! Попробуйте снова через {cooldown} сек.", value=""
+    )
+    return embed
 
 @info_color()
 def get_ticket_embed(bot: Client) -> Embed:

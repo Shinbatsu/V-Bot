@@ -4,21 +4,14 @@ import datetime
 from discord.ext import commands
 from discord.ext.commands import Context
 
-# class MyModal(discord.ui.Modal):
-#     def __init__(self, *args, **kwargs) -> None:
-#         super().__init__(*args, **kwargs)
+class PersistentView(discord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=None)
 
-#         self.add_item(discord.ui.InputText(label="Short Input"))
-#         self.add_item(discord.ui.InputText(label="Long Input", style=discord.InputTextStyle.long))
+    @discord.ui.button(label='Green', style=discord.ButtonStyle.green, custom_id='persistent_view:green')
+    async def green(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.send_message('This is green.', ephemeral=True)
 
-#     async def callback(self, interaction: discord.Interaction):
-#         embed = discord.Embed(title="Modal Results")
-#         embed.add_field(name="Short Input", value=self.children[0].value)
-#         embed.add_field(name="Long Input", value=self.children[1].value)
-#         await interaction.response.send_message(embeds=[embed])
-
-
-# Here we name the cog and create a new class for the cog.
 class Testing(commands.Cog, name="testing"):
     def __init__(self, bot) -> None:
         self.bot = bot
@@ -37,7 +30,6 @@ class Testing(commands.Cog, name="testing"):
         choices = ["Rock", "Paper", "Scissors"]
         return [app_commands.Choice(name=choice, value=choice) for choice in choices if current.lower() in choice.lower()]
 
-    # If that does not work, try
     @commands.hybrid_command(name="rps", description="Limit the number of user(s) in your private channel.")
     @app_commands.autocomplete(choices=rps_autocomplete)
     async def rps(self, interaction: discord.Interaction, choices: str):

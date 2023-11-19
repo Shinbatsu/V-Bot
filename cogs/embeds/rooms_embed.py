@@ -141,7 +141,7 @@ def get_slow_down_embed(bot: Client, cooldown: float) -> Embed:
         title="Подождите!",
     )
     embed.add_field(
-        name=f"Нельзя создавать комнаты так часто! Попробуйте снова через {cooldown} сек.", value=""
+        name=f"Нельзя использовать так часто! Попробуйте снова через {cooldown} сек.", value=""
     )
     return embed
 

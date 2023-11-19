@@ -1,7 +1,6 @@
 from discord import TextStyle
 from discord.ui import TextInput, Modal, button
-from ..embeds.valorant_ranks_embed import *
-
+from ..embeds.roles_embed import *
 import discord
 from bs4 import BeautifulSoup
 import aiohttp
