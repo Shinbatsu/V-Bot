@@ -20,7 +20,7 @@ class TicketView(
         custom_id="TicketView:send_report",
     )
     async def send_report(self, interaction, button):
-        await interaction.defer()
+        await interaction.response.defer()
         bucket = self.cooldown.get_bucket(interaction.message)
         retry = bucket.update_rate_limit()
         if retry:

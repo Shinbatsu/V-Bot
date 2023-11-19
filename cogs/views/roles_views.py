@@ -78,7 +78,7 @@ class UserRoleView(View):
         custom_id="UserRoleView:update_rank",
     )
     async def update_rank(self, interaction, button):
-        await interaction.defer()
+        await interaction.response.defer()
         valorant_nick_name = await self.bot.database.get_valorant_nickname(interaction.user.id)
         if not valorant_nick_name:
             return await interaction.followup.send_message(
@@ -130,7 +130,7 @@ class PickColorView(View):
         custom_id="PickColorView:color",
     )
     async def color(self, interaction, select):
-        await interaction.defer()
+        await interaction.response.defer()
         user_pick = select.values[0]
         user_roles = [role.name for role in interaction.user.roles]
         if user_pick in user_roles or user_pick == "Remove":

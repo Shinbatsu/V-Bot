@@ -25,7 +25,7 @@ class RoomSettingsView(
         custom_id="RoomSettingsView:lock",
     ) 
     async def lock(self, interaction, button):
-        await interaction.defer()
+        await interaction.response.defer()
         bucket = self.cooldown_mini.get_bucket(interaction.message)
         retry = bucket.update_rate_limit()
         if retry:
@@ -78,7 +78,7 @@ class RoomSettingsView(
         custom_id="RoomSettingsView:kick",
     )
     async def kick(self, interaction, button):
-        await interaction.defer()
+        await interaction.response.defer()
         bucket = self.cooldown_mini.get_bucket(interaction.message)
         retry = bucket.update_rate_limit()
         if retry:
@@ -102,7 +102,7 @@ class RoomSettingsView(
         custom_id="RoomSettingsView:slots",
     )
     async def slots(self, interaction, button):
-        await interaction.defer()
+        await interaction.response.defer()
         bucket = self.cooldown_mini.get_bucket(interaction.message)
         retry = bucket.update_rate_limit()
         if retry:
@@ -125,7 +125,7 @@ class RoomSettingsView(
         custom_id="RoomSettingsView:change_owner",
     )
     async def change_owner(self, interaction, button):
-        await interaction.defer()
+        await interaction.response.defer()
         bucket = self.cooldown_mini.get_bucket(interaction.message)
         retry = bucket.update_rate_limit()
         if retry:
@@ -148,7 +148,7 @@ class RoomSettingsView(
         custom_id="RoomSettingsView:rename",
     )
     async def rename(self, interaction, button):
-        await interaction.defer()
+        await interaction.response.defer()
         bucket = self.cooldown_mini.get_bucket(interaction.message)
         retry = bucket.update_rate_limit()
         if retry:
@@ -170,7 +170,7 @@ class RoomSettingsView(
         custom_id="RoomSettingsView:create_room",
     )
     async def create_room(self, interaction, button):
-        await interaction.defer()
+        await interaction.response.defer()
         bucket = self.cooldown.get_bucket(interaction.message)
         retry = bucket.update_rate_limit()
         if retry:
@@ -193,7 +193,7 @@ class RoomSettingsView(
         custom_id="RoomSettingsView:delete",
     )
     async def delete(self, interaction, button):
-        await interaction.defer()
+        await interaction.response.defer()
         bucket = self.cooldown.get_bucket(interaction.message)
         retry = bucket.update_rate_limit()
         if retry:
@@ -222,7 +222,7 @@ class RoomSettingsView(
         custom_id="RoomSettingsView:up",
     )
     async def up(self, interaction, button):
-        await interaction.defer()
+        await interaction.response.defer()
         bucket = self.cooldown.get_bucket(interaction.message)
         retry = bucket.update_rate_limit()
         if retry:

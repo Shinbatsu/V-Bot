@@ -27,7 +27,7 @@ class KickModal(Modal, title="Изгнать пользователя"):
         self.guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
 
     async def on_submit(self, interaction) -> None:
-        await interaction.defer() 
+        await interaction.response.defer() 
         try:
             person_id = int(self.person_id.value)
             guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
@@ -73,7 +73,7 @@ class ChangeOwnerModal(Modal, title="Изменение владельца"):
         self.guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
 
     async def on_submit(self, interaction) -> None:
-        await interaction.defer()  
+        await interaction.response.defer()  
         try:
             new_owner_id = int(self.new_owner_id.value)
             guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
@@ -124,7 +124,7 @@ class CreateRoomModal(Modal, title="Название комнаты"):
         self.room_name.default = f"{username}'s room"
 
     async def on_submit(self, interaction) -> None:
-        await interaction.defer()
+        await interaction.response.defer()
         mute_role =[*filter(lambda role: role.name == "M", self.guild.roles)][0]
         untype_role = [*filter(lambda role: role.name == "T", self.guild.roles)][0]
         ban_role = [*filter(lambda role: role.name == "B", self.guild.roles)][0]
@@ -219,7 +219,7 @@ class RenameRoomModal(Modal, title="Переименование канала"):
         self.bot = bot
 
     async def on_submit(self, interaction) -> None:
-        await interaction.defer()
+        await interaction.response.defer()
         new_name = self.new_name.value
         user_room_id = await self.bot.database.get_user_room_id(user_id=interaction.user.id)
         user_room = self.bot.get_channel(user_room_id)
@@ -246,7 +246,7 @@ class ChangeSlotsModal(Modal, title="Изменение количества у�
         self.guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
 
     async def on_submit(self, interaction) -> None:
-        await interaction.defer()
+        await interaction.response.defer()
         try:
             t = int(self.new_user_limit.value)
             new_user_limit = [[t, 1], [20, t]][t > 20][t < 1]
