@@ -6,7 +6,7 @@ tempCodeRunnerFile.py
 
 # C extensions
 *.so
-
+docker-compose.yaml
 # Distribution / packaging
 .Python
 build/
