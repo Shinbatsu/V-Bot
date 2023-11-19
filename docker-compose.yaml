@@ -8,4 +8,4 @@ services:
     container_name: v_bot
     restart: unless-stopped
     environment:
-      - TOKEN=MTE3MTQ1MDYwODM5ODYzMDkxMw.Gc3dA0.ZU8svn_GsxEZ9m4_r_gnJhbpHwevrdyorZxp3E
+      - TOKEN=F
