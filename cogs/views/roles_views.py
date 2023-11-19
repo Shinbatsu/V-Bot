@@ -78,6 +78,7 @@ class UserRoleView(View):
         custom_id="UserRoleView:update_rank",
     )
     async def update_rank(self, interaction, button):
+        await interaction.response.defer()
         valorant_nick_name = await self.bot.database.get_valorant_nickname(interaction.user.id)
         if not valorant_nick_name:
             await interaction.response.defer()
@@ -90,7 +91,6 @@ class UserRoleView(View):
         rank = await fetch_rank(self.rank.value)
         if rank:
             for role in rank_roles:
-                await interaction.response.defer()
                 await interaction.user.remove_roles(
                     discord.utils.get(interaction.user.guild.roles, name=role)
                 )
@@ -132,23 +132,20 @@ class PickColorView(View):
         custom_id="PickColorView:color",
     )
     async def color(self, interaction, select):
-
+        await interaction.response.defer()
         user_pick = select.values[0]
         user_roles = [role.name for role in interaction.user.roles]
         if user_pick in user_roles or user_pick == "Remove":
             for role in color_roles:
-                await interaction.response.defer()
                 await interaction.user.remove_roles(get(interaction.user.guild.roles, name=role))
                 await interaction.followup.send(
                 embed=get_color_nick_removed_embed(self.bot), ephemeral=True
             )
         elif any([x in color_roles for x in user_roles]):
-            await interaction.response.defer()
             await interaction.followup.send(
                 embed=get_color_already_selected_embed(self.bot), ephemeral=True
             )
         elif user_pick != "Remove":
-            await interaction.response.defer()
             await interaction.user.add_roles(get(interaction.user.guild.roles, name=user_pick))
             await interaction.followup.send(
                 embed=get_color_nick_added_embed(self.bot), ephemeral=True
@@ -224,6 +221,7 @@ class PickAgentsView(View):
         custom_id="PickAgentsView:initiator_callback",
     )
     async def initiator_callback(self, interaction, select):
+        await interaction.response.defer()
         user_roles = [role.name for role in interaction.user.roles]
         user_pick = select.values[0]
         if user_pick in user_roles:
