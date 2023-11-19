@@ -24,7 +24,7 @@ class TicketView(
         retry = bucket.update_rate_limit()
         if retry:
             await interaction.response.defer()
-            return await interaction.followup.send_message(
+            return await interaction.followup.send(
                 embed=get_slow_down_embed(self.bot, round(retry, 1)), ephemeral=True
             )
         await interaction.response.send_modal(

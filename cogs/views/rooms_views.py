@@ -29,7 +29,7 @@ class RoomSettingsView(
         bucket = self.cooldown_mini.get_bucket(interaction.message)
         retry = bucket.update_rate_limit()
         if retry:
-            return await interaction.followup.send_message(
+            return await interaction.followup.send(
                 embed=get_slow_down_embed(self.bot, round(retry, 1)), ephemeral=True
             )
         member = interaction.user
@@ -46,7 +46,7 @@ class RoomSettingsView(
                         guild.default_role: PermissionOverwrite(connect=False),
                     }
                 )
-                await interaction.followup.send_message(
+                await interaction.followup.send(
                     embed=get_room_closed_embed(self.bot), ephemeral=True
                 )
                 await self.bot.database.update_is_close_user_room(
@@ -59,14 +59,14 @@ class RoomSettingsView(
                         guild.default_role: PermissionOverwrite(connect=True),
                     }
                 )
-                await interaction.followup.send_message(
+                await interaction.followup.send(
                     embed=get_room_opened_embed(self.bot), ephemeral=True
                 )
                 await self.bot.database.update_is_close_user_room(
                     room_id=user_room_id, is_close=False
                 )
         else:
-            await interaction.followup.send_message(
+            await interaction.followup.send(
                 embed=get_havent_room_embed(self.bot), ephemeral=True
             )
 
@@ -82,7 +82,7 @@ class RoomSettingsView(
         retry = bucket.update_rate_limit()
         if retry:
             await interaction.response.defer()
-            return await interaction.followup.send_message(
+            return await interaction.followup.send(
                 embed=get_slow_down_embed(self.bot, round(retry, 1)), ephemeral=True
             )
         is_owner = await self.bot.database.is_owner(interaction.user.id)
@@ -91,7 +91,7 @@ class RoomSettingsView(
             return
         else:
             await interaction.response.defer()
-            await interaction.followup.send_message(
+            await interaction.followup.send(
                 embed=get_havent_room_embed(self.bot), ephemeral=True
             )
 
@@ -107,7 +107,7 @@ class RoomSettingsView(
         retry = bucket.update_rate_limit()
         if retry:
             await interaction.response.defer()
-            return await interaction.followup.send_message(
+            return await interaction.followup.send(
                 embed=get_slow_down_embed(self.bot, round(retry, 1)), ephemeral=True
             )
         is_owner = await self.bot.database.is_owner(interaction.user.id)
@@ -115,7 +115,7 @@ class RoomSettingsView(
             await interaction.response.send_modal(ChangeSlotsModal(self.bot))
         else:
             await interaction.response.defer()
-            await interaction.followup.send_message(
+            await interaction.followup.send(
                 embed=get_havent_room_embed(self.bot), ephemeral=True
             )
 
@@ -131,7 +131,7 @@ class RoomSettingsView(
         retry = bucket.update_rate_limit()
         if retry:
             await interaction.response.defer()
-            return await interaction.followup.send_message(
+            return await interaction.followup.send(
                 embed=get_slow_down_embed(self.bot, round(retry, 1)), ephemeral=True
             )
         is_owner = await self.bot.database.is_owner(interaction.user.id)
@@ -139,7 +139,7 @@ class RoomSettingsView(
             await interaction.response.send_modal(ChangeOwnerModal(self.bot))
         else:
             await interaction.response.defer()
-            await interaction.followup.send_message(
+            await interaction.followup.send(
                 embed=get_havent_room_embed(self.bot), ephemeral=True
             )
 
@@ -156,15 +156,15 @@ class RoomSettingsView(
         retry = bucket.update_rate_limit()
         if retry:
             await interaction.response.defer()
-            return await interaction.followup.send_message(
+            return await interaction.followup.send(
                 embed=get_slow_down_embed(self.bot, round(retry, 1)), ephemeral=True
             )
         is_owner = await self.bot.database.is_owner(interaction.user.id)
         if is_owner:
-            await interaction.response.send_modal(RenameRoomModal(self.bot))
+            return await interaction.response.send_modal(RenameRoomModal(self.bot))
         else:
             await interaction.response.defer()
-            await interaction.followup.send_message(
+            return await interaction.followup.send(
                 embed=get_havent_room_embed(self.bot), ephemeral=True
             )
 
@@ -179,14 +179,14 @@ class RoomSettingsView(
         retry = bucket.update_rate_limit()
         if retry:
             await interaction.response.defer()
-            return await interaction.followup.send_message(
+            return await interaction.followup.send(
                 embed=get_slow_down_embed(self.bot, round(retry, 1)), ephemeral=True
             )
         user_id = interaction.user.id
         has_room = await self.bot.database.is_owner(user_id)
         if has_room:
             await interaction.response.defer()
-            await interaction.followup.send_message(
+            return await interaction.followup.send(
                 embed=get_you_already_has_room_embed(self.bot), ephemeral=True
             )
         else:
@@ -199,25 +199,27 @@ class RoomSettingsView(
         custom_id="RoomSettingsView:delete",
     )
     async def delete(self, interaction, button):
-        await interaction.response.defer()
+        
         bucket = self.cooldown.get_bucket(interaction.message)
         retry = bucket.update_rate_limit()
         if retry:
-            return await interaction.followup.send_message(
+            await interaction.response.defer()
+            return await interaction.followup.send(
                 embed=get_slow_down_embed(self.bot, round(retry, 1)), ephemeral=True
             )
         has_room = await self.bot.database.is_owner(interaction.user.id)
         if has_room:
+            await interaction.response.defer()
             user_room_id = await self.bot.database.get_user_room_id(interaction.user.id)
-            guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
             user_room = self.bot.get_channel(user_room_id)
             await self.bot.database.delete_user_room(user_id=interaction.user.id)
             await user_room.delete()
-            await interaction.followup.send_message(
+            await interaction.followup.send(
                 embed=get_room_deleted_embed(self.bot), ephemeral=True
             )
         else:
-            await interaction.followup.send_message(
+            await interaction.response.defer()
+            await interaction.followup.send(
                 embed=get_havent_room_embed(self.bot), ephemeral=True
             )
 
@@ -232,7 +234,7 @@ class RoomSettingsView(
         bucket = self.cooldown.get_bucket(interaction.message)
         retry = bucket.update_rate_limit()
         if retry:
-            return await interaction.followup.send_message(
+            return await interaction.followup.send(
                 embed=get_slow_down_embed(self.bot, round(retry, 1)), ephemeral=True
             )
         has_room = await self.bot.database.is_owner(interaction.user.id)
@@ -240,10 +242,10 @@ class RoomSettingsView(
             user_room_id = await self.bot.database.get_user_room_id(interaction.user.id)
             user_room = self.bot.get_channel(user_room_id)
             await user_room.edit(position=0)
-            await interaction.followup.send_message(
+            await interaction.followup.send(
                 embed=get_room_upped_embed(self.bot), ephemeral=True
             )
         else:
-            await interaction.followup.send_message(
+            await interaction.followup.send(
                 embed=get_havent_room_embed(self.bot), ephemeral=True
             )
