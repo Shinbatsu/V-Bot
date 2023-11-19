@@ -12,26 +12,24 @@ class KickModal(Modal, title="Изгнать пользователя"):
         required=False,
         max_length=20,
     )
-    persons_ids = TextInput(
-        label="Участники Комнаты",
-        placeholder="",
-        default="",
-        style=TextStyle.paragraph,
-        required=False,
-        max_length=4000,
-    )
 
     def __init__(self, bot):
         super().__init__()
         self.bot = bot
         self.guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
 
+    def get_member_by_name(self, username):
+        for member in self.guild.members:
+            if member.name == username:
+                return member
     async def on_submit(self, interaction) -> None:
         await interaction.response.defer() 
         try:
-            person_id = int(self.person_id.value)
-            guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
-            member = guild.get_member(person_id)
+            if self.person_id.value.isdigit():
+                person_id = self.guild.get_member(int(self.reported_user.value)).id
+            else:
+                person_id = self.get_member_by_name(self.reported_user.value).id
+            member = self.guild.get_member(person_id)
             if not member.voice:
                 await interaction.followup.send(
                     embed=get_unknown_member_embed(self.bot, member.name), ephemeral=True
