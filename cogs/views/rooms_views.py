@@ -151,7 +151,6 @@ class RoomSettingsView(
         custom_id="RoomSettingsView:rename",
     )
     async def rename(self, interaction, button):
-        await interaction.response.defer()
         bucket = self.cooldown_mini.get_bucket(interaction.message)
         retry = bucket.update_rate_limit()
         if retry:
