@@ -41,12 +41,20 @@ class DatabaseManager:
         cursor = await self.connection.execute("SELECT * FROM users WHERE id=?", (user_id,))
         return await cursor.fetchone()
     
+    async def is_already_exists(self, user_id):
+        rows = await self.connection.execute(
+            "SELECT COUNT(*) FROM users WHERE id=?",
+            (user_id,),
+        )
+        async with rows as cursor:
+            result = await cursor.fetchone()
+            return result[0] > 0
     async def get_all_user_ids(self):
         cursor = await self.connection.execute("SELECT id FROM users")
         rows = await cursor.fetchall()
         return [row[0] for row in rows]  
     
-    async def add_user_activity(self, user_id, add_activity):
+    async def update_user_activity(self, user_id, add_activity):
         cursor = await self.connection.execute(
             "UPDATE users SET activity = activity + ? WHERE id = ?", (add_activity, user_id)
         )
@@ -82,7 +90,7 @@ class DatabaseManager:
             return result[0] if result is not None else None
     async def update_is_close_user_room(self,room_id, is_close: bool):
         await self.connection.execute(
-            "UPDATE user_rooms SET is_close=? WHERE room_id=?",
+            "UPDATE user_rooms SET is_closed=? WHERE room_id=?",
             (is_close, room_id),
         )
         await self.connection.commit()

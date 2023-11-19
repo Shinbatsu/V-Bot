@@ -1,22 +1,13 @@
 from discord import Embed, Colour
 from discord import Client
 
-navigation_banner = "https://cdn.discordapp.com/attachments/1174664368688996352/1174737992783503503/navigation.png?ex=6568af03&is=65563a03&hm=ed11702f0ad211eccf9ec2e3d6941d57858eeeef26326c948f7d64e891dff55d&"
+from .url_icons import *
+from .embed_utils import *
 
 
-def get_navigator_banner_embed(bot: Client) -> Embed:
-    embed = Embed(
-        color=Colour.from_str(bot.config["SUCCESS_COLOR"]),
-    )
-    # emoji = get(ctx.message.server.emojis, name="emoji1")
-    # embed = Embed(title=f"Here is the **title**! {emoji}", color=0x24045b, description=f"Here is the emoji again! {emoji}")
-    return embed
-
-
+@success_color()
 def get_navigator_roles_wiki_embed(bot: Client) -> Embed:
-    embed = Embed(
-        color=Colour.from_str(bot.config["SUCCESS_COLOR"]),
-    )
+    embed = Embed()
     embed.add_field(
         "Путник (5+) - даёт возможность стримить в голосовых каналах.", value="", inline=False
     )
@@ -50,31 +41,27 @@ def get_navigator_roles_wiki_embed(bot: Client) -> Embed:
     return embed
 
 
+@with_date()
+@success_color()
 def get_navigation_room_embed(bot: Client) -> Embed:
-    v_icon_url = "https://cdn.discordapp.com/attachments/1174664368688996352/1174669493683888148/v_icon.png?ex=65686f37&is=6555fa37&hm=f61d317ecfa5e72fb839db3d684f2add8c592c4887825d6f0382974bd232de6b&"
-    embed = Embed(
-        color=Colour.from_str(bot.config["SUCCESS_COLOR"]),
-    )
+    embed = Embed()
     embed.set_author(
         name="Перейдите в раздел, нажав на него в меню выбора.",
-        icon_url=v_icon_url,
+        icon_url=star_url,
     )
     embed.add_field(
-        name=f"<:minidot:1174667819917520966> Роли — информация о ролях сервера.",
+        name=f"{dot} **Роли** — информация о ролях сервера.",
         value="",
         inline=False,
     )
     embed.add_field(
-        name=f"<:minidot:1174667819917520966> Ранг — узнать о ранге на сервере.",
+        name=f"{dot} **Профиль** — узнать о своем профиле на сервере.",
         value="",
         inline=False,
     )
-    embed.set_footer(text="", icon_url=v_icon_url)
+    embed.add_field(
+        name=f"{dot} **Настройки** — настрой свою личную комнату.",
+        value="",
+        inline=False,
+    )
     return embed
-
-
-# :mini_gray:Роли — информация о ролях сервера.
-# :mini_gray:Соц. сети — социальные сети VALORANT'a.
-# :mini_gray:Турниры — связь насчёт проведения турниров.
-# :mini_gray:Подписки — друзья нашего сервера.
-# :mini_gray:Партнёры — команда, работающая над сервером.
