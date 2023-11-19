@@ -172,21 +172,19 @@ class PickAgentsView(View):
         custom_id="PickAgentsView:guardians_callback",
     )
     async def guardians_callback(self, interaction, select):
+        await interaction.response.defer()
         user_roles = [role.name for role in interaction.user.roles]
         user_pick = select.values[0]
         if user_pick in user_roles:
-            await interaction.response.defer()
             await interaction.user.remove_roles(get(interaction.user.guild.roles, name=user_pick))
             await interaction.followup.send(
                 embed=get_agent_removed_embed(self.bot), ephemeral=True
             )
         elif any([x in guardian_roles for x in user_roles]):
-            await interaction.response.defer()
             await interaction.followup.send(
                 embed=get_agent_already_selected_embed(self.bot), ephemeral=True
             )
         else:
-            await interaction.response.defer()
             await interaction.user.add_roles(get(interaction.user.guild.roles, name=user_pick))
             await interaction.followup.send(
                 embed=get_agent_added_embed(self.bot), ephemeral=True
@@ -200,21 +198,19 @@ class PickAgentsView(View):
         custom_id="PickAgentsView:duelist_callback",
     )
     async def duelist_callback(self, interaction, select):
+        await interaction.response.defer()
         user_roles = [role.name for role in interaction.user.roles]
         user_pick = select.values[0]
         if user_pick in user_roles:
-            await interaction.response.defer()
             await interaction.user.remove_roles(get(interaction.user.guild.roles, name=user_pick))
             await interaction.followup.send(
                 embed=get_agent_removed_embed(self.bot), ephemeral=True
             )
         elif any([x in duelist_roles for x in user_roles]):
-            await interaction.response.defer()
             await interaction.followup.send(
                 embed=get_agent_already_selected_embed(self.bot), ephemeral=True
             )
         else:
-            await interaction.response.defer()
             await interaction.user.add_roles(get(interaction.user.guild.roles, name=user_pick))
             await interaction.followup.send(
                 embed=get_agent_added_embed(self.bot), ephemeral=True
@@ -231,18 +227,15 @@ class PickAgentsView(View):
         user_roles = [role.name for role in interaction.user.roles]
         user_pick = select.values[0]
         if user_pick in user_roles:
-            await interaction.response.defer()
             await interaction.user.remove_roles(get(interaction.user.guild.roles, name=user_pick))
             await interaction.followup.send(
                 embed=get_agent_removed_embed(self.bot), ephemeral=True
             )
         elif any([x in initiator_roles for x in user_roles]):
-            await interaction.response.defer()
             await interaction.followup.send(
                 embed=get_agent_already_selected_embed(self.bot), ephemeral=True
             )
         else:
-            await interaction.response.defer()
             await interaction.user.add_roles(get(interaction.user.guild.roles, name=user_pick))
             await interaction.followup.send(
                 embed=get_agent_added_embed(self.bot), ephemeral=True
@@ -256,21 +249,19 @@ class PickAgentsView(View):
         custom_id="PickAgentsView:specialist_callback",
     )
     async def specialist_callback(self, interaction, select):
+        await interaction.response.defer()
         user_roles = [role.name for role in interaction.user.roles]
         user_pick = select.values[0]
         if user_pick in user_roles:
-            await interaction.response.defer()
             await interaction.user.remove_roles(get(interaction.user.guild.roles, name=user_pick))
             await interaction.followup.send(
                 embed=get_agent_removed_embed(self.bot), ephemeral=True
             )
         elif any([x in specialist_roles for x in user_roles]):
-            await interaction.response.defer()
             await interaction.followup.send(
                 embed=get_agent_already_selected_embed(self.bot), ephemeral=True
             )
         else:
-            await interaction.response.defer()
             await interaction.user.add_roles(get(interaction.user.guild.roles, name=user_pick))
             await interaction.followup.send(
                 embed=get_agent_added_embed(self.bot), ephemeral=True
