@@ -35,12 +35,12 @@ class CreateReportModal(Modal, title="Создание жалобы"):
                 return member
 
     async def on_submit(self, interaction) -> None:
-        await interaction.response.defer()
         if self.reported_user.value.isdigit():
             self.reported_user = self.guild.get_member(int(self.reported_user.value))
         else:
             self.reported_user = self.get_member_by_name(self.reported_user.value)
         if self.reported_user.id == interaction.user.id:
+            await interaction.response.defer()
             await interaction.followup.send(
                 embed=get_report_sent_embed(self.bot), ephemeral=True
             )
@@ -54,6 +54,7 @@ class CreateReportModal(Modal, title="Создание жалобы"):
             ),
             view=ModeratorActionView(self.bot, self.reported_user, message_url),
         )
+        await interaction.response.defer()
         await interaction.followup.send(
             embed=get_report_sent_embed(self.bot), ephemeral=True
         )
@@ -84,6 +85,7 @@ class ModeratorActionView(View):
         user_pick = select.values[0]
         if user_pick == "Закрыть жалобу":
             self.action.disabled = True
+            await interaction.response.defer()
             await interaction.followup.send(
                 embed=get_report_was_resolved_embed(
                     self.bot, self.message_url, interaction.user.name
@@ -122,6 +124,7 @@ class UserWarnModal(Modal, title="Замечание"):
 
     async def on_submit(self, interaction) -> None:
         description = self.description.value
+        await interaction.response.defer()
         await self.user_to_warn.send(embed=get_user_warn_embed(self.bot, description))
         await interaction.followup.send(
             embed=get_user_warn_sent_embed(self.bot), ephemeral=True
@@ -293,6 +296,7 @@ class BanForeverModal(Modal, title="Вечный бан"):
     async def on_submit(self, interaction) -> None:
         await interaction.response.defer()
         description = self.description.value
+        await self.user_to_ban.ban()
         await self.user_to_ban.send(embed=get_user_ban_embed(self.bot, description))
         await interaction.followup.send(
             embed=get_user_ban_sent_embed(self.bot), ephemeral=True
