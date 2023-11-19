@@ -64,11 +64,12 @@ class Rooms(commands.Cog, name="rooms"):
     )
     @commands.has_role("Администратор")
     async def panel_room_settings(self, ctx):
+        await ctx.defer()
         if ctx.channel.id != self.bot.config["ROOM_SETTINGS_CHANNEL_ID"]:
             return
         await ctx.send(room_settings_banner)
         await ctx.send(embed=get_room_settings_embed(self.bot), view=RoomSettingsView(self.bot))
-        
+
     async def setup_hook(self) -> None:
         self.add_view(RoomSettingsView(self.bot))
 
