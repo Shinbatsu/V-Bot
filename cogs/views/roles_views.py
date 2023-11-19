@@ -88,7 +88,7 @@ class UserRoleView(View):
                 ),
                 ephemeral=True,
             )
-        rank = await fetch_rank(self.rank.value)
+        rank = await fetch_rank(valorant_nick_name)
         if rank:
             for role in rank_roles:
                 await interaction.user.remove_roles(
