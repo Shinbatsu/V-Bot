@@ -277,6 +277,7 @@ class Moderation(commands.Cog, name="moderation"):
         :param context: The hybrid command context.
         :param amount: The number of messages that should be deleted.
         """
+        await context.defer()
         await context.send(
             "Deleting messages..."
         )  # Bit of a hacky way to make sure the bot responds to the interaction and doens't get a "Unknown Interaction" response
