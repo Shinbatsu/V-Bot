@@ -59,7 +59,9 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(LoggingFormatter())
 # File handler
 file_handler = logging.FileHandler(filename="discord.log", encoding="utf-8", mode="w")
-file_handler_formatter = logging.Formatter("[{asctime}] [{levelname:<8}] {name}: {message}", "%Y-%m-%d %H:%M:%S", style="{")
+file_handler_formatter = logging.Formatter(
+    "[{asctime}] [{levelname:<8}] {name}: {message}", "%Y-%m-%d %H:%M:%S", style="{"
+)
 file_handler.setFormatter(file_handler_formatter)
 
 # Add the handlers
@@ -87,7 +89,9 @@ class DiscordBot(commands.Bot):
         self.database = None
 
     async def init_db(self) -> None:
-        async with aiosqlite.connect(f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db") as db:
+        async with aiosqlite.connect(
+            f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"
+        ) as db:
             with open(f"{os.path.realpath(os.path.dirname(__file__))}/database/schema.sql") as file:
                 await db.executescript(file.read())
             await db.commit()
@@ -121,9 +125,6 @@ class DiscordBot(commands.Bot):
         await self.wait_until_ready()
 
     async def setup_hook(self) -> None:
-        """
-        This will just be executed when the bot starts the first time.
-        """
         self.logger.info(f"Logged in as {self.user.name}")
         self.logger.info(f"discord.py API version: {discord.__version__}")
         self.logger.info(f"Python version: {platform.python_version()}")
@@ -133,28 +134,22 @@ class DiscordBot(commands.Bot):
         await self.load_cogs()
         self.status_task.start()
         self.database = DatabaseManager(
-            connection=await aiosqlite.connect(f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db")
+            connection=await aiosqlite.connect(
+                f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"
+            )
         )
 
     async def on_message(self, message: discord.Message) -> None:
-        """
-        The code in this event is executed every time someone sends a message, with or without the prefix
-
-        :param message: The message that was sent.
-        """
         if message.author == self.user or message.author.bot:
             return
+        if message.content.startswith(self.config["prefix"]):
+            await message.delete()
         await self.process_commands(message)
 
     async def on_ready(self):
         await self.tree.sync()
 
     async def on_command_completion(self, context: Context) -> None:
-        """
-        The code in this event is executed every time a normal command has been *successfully* executed.
-
-        :param context: The context of the command that has been executed.
-        """
         full_command_name = context.command.qualified_name
         split = full_command_name.split(" ")
         executed_command = str(split[0])
@@ -163,15 +158,11 @@ class DiscordBot(commands.Bot):
                 f"Executed {executed_command} command in {context.guild.name} (ID: {context.guild.id}) by {context.author} (ID: {context.author.id})"
             )
         else:
-            self.logger.info(f"Executed {executed_command} command by {context.author} (ID: {context.author.id}) in DMs")
+            self.logger.info(
+                f"Executed {executed_command} command by {context.author} (ID: {context.author.id}) in DMs"
+            )
 
     async def on_command_error(self, context: Context, error) -> None:
-        """
-        The code in this event is executed every time a normal valid command catches an error.
-
-        :param context: The context of the normal command that failed executing.
-        :param error: The error that has been faced.
-        """
         if isinstance(error, commands.CommandOnCooldown):
             minutes, seconds = divmod(error.retry_after, 60)
             hours, minutes = divmod(minutes, 60)
@@ -194,13 +185,17 @@ class DiscordBot(commands.Bot):
                 )
         elif isinstance(error, commands.MissingPermissions):
             embed = discord.Embed(
-                description="You are missing the permission(s) `" + ", ".join(error.missing_permissions) + "` to execute this command!",
+                description="You are missing the permission(s) `"
+                + ", ".join(error.missing_permissions)
+                + "` to execute this command!",
                 color=0xE02B2B,
             )
             await context.send(embed=embed)
         elif isinstance(error, commands.BotMissingPermissions):
             embed = discord.Embed(
-                description="I am missing the permission(s) `" + ", ".join(error.missing_permissions) + "` to fully perform this command!",
+                description="I am missing the permission(s) `"
+                + ", ".join(error.missing_permissions)
+                + "` to fully perform this command!",
                 color=0xE02B2B,
             )
             await context.send(embed=embed)
