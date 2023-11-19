@@ -20,14 +20,14 @@ class TicketView(
         custom_id="TicketView:send_report",
     )
     async def send_report(self, interaction, button):
-        await interaction.response.defer()
         bucket = self.cooldown.get_bucket(interaction.message)
         retry = bucket.update_rate_limit()
         if retry:
+            await interaction.response.defer()
             return await interaction.followup.send_message(
                 embed=get_slow_down_embed(self.bot, round(retry, 1)), ephemeral=True
             )
-        await interaction.followup.send_modal(
+        await interaction.response.send_modal(
             CreateReportModal(
                 self.bot,
             )

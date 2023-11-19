@@ -69,7 +69,7 @@ class UserRoleView(View):
         custom_id="UserRoleView:get_rank",
     )
     async def get_rank(self, interaction, button):
-        await interaction.followup.send_modal(RankModal(self.bot))
+        await interaction.response.send_modal(RankModal(self.bot))
 
     @button(
         label="⠀⠀⠀⠀⠀UPDATE⠀⠀⠀⠀",

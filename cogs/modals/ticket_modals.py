@@ -81,7 +81,6 @@ class ModeratorActionView(View):
         ],
     )
     async def action(self, interaction, select):
-        await interaction.response.defer()
         user_pick = select.values[0]
         if user_pick == "Закрыть жалобу":
             self.action.disabled = True
@@ -91,19 +90,19 @@ class ModeratorActionView(View):
                 )
             )
         elif user_pick == "Отправить предупреждение":
-            await interaction.followup.send_modal(UserWarnModal(self.bot, self.user_to_action))
+            await interaction.response.send_modal(UserWarnModal(self.bot, self.user_to_action))
         elif user_pick == "Кик":
-            await interaction.followup.send_modal(UserKickModal(self.bot, self.user_to_action))
+            await interaction.response.send_modal(UserKickModal(self.bot, self.user_to_action))
         elif user_pick == "Временный мут":
-            await interaction.followup.send_modal(TempMuteModal(self.bot, self.user_to_action))
+            await interaction.response.send_modal(TempMuteModal(self.bot, self.user_to_action))
         elif user_pick == "Временный запрет печати":
-            await interaction.followup.send_modal(
+            await interaction.response.send_modal(
                 TempStopTypingModal(self.bot, self.user_to_action)
             )
         elif user_pick == "Временный бан":
-            await interaction.followup.send_modal(TempBanModal(self.bot, self.user_to_action))
+            await interaction.response.send_modal(TempBanModal(self.bot, self.user_to_action))
         elif user_pick == "Бан-хаммер":
-            await interaction.followup.send_modal(BanForeverModal(self.bot, self.user_to_action))
+            await interaction.response.send_modal(BanForeverModal(self.bot, self.user_to_action))
 
 
 class UserWarnModal(Modal, title="Замечание"):
