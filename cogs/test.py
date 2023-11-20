@@ -24,7 +24,7 @@ class Testing(commands.Cog, name="testing"):
     async def on_ready(self):
         await self.bot.tree.sync()
 
-    @app_commands.command(
+    @commands.hybrid_command(
         name="rps", description="Limit the number of user(s) in your private channel."
     )
     @app_commands.autocomplete(choices=rps_autocomplete)

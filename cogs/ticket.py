@@ -2,17 +2,19 @@ from discord.ext import commands
 from .embeds.ticket_embed import *
 from .views.ticket_views import *
 from discord import app_commands
+from discord.ext.commands import Context
+
 
 class Ticket(commands.Cog, name="ticket"):
     def __init__(self, bot) -> None:
         self.bot = bot
 
-    @app_commands.command(
+    @commands.hybrid_command(
         name="panel_ticket",
         description="Cоздать панель с созданием жалоб на участников.",
     )
     @commands.has_role("Администратор")
-    async def panel_ticket(self, ctx):
+    async def panel_ticket(self, ctx: Context) -> None:
         await ctx.defer()
         await ctx.send(ticket_banner)
         await ctx.send(embed=get_ticket_embed(self.bot), view=TicketView(self.bot))

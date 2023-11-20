@@ -12,7 +12,7 @@ class Moderation(commands.Cog, name="moderation"):
         self.bot = bot
     async def on_ready(self):
         await self.bot.tree.sync()
-    @app_commands.command(
+    @commands.hybrid_command(
         name="kick",
         description="Выгнать пользователя с сервера.",
     )
@@ -53,7 +53,7 @@ class Moderation(commands.Cog, name="moderation"):
                 )
                 await context.send(embed=embed)
 
-    @app_commands.command(
+    @commands.hybrid_command(
         name="nick",
         description="Change the nickname of a user on a server.",
     )
@@ -80,7 +80,7 @@ class Moderation(commands.Cog, name="moderation"):
             )
             await context.send(embed=embed)
 
-    @app_commands.command(
+    @commands.hybrid_command(
         name="ban",
         description="Bans a user from the server.",
     )
@@ -205,7 +205,7 @@ class Moderation(commands.Cog, name="moderation"):
         embed.description = description
         await context.send(embed=embed)
 
-    @app_commands.command(
+    @commands.hybrid_command(
         name="purge",
         description="Delete a number of messages.",
     )
@@ -226,7 +226,7 @@ class Moderation(commands.Cog, name="moderation"):
             ephemeral=True,
         )
 
-    @app_commands.command(
+    @commands.hybrid_command(
         name="hackban",
         description="Bans a user without the user having to be in the server.",
     )
@@ -255,7 +255,7 @@ class Moderation(commands.Cog, name="moderation"):
             )
             await context.send(embed=embed)
 
-    @app_commands.command(
+    @commands.hybrid_command(
         name="archive",
         description="Archives in a text file the last messages with a chosen limit of messages.",
     )

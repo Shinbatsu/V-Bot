@@ -3,7 +3,7 @@ from discord.utils import get
 from .embeds.roles_embed import *
 from .views.roles_views import *
 from discord import app_commands
-# Here we name the cog and create a new class for the cog.
+from discord.ext.commands import Context
 join_roles = [
     "⠀⠀⠀⠀⠀⠀⠀⠀⠀AGENTS⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
     "⠀⠀⠀⠀⠀⠀⠀NOTIFICATION⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -22,12 +22,12 @@ class Roles(commands.Cog, name="roles"):
             await member.add_roles(get(member.guild.roles, name=role))
     async def on_ready(self):
         await self.bot.tree.sync()
-    @app_commands.command(
+    @commands.hybrid_command(
         name="panel_roles",
         description="Cоздать панель с выбором ролей.",
     )
     @commands.has_role("Администратор")
-    async def panel_roles(self, ctx):
+    async def panel_roles(self, ctx:Context) -> None:
         await ctx.defer()
         await ctx.send(roles_banner)
         await ctx.send(valorant_ranking_banner)

@@ -66,7 +66,7 @@ class Owner(commands.Cog, name="owner"):
         embed = discord.Embed(description="The scope must be `global` or `guild`.", color=0xE02B2B)
         await context.send(embed=embed)
 
-    @app_commands.command(
+    @commands.hybrid_command(
         name="load",
         description="Load a cog",
     )
@@ -83,7 +83,7 @@ class Owner(commands.Cog, name="owner"):
         embed = discord.Embed(description=f"Successfully loaded the `{cog}` cog.", color=0xBEBEFE)
         await context.send(embed=embed)
 
-    @app_commands.command(
+    @commands.hybrid_command(
         name="unload",
         description="Unloads a cog.",
     )
@@ -100,7 +100,7 @@ class Owner(commands.Cog, name="owner"):
         embed = discord.Embed(description=f"Successfully unloaded the `{cog}` cog.", color=0xBEBEFE)
         await context.send(embed=embed)
 
-    @app_commands.command(
+    @commands.hybrid_command(
         name="reload",
         description="Reloads a cog.",
     )
@@ -117,7 +117,7 @@ class Owner(commands.Cog, name="owner"):
         embed = discord.Embed(description=f"Successfully reloaded the `{cog}` cog.", color=0xBEBEFE)
         await context.send(embed=embed)
 
-    @app_commands.command(
+    @commands.hybrid_command(
         name="shutdown",
         description="Make the bot shutdown.",
     )
@@ -128,7 +128,7 @@ class Owner(commands.Cog, name="owner"):
         await context.send(embed=embed)
         await self.bot.close()
 
-    @app_commands.command(
+    @commands.hybrid_command(
         name="say",
         description="The bot will say anything you want.",
     )
@@ -138,7 +138,7 @@ class Owner(commands.Cog, name="owner"):
         await context.defer()
         await context.send(message)
 
-    @app_commands.command(
+    @commands.hybrid_command(
         name="embed",
         description="The bot will say anything you want, but within embeds.",
     )

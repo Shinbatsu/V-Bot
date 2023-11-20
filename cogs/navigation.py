@@ -5,7 +5,7 @@ from discord.utils import get
 from .embeds.navigation_embed import *
 from discord import PermissionOverwrite
 from discord import app_commands
-
+from discord.ext.commands import Context
 class NavigationView(
     View,
 ):
@@ -44,12 +44,12 @@ class Navigator(commands.Cog, name="navigator"):
         invite_link = await self.settings_room.create_invite(unique=True)
         self.settings_room_url = invite_link.url
 
-    @app_commands.command(
+    @commands.hybrid_command(
         name="panel_navigation",
         description="Cоздать панель с навигационными кнопками.",
     )
     @commands.has_role("Администратор")
-    async def panel_navigation(self, ctx):
+    async def panel_navigation(self, ctx:Context) -> None:
         await ctx.defer()
         if ctx.channel.id != self.bot.config["NAVIGATION_CHANNEL_ID"]:
             return

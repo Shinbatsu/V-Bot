@@ -89,11 +89,9 @@ class Avatar(commands.Cog, name="avatar"):
         draw.rounded_rectangle((714, 578, 714 + size, 615), fill=(120, 120, 120), radius=100)
         return image
 
-    @app_commands.command(
-        name="avatar", description="Отображает твой профиль на сервере"
-    )
+    @commands.hybrid_command(name="avatar", description="Отображает твой профиль на сервере")
     @app_commands.describe(user="Пользователь, чей профиль хотите увидеть")
-    async def avatar(self, ctx: Context, *, user: discord.Member = None):
+    async def avatar(self, ctx: Context, *, user: discord.Member = None) -> None:
         await ctx.defer()
         if user is None:
             user = ctx.author
