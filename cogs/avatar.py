@@ -87,7 +87,7 @@ class Avatar(commands.Cog, name="avatar"):
         return image
 
     @commands.hybrid_command(
-        description="Отображает твой профиль на сервере",
+        description="Отображает твой профиль на сервере", with_app_command=True
     )
     @app_commands.describe(user="Пользователь, чей профиль хотите увидеть")
     async def avatar(self, ctx: Context, *, user: discord.Member = None):
