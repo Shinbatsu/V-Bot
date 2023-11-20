@@ -58,7 +58,6 @@ class Rooms(commands.Cog, name="rooms"):
         return
 
     @commands.hybrid_command(
-        name="panel_room_settings",
         with_app_command=True,
         description="Cоздать панель с настройками для личной комнаты.",
     )

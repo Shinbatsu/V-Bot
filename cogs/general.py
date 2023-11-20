@@ -203,6 +203,7 @@ class General(commands.Cog, name="general"):
     )
     @app_commands.describe(question="The question you want to ask.")
     async def eight_ball(self, context: Context, *, question: str) -> None:
+        
         """
         Ask any question to the bot.
 

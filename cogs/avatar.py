@@ -9,8 +9,9 @@ import random
 
 from PIL import Image, ImageDraw, ImageOps, ImageFont
 from io import BytesIO
-
+from discord import app_commands
 from discord.ext.commands import Context
+
 
 def square_to_circle(file):
     data = BytesIO(file.fp.read())
@@ -85,10 +86,10 @@ class Avatar(commands.Cog, name="avatar"):
         draw.rounded_rectangle((714, 578, 714 + size, 615), fill=(120, 120, 120), radius=100)
         return image
 
-    @commands.command(
-        name="avatar",
+    @commands.hybrid_command(
         description="Отображает твой профиль на сервере",
     )
+    @app_commands.describe(user="Пользователь, чей профиль хотите увидеть")
     async def avatar(self, ctx: Context, *, user: discord.Member = None):
         await ctx.defer()
         if user is None:
