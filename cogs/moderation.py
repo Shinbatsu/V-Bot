@@ -10,7 +10,8 @@ from discord.ext.commands import Context
 class Moderation(commands.Cog, name="moderation"):
     def __init__(self, bot) -> None:
         self.bot = bot
-
+    async def on_ready(self):
+        await self.bot.tree.sync()
     @commands.hybrid_command(
         name="kick",
         description="Выгнать пользователя с сервера.",

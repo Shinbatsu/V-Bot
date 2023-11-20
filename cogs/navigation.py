@@ -28,10 +28,10 @@ class Navigator(commands.Cog, name="navigator"):
         self.rank_room_url = None
         self.roles_room_url = None
 
-    @commands.Cog.listener()
+        
     async def on_ready(self):
         self.guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
-
+        await self.bot.tree.sync()
         self.rank_room = self.bot.get_channel(self.bot.config["RANK_ROOM_CHANNEL_ID"])
         invite_link = await self.rank_room.create_invite(unique=True)
         self.rank_room_url = invite_link.url

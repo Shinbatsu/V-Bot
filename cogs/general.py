@@ -19,7 +19,8 @@ class General(commands.Cog, name="general"):
             name="Remove spoilers", callback=self.remove_spoilers
         )
         self.bot.tree.add_command(self.context_menu_message)
-
+    async def on_ready(self):
+        await self.bot.tree.sync()
     # Message context menu command
     async def remove_spoilers(
         self, interaction: discord.Interaction, message: discord.Message

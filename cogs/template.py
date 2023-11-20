@@ -8,6 +8,8 @@ class Template(commands.Cog, name="template"):
         self.bot = bot
 
     # Here you can just add your own commands, you'll always need to provide "self" as first parameter.
+    async def on_ready(self):
+        await self.bot.tree.sync()
 
     @commands.hybrid_command(
         name="testcommand",

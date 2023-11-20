@@ -29,6 +29,9 @@ class Avatar(commands.Cog, name="avatar"):
         self.bot = bot
         self.guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
 
+    async def on_ready(self):
+        await self.bot.tree.sync()
+
     def add_name(self, image, user):
         draw = ImageDraw.Draw(image)
         font = ImageFont.truetype("src/V.ttf", 80)
@@ -85,11 +88,9 @@ class Avatar(commands.Cog, name="avatar"):
         draw = ImageDraw.Draw(image)
         draw.rounded_rectangle((714, 578, 714 + size, 615), fill=(120, 120, 120), radius=100)
         return image
-    async def on_ready(self):
-        await self.bot.tree.sync()
+
     @commands.hybrid_command(
-        name="avatar",
-        description="Отображает твой профиль на сервере", with_app_command=True
+        name="avatar", description="Отображает твой профиль на сервере"
     )
     @app_commands.describe(user="Пользователь, чей профиль хотите увидеть")
     async def avatar(self, ctx: Context, *, user: discord.Member = None):

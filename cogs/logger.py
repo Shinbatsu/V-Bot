@@ -4,6 +4,7 @@ from discord import Embed, Colour
 import discord
 from datetime import datetime
 
+
 class Log(commands.Cog, name="log"):
     def __init__(self, bot) -> None:
         self.bot = bot
@@ -12,6 +13,7 @@ class Log(commands.Cog, name="log"):
     @commands.Cog.listener()
     async def on_ready(self):
         self.log_channel = self.bot.get_channel(self.bot.config["LOG_CHANNEL_ID"])
+        await self.bot.tree.sync()
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -60,9 +62,7 @@ class Log(commands.Cog, name="log"):
                 description=message,
                 color=Colour.from_str(self.bot.config["INFO_COLOR"]),
             )
-            embed.set_footer(
-                text=f"User ID: {member.id} | Изменено: {discord.utils.utcnow()}"
-            )
+            embed.set_footer(text=f"User ID: {member.id} | Изменено: {discord.utils.utcnow()}")
             await self.log_channel.send(embed=embed)
 
         if before.channel != after.channel:
@@ -77,9 +77,7 @@ class Log(commands.Cog, name="log"):
                 description=message,
                 color=Colour.from_str(self.bot.config["INFO_COLOR"]),
             )
-            embed.set_footer(
-                text=f"User ID: {member.id} | Изменено: {discord.utils.utcnow()}"
-            )
+            embed.set_footer(text=f"User ID: {member.id} | Изменено: {discord.utils.utcnow()}")
             await self.log_channel.send(embed=embed)
 
     @commands.Cog.listener()

@@ -7,7 +7,8 @@ from discord.ext.commands import Context
 class Owner(commands.Cog, name="owner"):
     def __init__(self, bot) -> None:
         self.bot = bot
-
+    async def on_ready(self):
+        await self.bot.tree.sync()
     @commands.command(
         name="sync",
         description="Synchonizes the slash commands.",
