@@ -43,6 +43,7 @@ class Avatar(commands.Cog, name="avatar"):
     )
     async def avatar(self, ctx, user_id=None):
         await ctx.defer()
+        await ctx.message.delete()
         if user_id is None:
             user = ctx.author
         else:

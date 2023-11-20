@@ -65,6 +65,7 @@ class Rooms(commands.Cog, name="rooms"):
     @commands.has_role("Администратор")
     async def panel_room_settings(self, ctx):
         await ctx.defer()
+        await ctx.message.delete()
         if ctx.channel.id != self.bot.config["ROOM_SETTINGS_CHANNEL_ID"]:
             return
         await ctx.send(room_settings_banner)
