@@ -9,7 +9,7 @@ def get_havent_room_embed(bot: Client) -> Embed:
     embed = Embed()
     embed.set_author(
         icon_url=alert_url,
-        title="У вас нету комнаты!",
+        name="У вас нету комнаты!",
     )
     embed.add_field(name=f"Для этого действия сначала необходимо создать комнату.", value="")
     return embed
