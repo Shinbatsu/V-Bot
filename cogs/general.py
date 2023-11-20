@@ -64,6 +64,7 @@ class General(commands.Cog, name="general"):
         name="help", description="List all commands the bot has loaded."
     )
     async def help(self, context: Context) -> None:
+        await context.defer()
         prefix = self.bot.config["prefix"]
         embed = discord.Embed(
             title="Help", description="List of available commands:", color=0xBEBEFE
@@ -88,6 +89,8 @@ class General(commands.Cog, name="general"):
         description="Get some useful (or not) information about the bot.",
     )
     async def botinfo(self, context: Context) -> None:
+        await context.defer()        
+        await context.defer()
         """
         Get some useful (or not) information about the bot.
 
@@ -115,11 +118,7 @@ class General(commands.Cog, name="general"):
         description="Get some useful (or not) information about the server.",
     )
     async def serverinfo(self, context: Context) -> None:
-        """
-        Get some useful (or not) information about the server.
-
-        :param context: The hybrid command context.
-        """
+        await context.defer()
         roles = [role.name for role in context.guild.roles]
         if len(roles) > 50:
             roles = roles[:50]
@@ -145,11 +144,7 @@ class General(commands.Cog, name="general"):
         description="Check if the bot is alive.",
     )
     async def ping(self, context: Context) -> None:
-        """
-        Check if the bot is alive.
-
-        :param context: The hybrid command context.
-        """
+        await context.defer()
         embed = discord.Embed(
             title="🏓 Pong!",
             description=f"The bot latency is {round(self.bot.latency * 1000)}ms.",
@@ -177,25 +172,6 @@ class General(commands.Cog, name="general"):
     #     except discord.Forbidden:
     #         await context.send(embed=embed)
 
-    @commands.hybrid_command(
-        name="server",
-        description="Get the invite link of the discord server of the bot for some support.",
-    )
-    async def server(self, context: Context) -> None:
-        """
-        Get the invite link of the discord server of the bot for some support.
-
-        :param context: The hybrid command context.
-        """
-        embed = discord.Embed(
-            description=f"Join the support server for the bot by clicking [here](https://discord.gg/mTBrXyWxAF).",
-            color=0xD75BF4,
-        )
-        try:
-            await context.author.send(embed=embed)
-            await context.send("I sent you a private message!")
-        except discord.Forbidden:
-            await context.send(embed=embed)
 
     @commands.hybrid_command(
         name="8ball",
@@ -203,13 +179,7 @@ class General(commands.Cog, name="general"):
     )
     @app_commands.describe(question="The question you want to ask.")
     async def eight_ball(self, context: Context, *, question: str) -> None:
-        
-        """
-        Ask any question to the bot.
-
-        :param context: The hybrid command context.
-        :param question: The question that should be asked by the user.
-        """
+        await context.defer()
         answers = [
             "It is certain.",
             "It is decidedly so.",
@@ -245,11 +215,7 @@ class General(commands.Cog, name="general"):
         description="Get the current price of bitcoin.",
     )
     async def bitcoin(self, context: Context) -> None:
-        """
-        Get the current price of bitcoin.
-
-        :param context: The hybrid command context.
-        """
+        await context.defer()
         # This will prevent your bot from stopping everything when doing a web request - see: https://discordpy.readthedocs.io/en/stable/faq.html#how-do-i-make-a-web-request
         async with aiohttp.ClientSession() as session:
             async with session.get(

@@ -20,7 +20,8 @@ class Roles(commands.Cog, name="roles"):
     async def on_member_join(self, member):
         for role in join_roles:
             await member.add_roles(get(member.guild.roles, name=role))
-
+    async def on_ready(self):
+        await self.bot.tree.sync()
     @commands.hybrid_command(
         name="panel_roles",
         with_app_command=True,

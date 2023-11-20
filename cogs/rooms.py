@@ -20,7 +20,7 @@ class Rooms(commands.Cog, name="rooms"):
                 self.guild.categories,
             )
         ][0]
-
+        await self.bot.tree.sync()
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
         # Check if user has joined entry room

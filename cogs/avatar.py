@@ -85,7 +85,8 @@ class Avatar(commands.Cog, name="avatar"):
         draw = ImageDraw.Draw(image)
         draw.rounded_rectangle((714, 578, 714 + size, 615), fill=(120, 120, 120), radius=100)
         return image
-
+    async def on_ready(self):
+        await self.bot.tree.sync()
     @commands.hybrid_command(
         description="Отображает твой профиль на сервере", with_app_command=True
     )

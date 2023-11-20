@@ -18,6 +18,9 @@ class Ticket(commands.Cog, name="ticket"):
         await ctx.send(ticket_banner)
         await ctx.send(embed=get_ticket_embed(self.bot), view=TicketView(self.bot))
 
+    async def on_ready(self):
+        await self.bot.tree.sync()
+
     async def setup_hook(self) -> None:
         self.add_view(TicketView(self.bot))
 
