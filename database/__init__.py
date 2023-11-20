@@ -41,6 +41,15 @@ class DatabaseManager:
         cursor = await self.connection.execute("SELECT * FROM users WHERE id=?", (user_id,))
         return await cursor.fetchone()
     
+    async def get_user_activity(self, user_id):
+        rows = await self.connection.execute(
+            "SELECT activity FROM users WHERE id=?",
+            (user_id,),
+        )
+        async with rows as cursor:
+            result = await cursor.fetchone()
+            return result[0] if result[0] else 0
+
     async def is_already_exists(self, user_id):
         rows = await self.connection.execute(
             "SELECT COUNT(*) FROM users WHERE id=?",
