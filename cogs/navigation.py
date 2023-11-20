@@ -64,7 +64,7 @@ class Navigation(commands.Cog, name="navigation"):
     )
     @commands.has_role("Администратор")
     async def panel_navigation(self, ctx: Context) -> None:
-        await ctx.defer(ephemeral=True)
+        await ctx.defer()
         await ctx.send(file=File("src/banners/navigation.png"))
         await ctx.send(
             embed=get_navigation_room_embed(self.bot),

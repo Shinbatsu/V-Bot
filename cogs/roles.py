@@ -26,7 +26,7 @@ class Roles(commands.Cog, name="roles"):
     )
     @commands.has_role("Администратор")
     async def panel_roles(self, ctx:Context) -> None:
-        await ctx.defer(ephemeral=True)
+        await ctx.defer()
         await ctx.send(file=File("src/banners/roles.png"))
         await ctx.send(file=File("src/banners/valorant_ranking.png"))
         await ctx.send(embed=get_pick_rank_embed(self.bot), view=UserRoleView(self.bot))
