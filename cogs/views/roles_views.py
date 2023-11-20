@@ -171,7 +171,11 @@ class PickAgentsView(View):
         await interaction.response.defer()
         user_roles = [role.name for role in interaction.user.roles]
         user_pick = select.values[0]
-        if user_pick in user_roles or user_pick == "Remove":
+        if user_pick == "Remove":
+            for role in user_roles:
+                 await interaction.user.remove_roles(get(interaction.user.guild.roles, name=role))
+                 await interaction.followup.send(embed=get_agent_removed_embed(self.bot), ephemeral=True)
+        if user_pick in user_roles:
             await interaction.user.remove_roles(get(interaction.user.guild.roles, name=user_pick))
             await interaction.followup.send(embed=get_agent_removed_embed(self.bot), ephemeral=True)
         elif any([x in guardian_roles for x in user_roles]):
@@ -193,6 +197,10 @@ class PickAgentsView(View):
         await interaction.response.defer()
         user_roles = [role.name for role in interaction.user.roles]
         user_pick = select.values[0]
+        if user_pick == "Remove":
+            for role in user_roles:
+                 await interaction.user.remove_roles(get(interaction.user.guild.roles, name=role))
+                 await interaction.followup.send(embed=get_agent_removed_embed(self.bot), ephemeral=True)
         if user_pick in user_roles or user_pick == "Remove":
             await interaction.user.remove_roles(get(interaction.user.guild.roles, name=user_pick))
             await interaction.followup.send(embed=get_agent_removed_embed(self.bot), ephemeral=True)
@@ -215,6 +223,10 @@ class PickAgentsView(View):
         await interaction.response.defer()
         user_roles = [role.name for role in interaction.user.roles]
         user_pick = select.values[0]
+        if user_pick == "Remove":
+            for role in user_roles:
+                 await interaction.user.remove_roles(get(interaction.user.guild.roles, name=role))
+                 await interaction.followup.send(embed=get_agent_removed_embed(self.bot), ephemeral=True)
         if user_pick in user_roles or user_pick == "Remove":
             await interaction.user.remove_roles(get(interaction.user.guild.roles, name=user_pick))
             await interaction.followup.send(embed=get_agent_removed_embed(self.bot), ephemeral=True)
@@ -237,6 +249,10 @@ class PickAgentsView(View):
         await interaction.response.defer()
         user_roles = [role.name for role in interaction.user.roles]
         user_pick = select.values[0]
+        if user_pick == "Remove":
+            for role in user_roles:
+                 await interaction.user.remove_roles(get(interaction.user.guild.roles, name=role))
+                 await interaction.followup.send(embed=get_agent_removed_embed(self.bot), ephemeral=True)
         if user_pick in user_roles or user_pick == "Remove":
             await interaction.user.remove_roles(get(interaction.user.guild.roles, name=user_pick))
             await interaction.followup.send(embed=get_agent_removed_embed(self.bot), ephemeral=True)
