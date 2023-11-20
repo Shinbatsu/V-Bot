@@ -46,7 +46,6 @@ class Navigator(commands.Cog, name="navigator"):
 
     @app_commands.command(
         name="panel_navigation",
-        with_app_command=True,
         description="Cоздать панель с навигационными кнопками.",
     )
     @commands.has_role("Администратор")

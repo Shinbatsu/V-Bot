@@ -9,7 +9,6 @@ class Ticket(commands.Cog, name="ticket"):
 
     @app_commands.command(
         name="panel_ticket",
-        with_app_command=True,
         description="Cоздать панель с созданием жалоб на участников.",
     )
     @commands.has_role("Администратор")

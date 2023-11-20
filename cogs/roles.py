@@ -24,7 +24,6 @@ class Roles(commands.Cog, name="roles"):
         await self.bot.tree.sync()
     @app_commands.command(
         name="panel_roles",
-        with_app_command=True,
         description="Cоздать панель с выбором ролей.",
     )
     @commands.has_role("Администратор")

@@ -58,7 +58,6 @@ class Rooms(commands.Cog, name="rooms"):
         return
 
     @app_commands.command(
-        with_app_command=True,
         description="Cоздать панель с настройками для личной комнаты.",
     )
     @commands.has_role("Администратор")
