@@ -19,10 +19,8 @@ class Ticket(commands.Cog, name="ticket"):
         await ctx.send(file=File("src/banners/ticket.png"))
         await ctx.send(embed=get_ticket_embed(self.bot), view=TicketView(self.bot))
 
-    async def setup_hook(self) -> None:
-        self.add_view(TicketView(self.bot))
-
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
 async def setup(bot) -> None:
     await bot.add_cog(Ticket(bot))
+ 

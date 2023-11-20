@@ -68,9 +68,5 @@ class Rooms(commands.Cog, name="rooms"):
         await ctx.send(file=File("src/banners/room_settings.png"))
         await ctx.send(embed=get_room_settings_embed(self.bot), view=RoomSettingsView(self.bot))
 
-    async def setup_hook(self) -> None:
-        self.add_view(RoomSettingsView(self.bot))
-
-
 async def setup(bot) -> None:
     await bot.add_cog(Rooms(bot))

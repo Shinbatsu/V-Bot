@@ -6,7 +6,8 @@ from .embed_utils import *
 
 @error_color()
 def get_havent_room_embed(bot: Client) -> Embed:
-    embed = Embed(
+    embed = Embed()
+    embed.set_author(
         icon_url=alert_url,
         title="У вас нету комнаты!",
     )

@@ -35,11 +35,5 @@ class Roles(commands.Cog, name="roles"):
         await ctx.send(file=File("src/banners/nick_color.png"))
         await ctx.send(embed=get_pick_your_nick_color_embed(self.bot), view=PickColorView(self.bot))
 
-    async def setup_hook(self) -> None:
-        self.add_view(UserRoleView(self.bot))
-        self.add_view(PickAgentsView(self.bot))
-        self.add_view(PickColorView(self.bot))
-
-
 async def setup(bot) -> None:
     await bot.add_cog(Roles(bot))

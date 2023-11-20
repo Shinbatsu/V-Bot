@@ -69,7 +69,7 @@ class Log(commands.Cog, name="log"):
                 message = f"{member.mention} покинул голосовой канал {before.channel.name}."
             if after.channel:
                 message = (
-                    f"{member.mention} присоединился к голосовому каналу {after.channel.name}."
+                    f"{member.mention} присоединился к голосовому каналу {after.channel.jump_url}."
                 )
             embed = Embed(
                 title="Действие пользователя",
@@ -85,7 +85,7 @@ class Log(commands.Cog, name="log"):
             return
         embed = discord.Embed(
             title="Сообщение редактировано",
-            description=f"{after.author.mention} изменил сообщение в {after.channel.mention}",
+            description=f"{after.author.mention} изменил сообщение в {after.channel.jump_url}",
             color=Colour.from_str(self.bot.config["INFO_COLOR"]),
         )
         embed.add_field(name="До: ", value=before.content, inline=False)
