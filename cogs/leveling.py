@@ -23,10 +23,6 @@ class Leveling(commands.Cog, name="leveling"):
             return
         await self.bot.database.add_user(member.id)
 
-    @commands.hybrid_command(with_app_command=True)
-    async def add_user_in_db(self, ctx, user_id: int):
-        await self.bot.database.add_user(user_id)
-
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
         if not before.channel and after.channel:
