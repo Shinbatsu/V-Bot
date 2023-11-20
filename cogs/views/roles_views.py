@@ -164,7 +164,7 @@ class PickAgentsView(View):
         placeholder="Стражи",
         min_values=1,
         max_values=1,
-        options=[SelectOption(label=x) for x in guardian_roles] + ["Remove"],
+        options=[*[SelectOption(label=x) for x in guardian_roles], SelectOption(label="Remove")],
         custom_id="PickAgentsView:guardians_callback",
     )
     async def guardians_callback(self, interaction, select):
@@ -186,7 +186,7 @@ class PickAgentsView(View):
         placeholder="Дуэлянты",
         min_values=1,
         max_values=1,
-        options=[SelectOption(label=x) for x in duelist_roles] + ["Remove"],
+        options=[*[SelectOption(label=x) for x in duelist_roles], SelectOption(label="Remove")],
         custom_id="PickAgentsView:duelist_callback",
     )
     async def duelist_callback(self, interaction, select):
@@ -208,7 +208,7 @@ class PickAgentsView(View):
         placeholder="Зачинщики",
         min_values=1,
         max_values=1,
-        options=[SelectOption(label=x) for x in initiator_roles] + ["Remove"],
+        options=[*[SelectOption(label=x) for x in initiator_roles], SelectOption(label="Remove")],
         custom_id="PickAgentsView:initiator_callback",
     )
     async def initiator_callback(self, interaction, select):
@@ -230,7 +230,7 @@ class PickAgentsView(View):
         placeholder="Специалисты",
         min_values=1,
         max_values=1,
-        options=[SelectOption(label=x) for x in specialist_roles] + ["Remove"],
+        options=[*[SelectOption(label=x) for x in specialist_roles], SelectOption(label="Remove")],
         custom_id="PickAgentsView:specialist_callback",
     )
     async def specialist_callback(self, interaction, select):

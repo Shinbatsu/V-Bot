@@ -218,10 +218,12 @@ class Moderation(commands.Cog, name="moderation"):
         )  # Bit of a hacky way to make sure the bot responds to the interaction and doens't get a "Unknown Interaction" response
         purged_messages = await context.channel.purge(limit=amount + 1)
         embed = discord.Embed(
-            description=f"Вы удалили **{len(purged_messages)-1}** сообщений!",
-            color=0xBEBEFE
+            description=f"Вы удалили **{len(purged_messages)-1}** сообщений!", color=0xBEBEFE
         )
-        await context.channel.send(embed=embed,ephemeral=True,)
+        await context.send(
+            embed=embed,
+            ephemeral=True,
+        )
 
     @commands.hybrid_command(
         name="hackban",
