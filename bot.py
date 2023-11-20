@@ -143,8 +143,6 @@ class DiscordBot(commands.Bot):
     async def on_message(self, message: discord.Message) -> None:
         if message.author == self.user or message.author.bot:
             return
-        if message.content.startswith(self.config["prefix"]):
-            await message.delete()
         await self.process_commands(message)
 
     async def on_ready(self):
