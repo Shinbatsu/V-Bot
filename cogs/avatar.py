@@ -84,9 +84,8 @@ class Avatar(commands.Cog, name="avatar"):
         draw.rounded_rectangle((714, 578, 714 + size, 615), fill=(120, 120, 120), radius=100)
         return image
 
-    @commands.hybrid_command(
+    @commands.command(
         name="avatar",
-        with_app_command=True,
         description="Отображает твой профиль на сервере",
     )   
     async def avatar(self, ctx, user: discord.Member = None):
