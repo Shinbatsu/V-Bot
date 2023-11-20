@@ -8,12 +8,6 @@ class Testing(commands.Cog, name="testing"):
     def __init__(self, bot) -> None:
         self.bot = bot
 
-    @commands.hybrid_command(with_app_command=True)
-    async def clear(self, context: Context):
-        try:
-            await context.channel.purge(limit=100)
-        except:
-            context.send("Больше нечего удалять!", ephemeral=True)
     async def rps_autocomplete(
         self,
         interaction: discord.Interaction,
