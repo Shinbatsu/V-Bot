@@ -140,10 +140,10 @@ class DiscordBot(commands.Bot):
         )
 
 
-    async def on_message(self, message: discord.Message) -> None:
-        if message.author == self.user or message.author.bot:
-            return
-        await self.process_commands(message)
+    # async def on_message(self, message: discord.Message) -> None:
+    #     if message.author == self.user or message.author.bot:
+    #         return
+    #     await self.process_commands(message)
 
     async def on_ready(self):
         await self.tree.sync()
