@@ -64,6 +64,7 @@ class Rooms(commands.Cog, name="rooms"):
     )
     @commands.has_role("Администратор")
     async def panel_room_settings(self, ctx: Context) -> None:
+        await ctx.defer(ephemeral=True)
         await ctx.send(file=File("src/banners/room_settings.png"))
         await ctx.send(embed=get_room_settings_embed(self.bot), view=RoomSettingsView(self.bot))
 
