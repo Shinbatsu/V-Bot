@@ -14,7 +14,7 @@ class Owner(commands.Cog, name="owner"):
     )
     @app_commands.describe(scope="The scope of the sync. Can be `global` or `guild`")
     @commands.is_owner()
-    async def sync(self, context: Context, scope: str) -> None:
+    async def sync(self, context: Context, scope: str = "global") -> None:
         if scope == "global":
             await context.bot.tree.sync()
             embed = discord.Embed(
@@ -32,9 +32,7 @@ class Owner(commands.Cog, name="owner"):
             )
             await context.send(embed=embed)
             return
-        embed = discord.Embed(
-            description="The scope must be `global` or `guild`.", color=0xE02B2B
-        )
+        embed = discord.Embed(description="The scope must be `global` or `guild`.", color=0xE02B2B)
         await context.send(embed=embed)
 
     @commands.command(
@@ -64,9 +62,7 @@ class Owner(commands.Cog, name="owner"):
             )
             await context.send(embed=embed)
             return
-        embed = discord.Embed(
-            description="The scope must be `global` or `guild`.", color=0xE02B2B
-        )
+        embed = discord.Embed(description="The scope must be `global` or `guild`.", color=0xE02B2B)
         await context.send(embed=embed)
 
     @commands.hybrid_command(
@@ -79,14 +75,10 @@ class Owner(commands.Cog, name="owner"):
         try:
             await self.bot.load_extension(f"cogs.{cog}")
         except Exception:
-            embed = discord.Embed(
-                description=f"Could not load the `{cog}` cog.", color=0xE02B2B
-            )
+            embed = discord.Embed(description=f"Could not load the `{cog}` cog.", color=0xE02B2B)
             await context.send(embed=embed)
             return
-        embed = discord.Embed(
-            description=f"Successfully loaded the `{cog}` cog.", color=0xBEBEFE
-        )
+        embed = discord.Embed(description=f"Successfully loaded the `{cog}` cog.", color=0xBEBEFE)
         await context.send(embed=embed)
 
     @commands.hybrid_command(
@@ -99,14 +91,10 @@ class Owner(commands.Cog, name="owner"):
         try:
             await self.bot.unload_extension(f"cogs.{cog}")
         except Exception:
-            embed = discord.Embed(
-                description=f"Could not unload the `{cog}` cog.", color=0xE02B2B
-            )
+            embed = discord.Embed(description=f"Could not unload the `{cog}` cog.", color=0xE02B2B)
             await context.send(embed=embed)
             return
-        embed = discord.Embed(
-            description=f"Successfully unloaded the `{cog}` cog.", color=0xBEBEFE
-        )
+        embed = discord.Embed(description=f"Successfully unloaded the `{cog}` cog.", color=0xBEBEFE)
         await context.send(embed=embed)
 
     @commands.hybrid_command(
@@ -119,14 +107,10 @@ class Owner(commands.Cog, name="owner"):
         try:
             await self.bot.reload_extension(f"cogs.{cog}")
         except Exception:
-            embed = discord.Embed(
-                description=f"Could not reload the `{cog}` cog.", color=0xE02B2B
-            )
+            embed = discord.Embed(description=f"Could not reload the `{cog}` cog.", color=0xE02B2B)
             await context.send(embed=embed)
             return
-        embed = discord.Embed(
-            description=f"Successfully reloaded the `{cog}` cog.", color=0xBEBEFE
-        )
+        embed = discord.Embed(description=f"Successfully reloaded the `{cog}` cog.", color=0xBEBEFE)
         await context.send(embed=embed)
 
     @commands.hybrid_command(
@@ -205,9 +189,7 @@ class Owner(commands.Cog, name="owner"):
         embed = discord.Embed(title="Blacklisted Users", color=0xBEBEFE)
         users = []
         for bluser in blacklisted_users:
-            user = self.bot.get_user(int(bluser[0])) or await self.bot.fetch_user(
-                int(bluser[0])
-            )
+            user = self.bot.get_user(int(bluser[0])) or await self.bot.fetch_user(int(bluser[0]))
             users.append(f"• {user.mention} ({user}) - Blacklisted <t:{bluser[1]}>")
         embed.description = "\n".join(users)
         await context.send(embed=embed)

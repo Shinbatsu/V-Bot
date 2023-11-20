@@ -10,6 +10,7 @@ import random
 from PIL import Image, ImageDraw, ImageOps, ImageFont
 from io import BytesIO
 
+from discord.ext.commands import Context
 
 def square_to_circle(file):
     data = BytesIO(file.fp.read())
@@ -87,8 +88,8 @@ class Avatar(commands.Cog, name="avatar"):
     @commands.command(
         name="avatar",
         description="Отображает твой профиль на сервере",
-    )   
-    async def avatar(self, ctx, user: discord.Member = None):
+    )
+    async def avatar(self, ctx: discord.Context, *, user: discord.Member = None):
         await ctx.defer()
         if user is None:
             user = ctx.author
