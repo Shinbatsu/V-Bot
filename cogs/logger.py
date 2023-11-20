@@ -13,7 +13,6 @@ class Log(commands.Cog, name="log"):
     @commands.Cog.listener()
     async def on_ready(self):
         self.log_channel = self.bot.get_channel(self.bot.config["LOG_CHANNEL_ID"])
-        await self.bot.tree.sync()
 
     @commands.Cog.listener()
     async def on_member_join(self, member):

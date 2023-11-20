@@ -1,8 +1,6 @@
 import discord
 from discord import app_commands
-import datetime
 from discord.ext import commands
-from discord.ext.commands import Context
 from discord import app_commands
 
 class Testing(commands.Cog, name="testing"):
@@ -20,9 +18,6 @@ class Testing(commands.Cog, name="testing"):
             for choice in choices
             if current.lower() in choice.lower()
         ]
-
-    async def on_ready(self):
-        await self.bot.tree.sync()
 
     @commands.hybrid_command(
         name="rps", description="Limit the number of user(s) in your private channel."

@@ -88,6 +88,9 @@ class DiscordBot(commands.Bot):
         self.config = config
         self.database = None
 
+    async def on_ready(self):
+        await self.tree.sync()
+
     async def init_db(self) -> None:
         async with aiosqlite.connect(
             f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"
@@ -116,7 +119,11 @@ class DiscordBot(commands.Bot):
         Setup the game status task of the bot.
         """
         guild = self.get_guild(self.config["GUILD_ID"])
-        await self.change_presence(activity=discord.CustomActivity(name=f'Наблюдаю за {len(guild.members)} участниками.' ,emoji='🖥️'))
+        await self.change_presence(
+            activity=discord.CustomActivity(
+                name=f"Наблюдаю за {len(guild.members)} участниками.", emoji="🖥"
+            )
+        )
 
     @status_task.before_loop
     async def before_status_task(self) -> None:
@@ -140,14 +147,10 @@ class DiscordBot(commands.Bot):
             )
         )
 
-
     async def on_message(self, message: discord.Message) -> None:
         if message.author == self.user or message.author.bot:
             return
         await self.process_commands(message)
-
-    async def on_ready(self):
-        await self.tree.sync()
 
     async def on_command_completion(self, context: Context) -> None:
         full_command_name = context.command.qualified_name

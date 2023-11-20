@@ -2,7 +2,9 @@ from discord.ext import commands
 from .embeds.rooms_embed import *
 from .views.rooms_views import *
 from discord.ext.commands import Context
-from discord import app_commands
+from discord import File
+
+
 class Rooms(commands.Cog, name="rooms"):
     def __init__(self, bot) -> None:
         self.bot = bot
@@ -20,7 +22,7 @@ class Rooms(commands.Cog, name="rooms"):
                 self.guild.categories,
             )
         ][0]
-        await self.bot.tree.sync()
+
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
         # Check if user has joined entry room
@@ -62,10 +64,7 @@ class Rooms(commands.Cog, name="rooms"):
     )
     @commands.has_role("Администратор")
     async def panel_room_settings(self, ctx: Context) -> None:
-        await ctx.defer()
-        if ctx.channel.id != self.bot.config["ROOM_SETTINGS_CHANNEL_ID"]:
-            return
-        await ctx.send(room_settings_banner)
+        await ctx.send(file=File("src/banners/room_settings.png"))
         await ctx.send(embed=get_room_settings_embed(self.bot), view=RoomSettingsView(self.bot))
 
     async def setup_hook(self) -> None:

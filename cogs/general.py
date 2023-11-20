@@ -19,9 +19,6 @@ class General(commands.Cog, name="general"):
             name="Remove spoilers", callback=self.remove_spoilers
         )
         self.bot.tree.add_command(self.context_menu_message)
-    async def on_ready(self):
-        await self.bot.tree.sync()
-    # Message context menu command
     async def remove_spoilers(
         self, interaction: discord.Interaction, message: discord.Message
     ) -> None:
@@ -180,7 +177,6 @@ class General(commands.Cog, name="general"):
     )
     @app_commands.describe(question="The question you want to ask.")
     async def eight_ball(self, context: Context, *, question: str) -> None:
-        await context.defer()
         answers = [
             "It is certain.",
             "It is decidedly so.",
@@ -217,7 +213,6 @@ class General(commands.Cog, name="general"):
     )
     async def bitcoin(self, context: Context) -> None:
         await context.defer()
-        # This will prevent your bot from stopping everything when doing a web request - see: https://discordpy.readthedocs.io/en/stable/faq.html#how-do-i-make-a-web-request
         async with aiohttp.ClientSession() as session:
             async with session.get(
                 "https://api.coindesk.com/v1/bpi/currentprice/BTC.json"

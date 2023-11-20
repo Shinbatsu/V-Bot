@@ -81,7 +81,6 @@ class UserRoleView(View):
         await interaction.response.defer()
         valorant_nick_name = await self.bot.database.get_valorant_nickname(interaction.user.id)
         if not valorant_nick_name:
-            await interaction.response.defer()
             return await interaction.followup.send(
                 embed=get_cant_update_rank_embed(
                     self.bot,
@@ -104,7 +103,6 @@ class UserRoleView(View):
                 ephemeral=True,
             )
         else:
-            await interaction.response.defer()
             await interaction.followup.send(
                 embed=get_cant_update_rank_embed(self.bot),
                 ephemeral=True,

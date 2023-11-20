@@ -29,9 +29,6 @@ class Avatar(commands.Cog, name="avatar"):
         self.bot = bot
         self.guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
 
-    async def on_ready(self):
-        await self.bot.tree.sync()
-
     def add_name(self, image, user):
         draw = ImageDraw.Draw(image)
         font = ImageFont.truetype("src/V.ttf", 80)

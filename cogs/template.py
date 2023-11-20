@@ -1,15 +1,9 @@
 from discord.ext import commands
 from discord.ext.commands import Context
-from discord import app_commands
-from discord.ext.commands import Context
-# Here we name the cog and create a new class for the cog.
+
 class Template(commands.Cog, name="template"):
     def __init__(self, bot) -> None:
         self.bot = bot
-
-    # Here you can just add your own commands, you'll always need to provide "self" as first parameter.
-    async def on_ready(self):
-        await self.bot.tree.sync()
 
     @commands.hybrid_command(
         name="testcommand",

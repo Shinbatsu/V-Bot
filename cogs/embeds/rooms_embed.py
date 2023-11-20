@@ -7,6 +7,7 @@ from .embed_utils import *
 @error_color()
 def get_havent_room_embed(bot: Client) -> Embed:
     embed = Embed(
+        icon_url=alert_url,
         title="У вас нету комнаты!",
     )
     embed.add_field(name=f"Для этого действия сначала необходимо создать комнату.", value="")
@@ -21,11 +22,6 @@ def get_you_already_has_room_embed(bot: Client) -> Embed:
         name="Уже есть комната",
     )
     embed.add_field(
-        name="",
-        value=f"""{div}""",
-        inline=False,
-    )
-    embed.add_field(
         name="Перейдите ниже, чтобы попасть в неё.",
         value="",
         inline=False,
@@ -36,6 +32,7 @@ def get_you_already_has_room_embed(bot: Client) -> Embed:
 @success_color()
 def get_another_user_already_has_room_embed(bot: Client, member_name: str) -> Embed:
     embed = Embed(
+        icon_url=alert_url,
         title="Уже владелец",
     )
     embed.add_field(name=f"Пользователь {member_name} уже имеет свою комнату!", value="")
@@ -93,11 +90,11 @@ def get_room_settings_embed(bot: Client) -> Embed:
     embed.add_field(name="CREATE ROOM - ```Создать комнату```", value="", inline=False)
     embed.add_field(name="DELETE - ```Удалить комнату```", value="", inline=False)
     embed.add_field(name="UP - ```Поднять комнату```", value="", inline=False)
+    embed.add_field(name="", value=f"{div}", inline=False)
     embed.add_field(
-        name="", value=f"{div}", inline=False
-    )
-    embed.add_field(
-        name="", value="Примечание: Каждый пользователь может иметь только одну комнату!", inline=False
+        name="",
+        value="Примечание: Каждый пользователь может иметь только одну комнату!",
+        inline=False,
     )
 
     return embed

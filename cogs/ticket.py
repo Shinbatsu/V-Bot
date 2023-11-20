@@ -1,7 +1,7 @@
 from discord.ext import commands
 from .embeds.ticket_embed import *
 from .views.ticket_views import *
-from discord import app_commands
+from discord import File
 from discord.ext.commands import Context
 
 
@@ -15,12 +15,8 @@ class Ticket(commands.Cog, name="ticket"):
     )
     @commands.has_role("Администратор")
     async def panel_ticket(self, ctx: Context) -> None:
-        await ctx.defer()
-        await ctx.send(ticket_banner)
+        await ctx.send(file=File("src/banners/ticket.png"))
         await ctx.send(embed=get_ticket_embed(self.bot), view=TicketView(self.bot))
-
-    async def on_ready(self):
-        await self.bot.tree.sync()
 
     async def setup_hook(self) -> None:
         self.add_view(TicketView(self.bot))
