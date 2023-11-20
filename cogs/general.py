@@ -61,7 +61,7 @@ class General(commands.Cog, name="general"):
         )
         await interaction.response.send_message(embed=embed, ephemeral=True)
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="help", description="List all commands the bot has loaded."
     )
     async def help(self, context: Context) -> None:
@@ -85,7 +85,7 @@ class General(commands.Cog, name="general"):
             )
         await context.send(embed=embed)
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="botinfo",
         description="Get some useful (or not) information about the bot.",
     )
@@ -114,7 +114,7 @@ class General(commands.Cog, name="general"):
         embed.set_footer(text=f"Requested by {context.author}")
         await context.send(embed=embed)
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="serverinfo",
         description="Get some useful (or not) information about the server.",
     )
@@ -140,7 +140,7 @@ class General(commands.Cog, name="general"):
         embed.set_footer(text=f"Created at: {context.guild.created_at}")
         await context.send(embed=embed)
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="ping",
         description="Check if the bot is alive.",
     )
@@ -153,7 +153,7 @@ class General(commands.Cog, name="general"):
         )
         await context.send(embed=embed)
 
-    # @commands.hybrid_command(
+    # @app_commands.command(
     #     name="invite",
     #     description="Get the invite link of the bot to be able to invite it.",
     # )
@@ -174,7 +174,7 @@ class General(commands.Cog, name="general"):
     #         await context.send(embed=embed)
 
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="8ball",
         description="Ask any question to the bot.",
     )
@@ -211,7 +211,7 @@ class General(commands.Cog, name="general"):
         embed.set_footer(text=f"The question was: {question}")
         await context.send(embed=embed)
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="bitcoin",
         description="Get the current price of bitcoin.",
     )

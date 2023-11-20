@@ -1,13 +1,13 @@
 from discord.ext import commands
 from .embeds.ticket_embed import *
 from .views.ticket_views import *
-
+from discord import app_commands
 
 class Ticket(commands.Cog, name="ticket"):
     def __init__(self, bot) -> None:
         self.bot = bot
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="panel_ticket",
         with_app_command=True,
         description="Cоздать панель с созданием жалоб на участников.",

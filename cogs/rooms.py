@@ -2,7 +2,7 @@ from discord.ext import commands
 from .embeds.rooms_embed import *
 from .views.rooms_views import *
 
-
+from discord import app_commands
 class Rooms(commands.Cog, name="rooms"):
     def __init__(self, bot) -> None:
         self.bot = bot
@@ -57,7 +57,7 @@ class Rooms(commands.Cog, name="rooms"):
             await self.bot.database.delete_user_room(room_id=channel.id)
         return
 
-    @commands.hybrid_command(
+    @app_commands.command(
         with_app_command=True,
         description="Cоздать панель с настройками для личной комнаты.",
     )

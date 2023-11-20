@@ -2,7 +2,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from discord.ext.commands import Context
-
+from discord import app_commands
 
 class Owner(commands.Cog, name="owner"):
     def __init__(self, bot) -> None:
@@ -66,7 +66,7 @@ class Owner(commands.Cog, name="owner"):
         embed = discord.Embed(description="The scope must be `global` or `guild`.", color=0xE02B2B)
         await context.send(embed=embed)
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="load",
         description="Load a cog",
     )
@@ -83,7 +83,7 @@ class Owner(commands.Cog, name="owner"):
         embed = discord.Embed(description=f"Successfully loaded the `{cog}` cog.", color=0xBEBEFE)
         await context.send(embed=embed)
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="unload",
         description="Unloads a cog.",
     )
@@ -100,7 +100,7 @@ class Owner(commands.Cog, name="owner"):
         embed = discord.Embed(description=f"Successfully unloaded the `{cog}` cog.", color=0xBEBEFE)
         await context.send(embed=embed)
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="reload",
         description="Reloads a cog.",
     )
@@ -117,7 +117,7 @@ class Owner(commands.Cog, name="owner"):
         embed = discord.Embed(description=f"Successfully reloaded the `{cog}` cog.", color=0xBEBEFE)
         await context.send(embed=embed)
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="shutdown",
         description="Make the bot shutdown.",
     )
@@ -128,7 +128,7 @@ class Owner(commands.Cog, name="owner"):
         await context.send(embed=embed)
         await self.bot.close()
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="say",
         description="The bot will say anything you want.",
     )
@@ -138,7 +138,7 @@ class Owner(commands.Cog, name="owner"):
         await context.defer()
         await context.send(message)
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="embed",
         description="The bot will say anything you want, but within embeds.",
     )

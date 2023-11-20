@@ -1,6 +1,6 @@
 from discord.ext import commands
 from discord.ext.commands import Context
-
+from discord import app_commands
 
 # Here we name the cog and create a new class for the cog.
 class Template(commands.Cog, name="template"):
@@ -11,7 +11,7 @@ class Template(commands.Cog, name="template"):
     async def on_ready(self):
         await self.bot.tree.sync()
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="testcommand",
         description="This is a testing command that does nothing.",
     )

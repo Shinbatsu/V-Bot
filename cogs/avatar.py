@@ -89,7 +89,7 @@ class Avatar(commands.Cog, name="avatar"):
         draw.rounded_rectangle((714, 578, 714 + size, 615), fill=(120, 120, 120), radius=100)
         return image
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="avatar", description="Отображает твой профиль на сервере"
     )
     @app_commands.describe(user="Пользователь, чей профиль хотите увидеть")

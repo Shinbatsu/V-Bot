@@ -1,7 +1,7 @@
 from discord.ext import commands
 from discord.ext.commands import Context
 import time
-
+from discord import app_commands
 class Leveling(commands.Cog, name="leveling"):
     def __init__(self, bot) -> None:
         self.bot = bot

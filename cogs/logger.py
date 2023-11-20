@@ -3,7 +3,7 @@ from discord.ext.commands import Context
 from discord import Embed, Colour
 import discord
 from datetime import datetime
-
+from discord import app_commands
 
 class Log(commands.Cog, name="log"):
     def __init__(self, bot) -> None:

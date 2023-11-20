@@ -4,7 +4,7 @@ from discord.ui import View, button, Button
 from discord.utils import get
 from .embeds.navigation_embed import *
 from discord import PermissionOverwrite
-
+from discord import app_commands
 
 class NavigationView(
     View,
@@ -44,7 +44,7 @@ class Navigator(commands.Cog, name="navigator"):
         invite_link = await self.settings_room.create_invite(unique=True)
         self.settings_room_url = invite_link.url
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="panel_navigation",
         with_app_command=True,
         description="Cоздать панель с навигационными кнопками.",

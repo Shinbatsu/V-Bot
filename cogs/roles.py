@@ -2,7 +2,7 @@ from discord.ext import commands
 from discord.utils import get
 from .embeds.roles_embed import *
 from .views.roles_views import *
-
+from discord import app_commands
 # Here we name the cog and create a new class for the cog.
 join_roles = [
     "⠀⠀⠀⠀⠀⠀⠀⠀⠀AGENTS⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -22,7 +22,7 @@ class Roles(commands.Cog, name="roles"):
             await member.add_roles(get(member.guild.roles, name=role))
     async def on_ready(self):
         await self.bot.tree.sync()
-    @commands.hybrid_command(
+    @app_commands.command(
         name="panel_roles",
         with_app_command=True,
         description="Cоздать панель с выбором ролей.",

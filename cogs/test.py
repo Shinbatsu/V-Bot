@@ -3,7 +3,7 @@ from discord import app_commands
 import datetime
 from discord.ext import commands
 from discord.ext.commands import Context
-
+from discord import app_commands
 
 class Testing(commands.Cog, name="testing"):
     def __init__(self, bot) -> None:
@@ -24,7 +24,7 @@ class Testing(commands.Cog, name="testing"):
     async def on_ready(self):
         await self.bot.tree.sync()
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="rps", description="Limit the number of user(s) in your private channel."
     )
     @app_commands.autocomplete(choices=rps_autocomplete)
