@@ -52,7 +52,6 @@ class Navigator(commands.Cog, name="navigator"):
     @commands.has_role("Администратор")
     async def panel_navigation(self, ctx):
         await ctx.defer()
-        await ctx.message.delete()
         if ctx.channel.id != self.bot.config["NAVIGATION_CHANNEL_ID"]:
             return
         await ctx.send(navigation_banner)

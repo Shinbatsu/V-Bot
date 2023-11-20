@@ -18,7 +18,6 @@ class Roles(commands.Cog, name="roles"):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        print(member.name)
         for role in join_roles:
             await member.add_roles(get(member.guild.roles, name=role))
 
@@ -30,7 +29,6 @@ class Roles(commands.Cog, name="roles"):
     @commands.has_role("Администратор")
     async def panel_roles(self, ctx):
         await ctx.defer()
-        await ctx.message.delete()
         await ctx.send(roles_banner)
         await ctx.send(valorant_ranking_banner)
         await ctx.send(embed=get_pick_rank_embed(self.bot), view=UserRoleView(self.bot))

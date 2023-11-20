@@ -14,7 +14,9 @@ class RoomSettingsView(
         super().__init__(timeout=None)
         self.bot = bot
         self.cooldown = commands.CooldownMapping.from_cooldown(1, 30, commands.BucketType.member)
-        self.cooldown_mini = commands.CooldownMapping.from_cooldown(1, 10, commands.BucketType.member)
+        self.cooldown_mini = commands.CooldownMapping.from_cooldown(
+            1, 10, commands.BucketType.member
+        )
         self.guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
 
     @button(
@@ -23,7 +25,7 @@ class RoomSettingsView(
         row=0,
         style=ButtonStyle.secondary,
         custom_id="RoomSettingsView:lock",
-    ) 
+    )
     async def lock(self, interaction, button):
         await interaction.response.defer()
         bucket = self.cooldown_mini.get_bucket(interaction.message)
@@ -66,9 +68,7 @@ class RoomSettingsView(
                     room_id=user_room_id, is_close=False
                 )
         else:
-            await interaction.followup.send(
-                embed=get_havent_room_embed(self.bot), ephemeral=True
-            )
+            await interaction.followup.send(embed=get_havent_room_embed(self.bot), ephemeral=True)
 
     @button(
         label="",
@@ -91,9 +91,7 @@ class RoomSettingsView(
             return
         else:
             await interaction.response.defer()
-            await interaction.followup.send(
-                embed=get_havent_room_embed(self.bot), ephemeral=True
-            )
+            await interaction.followup.send(embed=get_havent_room_embed(self.bot), ephemeral=True)
 
     @button(
         label="",
@@ -115,9 +113,7 @@ class RoomSettingsView(
             await interaction.response.send_modal(ChangeSlotsModal(self.bot))
         else:
             await interaction.response.defer()
-            await interaction.followup.send(
-                embed=get_havent_room_embed(self.bot), ephemeral=True
-            )
+            await interaction.followup.send(embed=get_havent_room_embed(self.bot), ephemeral=True)
 
     @button(
         label="",
@@ -139,9 +135,7 @@ class RoomSettingsView(
             await interaction.response.send_modal(ChangeOwnerModal(self.bot))
         else:
             await interaction.response.defer()
-            await interaction.followup.send(
-                embed=get_havent_room_embed(self.bot), ephemeral=True
-            )
+            await interaction.followup.send(embed=get_havent_room_embed(self.bot), ephemeral=True)
 
     @button(
         label="",
@@ -198,7 +192,6 @@ class RoomSettingsView(
         custom_id="RoomSettingsView:delete",
     )
     async def delete(self, interaction, button):
-        
         bucket = self.cooldown.get_bucket(interaction.message)
         retry = bucket.update_rate_limit()
         if retry:
@@ -212,15 +205,14 @@ class RoomSettingsView(
             user_room_id = await self.bot.database.get_user_room_id(interaction.user.id)
             user_room = self.bot.get_channel(user_room_id)
             await self.bot.database.delete_user_room(user_id=interaction.user.id)
-            await user_room.delete()
-            await interaction.followup.send(
-                embed=get_room_deleted_embed(self.bot), ephemeral=True
-            )
+            if user_room:
+                await user_room.delete()
+                await interaction.followup.send(
+                    embed=get_room_deleted_embed(self.bot), ephemeral=True
+                )
         else:
             await interaction.response.defer()
-            await interaction.followup.send(
-                embed=get_havent_room_embed(self.bot), ephemeral=True
-            )
+            await interaction.followup.send(embed=get_havent_room_embed(self.bot), ephemeral=True)
 
     @button(
         label="UP",
@@ -241,10 +233,6 @@ class RoomSettingsView(
             user_room_id = await self.bot.database.get_user_room_id(interaction.user.id)
             user_room = self.bot.get_channel(user_room_id)
             await user_room.edit(position=0)
-            await interaction.followup.send(
-                embed=get_room_upped_embed(self.bot), ephemeral=True
-            )
+            await interaction.followup.send(embed=get_room_upped_embed(self.bot), ephemeral=True)
         else:
-            await interaction.followup.send(
-                embed=get_havent_room_embed(self.bot), ephemeral=True
-            )
+            await interaction.followup.send(embed=get_havent_room_embed(self.bot), ephemeral=True)

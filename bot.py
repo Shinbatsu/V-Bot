@@ -115,7 +115,8 @@ class DiscordBot(commands.Bot):
         """
         Setup the game status task of the bot.
         """
-        await self.change_presence(activity=discord.Game("I wanna be a good boy! 🔥️"))
+        guild = self.get_guild(self.config["GUILD_ID"])
+        await self.change_presence(activity=discord.CustomActivity(name=f'Наблюдаю за {len(guild.members)} участниками.' ,emoji='🖥️'))
 
     @status_task.before_loop
     async def before_status_task(self) -> None:

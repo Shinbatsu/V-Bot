@@ -15,7 +15,6 @@ class Ticket(commands.Cog, name="ticket"):
     @commands.has_role("Администратор")
     async def panel_ticket(self, ctx):
         await ctx.defer()
-        await ctx.delete()
         await ctx.send(ticket_banner)
         await ctx.send(embed=get_ticket_embed(self.bot), view=TicketView(self.bot))
 

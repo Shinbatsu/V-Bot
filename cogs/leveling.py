@@ -29,10 +29,6 @@ class Leveling(commands.Cog, name="leveling"):
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
-        if after.channel == None:
-            return
-        if not after.channel.category.id != self.bot.config["ACTIVE_NOW_CATEGORY_ID"]:
-            return
         if not before.channel and after.channel:
             self.data[member.id] = time.time()
         elif before.channel and not after.channel and member.id in self.data:

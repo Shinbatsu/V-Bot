@@ -19,7 +19,6 @@ def get_you_already_has_room_embed(bot: Client) -> Embed:
     embed.set_author(
         icon_url=alert_url,
         name="Уже есть комната",
-        inline=False,
     )
     embed.add_field(
         name="",

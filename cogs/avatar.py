@@ -22,41 +22,97 @@ def square_to_circle(file):
     return circular_img
 
 
-def add_text(image, username):
-    draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype("src/V.ttf", 80)
-    draw.text((730, 170), username, (255, 255, 255), font=font)
-    # Draw a rounded rectangle
-    draw.rounded_rectangle((714, 572, 1809, 615), fill="orange", radius=100)
-    return image
-
-
 class Avatar(commands.Cog, name="avatar"):
     def __init__(self, bot) -> None:
         self.bot = bot
         self.guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
 
+    def add_name(self, image, user):
+        draw = ImageDraw.Draw(image)
+        font = ImageFont.truetype("src/V.ttf", 80)
+        draw.text((730, 170), user.name, (255, 255, 255), font=font)
+        return image
+
+    def format_activity(self, activity):
+        hours = activity // 3600
+        minutes = activity // 60
+        activity = f"VOICE: {str(hours) + ' H, ' if hours>0 else ''}{str(minutes) + ' M.'}"
+        return activity
+
+    def format_all_level(self, activity):
+        activity = f"LEVEL: {activity//500+1}"
+        return activity
+
+    def add_all_level(self, image, activity):
+        draw = ImageDraw.Draw(image)
+        font = ImageFont.truetype("src/V.ttf", 60)
+
+        draw.text((735, 426), self.format_all_level(activity), (255, 255, 255), font=font)
+        return image
+
+    def add_activity(self, image, activity):
+        draw = ImageDraw.Draw(image)
+        font = ImageFont.truetype("src/V.ttf", 60)
+
+        draw.text((735, 326), self.format_activity(activity), (255, 255, 255), font=font)
+        return image
+
+    def format_level(self, acitivity):
+        return f"{str(acitivity%500)}/500"
+
+    def add_level(self, image, activity):
+        draw = ImageDraw.Draw(image)
+        font = ImageFont.truetype("src/V.ttf", 60)
+        draw.text((1570, 510), self.format_level(activity), (255, 255, 255), font=font)
+        return image
+
+    def add_progress(self, image, activity):
+        bar_size = 1095
+        activity = 401
+        size = int((bar_size / 100) * (activity / 500 * 100))
+        print(size)
+        draw = ImageDraw.Draw(image)
+        draw.rounded_rectangle((714, 578, 714 + size, 615), fill="white", radius=100)
+        return image
+
+    def add_progress_mask(self, image, activity):
+        bar_size = 1095
+        activity = 401
+        size = int((bar_size / 100) * (activity / 500 * 100))
+        print(size)
+        draw = ImageDraw.Draw(image)
+        draw.rounded_rectangle((714, 578, 714 + size, 615), fill=(120, 120, 120), radius=100)
+        return image
+
     @commands.hybrid_command(
         name="avatar",
         with_app_command=True,
         description="Отображает твой профиль на сервере",
-    )
-    async def avatar(self, ctx, user_id=None):
+    )   
+    async def avatar(self, ctx, user: discord.Member = None):
         await ctx.defer()
-        await ctx.message.delete()
-        if user_id is None:
+        if user is None:
             user = ctx.author
-        else:
-            user = self.bot.get_user(int(user_id))
-        # loading background
         background = Image.open("src/img/background.png")
-        background = add_text(background, user.name)
-
+        activity = int(await self.bot.database.get_user_activity(user.id))
+        background = self.add_progress(background, activity)
+        mask = Image.open("src/img/background_m.png")
+        mask = self.add_progress_mask(mask, activity)
+        mask = mask.convert("L")
+        toner = Image.new(
+            "RGBA",
+            background.size,
+            tuple([random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]),
+        )
+        background = Image.composite(background, toner, mask)
         avatar = await user.avatar.to_file(filename="avatar.png")
         circular_avatar = square_to_circle(avatar).resize((586, 586), Image.Resampling.LANCZOS)
-
+        background = self.add_level(background, activity)
+        background = self.add_all_level(background, activity)
+        background = self.add_name(background, user)
+        background = self.add_activity(background, activity)
         background.paste(circular_avatar, (56, 62), circular_avatar)
-
+        # background = self.add_progress(background, activity)
         # Save the final image and send it in the chat
         background.save("src/img/user_profile.png")
         await ctx.send(file=discord.File("src/img/user_profile.png"))
