@@ -89,7 +89,7 @@ class Avatar(commands.Cog, name="avatar"):
         name="avatar",
         description="Отображает твой профиль на сервере",
     )
-    async def avatar(self, ctx: discord.Context, *, user: discord.Member = None):
+    async def avatar(self, ctx: Context, *, user: discord.Member = None):
         await ctx.defer()
         if user is None:
             user = ctx.author
