@@ -88,6 +88,7 @@ class Avatar(commands.Cog, name="avatar"):
     async def on_ready(self):
         await self.bot.tree.sync()
     @commands.hybrid_command(
+        name="avatar",
         description="Отображает твой профиль на сервере", with_app_command=True
     )
     @app_commands.describe(user="Пользователь, чей профиль хотите увидеть")
