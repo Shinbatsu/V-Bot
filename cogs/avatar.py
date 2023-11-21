@@ -87,7 +87,7 @@ class Avatar(commands.Cog, name="avatar"):
     async def _avatar(self, context: Context, *, user: discord.Member = None) -> None:
         self.bot.logger.info(type(context))
         await context.defer(ephemeral=True)
-        await context.send("Рисую аватарку...", ephemeral=True)
+        await context.reply("Рисую аватарку...", ephemeral=True)
         if user is None:
             user = context.author
         background = Image.open("src/img/background.png")

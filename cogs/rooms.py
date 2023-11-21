@@ -2,7 +2,7 @@ from discord.ext import commands
 from .embeds.rooms_embed import *
 from .views.rooms_views import *
 from discord.ext.commands import Context
-from discord import File, app_commands, Interaction, Object
+from discord import File, app_commands
 
 
 class Rooms(commands.Cog, name="rooms"):
@@ -59,14 +59,15 @@ class Rooms(commands.Cog, name="rooms"):
             await self.bot.database.delete_user_room(room_id=channel.id)
         return
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="panel_room_settings",
-        description="Cоздать панель с настройками комнаты.",
+        description="Cоздать панель с настройками для личной комнаты.",
     )
-    @app_commands.guilds(Object(id=711201809372414062))  # Place your guild ID here
-    async def panel_room_settings(self, context: Context) -> None:
+    async def _panel_room_settings(self, context: Context) -> None:
         self.bot.logger.info(type(context))
-        await context.send(
+        await context.reply("Создание панели...", ephemeral=True)
+        await context.reply(file=File("src/banners/room_settings.png"))
+        await context.reply(
             embed=get_room_settings_embed(), view=RoomSettingsView(self.bot.database)
         )
 

@@ -15,9 +15,9 @@ class Ticket(commands.Cog, name="ticket"):
     )
     async def _panel_ticket(self, context: Context) -> None:
         self.bot.logger.info(type(context))
-        await context.send("Создание панели...", ephemeral=True)
-        await context.send(file=File("src/banners/ticket.png"))
-        await context.send(embed=get_ticket_embed(), view=TicketView(self.bot.database))
+        await context.reply("Создание панели...", ephemeral=True)
+        await context.reply(file=File("src/banners/ticket.png"))
+        await context.reply(embed=get_ticket_embed(), view=TicketView(self.bot.database))
 
     async def setup_hook(self) -> None:
         self.add_view(TicketView(self.bot.database))
