@@ -149,10 +149,11 @@ class PickAgentsView(View):
     )
     async def guardians_callback(self, interaction, select):
         await interaction.response.defer(ephemeral=True)
+        new_role = [*filter(lambda x: x.name == select.values[0], interaction.guild.roles)][0]
         for role in interaction.guild.roles:
             if role in guardian_roles:
                 await interaction.user.remove_roles(role)
-        await interaction.user.add_roles(select.values[0])
+        await interaction.user.add_roles(new_role)
         await interaction.followup.send(embed=get_agent_added_embed(), ephemeral=True)
 
     @select(
@@ -164,10 +165,11 @@ class PickAgentsView(View):
     )
     async def duelist_callback(self, interaction, select):
         await interaction.response.defer(ephemeral=True)
+        new_role = [*filter(lambda x: x.name == select.values[0], interaction.guild.roles)][0]
         for role in interaction.guild.roles:
             if role in duelist_roles:
                 await interaction.user.remove_roles(role)
-        await interaction.user.add_roles(select.values[0])
+        await interaction.user.add_roles(new_role)
         await interaction.followup.send(embed=get_agent_added_embed(), ephemeral=True)
 
     @select(
@@ -179,10 +181,11 @@ class PickAgentsView(View):
     )
     async def initiator_callback(self, interaction, select):
         await interaction.response.defer(ephemeral=True)
+        new_role = [*filter(lambda x: x.name == select.values[0], interaction.guild.roles)][0]
         for role in interaction.guild.roles:
             if role in initiator_roles:
                 await interaction.user.remove_roles(role)
-        await interaction.user.add_roles(select.values[0])
+        await interaction.user.add_roles(new_role)
         await interaction.followup.send(embed=get_agent_added_embed(), ephemeral=True)
 
     @select(
@@ -194,8 +197,9 @@ class PickAgentsView(View):
     )
     async def specialist_callback(self, interaction, select):
         await interaction.response.defer(ephemeral=True)
+        new_role = [*filter(lambda x: x.name == select.values[0], interaction.guild.roles)][0]
         for role in interaction.guild.roles:
             if role in specialist_roles:
                 await interaction.user.remove_roles(role)
-        await interaction.user.add_roles(select.values[0])
+        await interaction.user.add_roles(new_role)
         await interaction.followup.send(embed=get_agent_added_embed(), ephemeral=True)
