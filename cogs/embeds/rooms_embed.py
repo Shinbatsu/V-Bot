@@ -1,11 +1,10 @@
-from discord import Embed, Colour
-from discord import Client
+from discord import Embed
 from .url_icons import *
 from .embed_utils import *
 
 
-@error_color()
-def get_havent_room_embed(bot: Client) -> Embed:
+
+def get_havent_room_embed() -> Embed:
     embed = Embed()
     embed.set_author(
         icon_url=alert_url,
@@ -15,8 +14,8 @@ def get_havent_room_embed(bot: Client) -> Embed:
     return embed
 
 
-@info_color()
-def get_you_already_has_room_embed(bot: Client) -> Embed:
+
+def get_you_already_has_room_embed() -> Embed:
     embed = Embed()
     embed.set_author(
         icon_url=alert_url,
@@ -30,8 +29,8 @@ def get_you_already_has_room_embed(bot: Client) -> Embed:
     return embed
 
 
-@success_color()
-def get_another_user_already_has_room_embed(bot: Client, member_name: str) -> Embed:
+
+def get_another_user_already_has_room_embed(member_name: str) -> Embed:
     embed = Embed(
         icon_url=alert_url,
         title="Уже владелец",
@@ -40,8 +39,8 @@ def get_another_user_already_has_room_embed(bot: Client, member_name: str) -> Em
     return embed
 
 
-@success_color()
-def get_room_deleted_embed(bot: Client) -> Embed:
+
+def get_room_deleted_embed() -> Embed:
     embed = Embed(
         title="Удаление комнаты",
     )
@@ -49,8 +48,8 @@ def get_room_deleted_embed(bot: Client) -> Embed:
     return embed
 
 
-@success_color()
-def get_room_upped_embed(bot: Client) -> Embed:
+
+def get_room_upped_embed() -> Embed:
     embed = Embed(
         title="Поднятие комнаты",
     )
@@ -58,8 +57,8 @@ def get_room_upped_embed(bot: Client) -> Embed:
     return embed
 
 
-@info_color()
-def get_room_settings_embed(bot: Client) -> Embed:
+
+def get_room_settings_embed() -> Embed:
     embed = Embed(
         title="Управление приватными каналами",
     )
@@ -101,8 +100,8 @@ def get_room_settings_embed(bot: Client) -> Embed:
     return embed
 
 
-@success_color()
-def get_room_link_embed(bot: Client, url: str) -> Embed:
+
+def get_room_link_embed(url: str) -> Embed:
     embed = Embed(
         title="Приглашение в комнату",
     )
@@ -114,8 +113,8 @@ def get_room_link_embed(bot: Client, url: str) -> Embed:
     return embed
 
 
-@success_color()
-def get_created_room_embed(bot: Client) -> Embed:
+
+def get_created_room_embed() -> Embed:
     embed = Embed(
         title="Комната создана",
     )
@@ -123,8 +122,8 @@ def get_created_room_embed(bot: Client) -> Embed:
     return embed
 
 
-@success_color()
-def get_room_closed_embed(bot: Client) -> Embed:
+
+def get_room_closed_embed() -> Embed:
     embed = Embed(
         title="Комната закрыта",
     )
@@ -132,8 +131,8 @@ def get_room_closed_embed(bot: Client) -> Embed:
     return embed
 
 
-@error_color()
-def get_slow_down_embed(bot: Client, cooldown: float) -> Embed:
+
+def get_slow_down_embed(cooldown: float) -> Embed:
     embed = Embed(
         title="Подождите!",
     )
@@ -143,8 +142,8 @@ def get_slow_down_embed(bot: Client, cooldown: float) -> Embed:
     return embed
 
 
-@success_color()
-def get_room_opened_embed(bot: Client) -> Embed:
+
+def get_room_opened_embed() -> Embed:
     embed = Embed(
         title="Комната открыта!",
     )
@@ -152,8 +151,8 @@ def get_room_opened_embed(bot: Client) -> Embed:
     return embed
 
 
-@success_color()
-def get_rename_room_embed(bot: Client, new_name: str) -> Embed:
+
+def get_rename_room_embed(new_name: str) -> Embed:
     embed = Embed(
         title="Комната переименована!",
     )
@@ -161,8 +160,8 @@ def get_rename_room_embed(bot: Client, new_name: str) -> Embed:
     return embed
 
 
-@success_color()
-def get_change_user_limit_room_embed(bot: Client, user_limit: str) -> Embed:
+
+def get_change_user_limit_room_embed(user_limit: str) -> Embed:
     embed = Embed(
         title="Количество участников изменено!",
     )
@@ -170,8 +169,8 @@ def get_change_user_limit_room_embed(bot: Client, user_limit: str) -> Embed:
     return embed
 
 
-@success_color()
-def get_new_owner_embed(bot: Client, member_name: str) -> Embed:
+
+def get_new_owner_embed(member_name: str) -> Embed:
     embed = Embed(
         title="Новый владелец!",
     )
@@ -179,8 +178,8 @@ def get_new_owner_embed(bot: Client, member_name: str) -> Embed:
     return embed
 
 
-@success_color()
-def get_kick_embed(bot: Client, member_name: str) -> Embed:
+
+def get_kick_embed(member_name: str) -> Embed:
     embed = Embed(
         title=f"Пользователь выгнан!",
     )
@@ -188,8 +187,8 @@ def get_kick_embed(bot: Client, member_name: str) -> Embed:
     return embed
 
 
-@error_color()
-def get_kick_self_embed(bot: Client) -> Embed:
+
+def get_kick_self_embed() -> Embed:
     embed = Embed(
         title=f"Нельзя Исключить",
     )
@@ -197,8 +196,8 @@ def get_kick_self_embed(bot: Client) -> Embed:
     return embed
 
 
-@success_color()
-def get_havent_rights_embed(bot: Client, member_name: str) -> Embed:
+
+def get_havent_rights_embed(member_name: str) -> Embed:
     embed = Embed(
         title=f"У вас недостаточно прав!",
     )
@@ -208,8 +207,8 @@ def get_havent_rights_embed(bot: Client, member_name: str) -> Embed:
     return embed
 
 
-@error_color()
-def get_unknown_member_embed(bot: Client, membr_name: str) -> Embed:
+
+def get_unknown_member_embed(membr_name: str) -> Embed:
     embed = Embed(
         title="Участник не найдет!",
     )
@@ -220,8 +219,8 @@ def get_unknown_member_embed(bot: Client, membr_name: str) -> Embed:
     return embed
 
 
-@error_color()
-def get_unknown_member_id_embed(bot: Client, member_id: int) -> Embed:
+
+def get_unknown_member_id_embed(member_id: int) -> Embed:
     embed = Embed(
         title="Участник не найдет!",
     )
@@ -232,8 +231,8 @@ def get_unknown_member_id_embed(bot: Client, member_id: int) -> Embed:
     return embed
 
 
-@success_color()
-def get_unknown_value_embed(bot: Client, value: str):
+
+def get_unknown_value_embed(value: str):
     embed = Embed(
         title="Введено неверное значение!",
     )

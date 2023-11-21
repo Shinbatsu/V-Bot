@@ -10,6 +10,7 @@ from discord.ext.commands import Context
 class Moderation(commands.Cog, name="moderation"):
     def __init__(self, bot) -> None:
         self.bot = bot
+
     @commands.hybrid_command(
         name="kick",
         description="Выгнать пользователя с сервера.",
@@ -212,9 +213,7 @@ class Moderation(commands.Cog, name="moderation"):
     @app_commands.describe(amount="The amount of messages that should be deleted.")
     async def purge(self, context: Context, amount: int = 100) -> None:
         await context.defer()
-        await context.send(
-            "Deleting messages..."
-        )  # Bit of a hacky way to make sure the bot responds to the interaction and doens't get a "Unknown Interaction" response
+        await context.send("Deleting messages...", ephemeral=True)
         purged_messages = await context.channel.purge(limit=amount + 1)
         embed = discord.Embed(
             description=f"Вы удалили **{len(purged_messages)-1}** сообщений!", color=0xBEBEFE

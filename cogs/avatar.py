@@ -27,7 +27,6 @@ def square_to_circle(file):
 class Avatar(commands.Cog, name="avatar"):
     def __init__(self, bot) -> None:
         self.bot = bot
-        self.guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
 
     def add_name(self, image, user):
         draw = ImageDraw.Draw(image)
@@ -86,11 +85,11 @@ class Avatar(commands.Cog, name="avatar"):
 
     @commands.hybrid_command(name="avatar", description="Отображает твой профиль на сервере")
     @app_commands.describe(user="Пользователь, чей профиль хотите увидеть")
-    async def avatar(self, ctx: Context, *, user: discord.Member = None) -> None:
-        self.bot.logger.info("Execute  avatar command")
-        await ctx.defer()
+    async def avatar(self, context: Context, *, user: discord.Member = None) -> None:
+        await context.defer()
+        await context.send("Рисую аватарку...", ephemeral=True)
         if user is None:
-            user = ctx.author
+            user = context.author
         self.bot.logger.info("1")
         background = Image.open("src/img/background.png")
         activity = int(await self.bot.database.get_user_activity(user.id))
@@ -114,7 +113,7 @@ class Avatar(commands.Cog, name="avatar"):
         # background = self.add_progress(background, activity)
         # Save the final image and send it in the chat
         background.save("src/img/user_profile.png")
-        await ctx.send(file=discord.File("src/img/user_profile.png"))
+        await context.send(file=discord.File("src/img/user_profile.png"))
 
 
 async def setup(bot) -> None:

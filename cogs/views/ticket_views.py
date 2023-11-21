@@ -8,9 +8,9 @@ from ..modals.ticket_modals import *
 class TicketView(
     View,
 ):
-    def __init__(self, bot):
+    def __init__(self, database):
+        self.database = database
         super().__init__(timeout=None)
-        self.bot = bot
         self.cooldown = commands.CooldownMapping.from_cooldown(1, 39, commands.BucketType.member)
 
     @button(
@@ -25,10 +25,10 @@ class TicketView(
         if retry:
             await interaction.response.defer()
             return await interaction.followup.send(
-                embed=get_slow_down_embed(self.bot, round(retry, 1)), ephemeral=True
+                embed=get_slow_down_embed(round(retry, 1)), ephemeral=True
             )
         await interaction.response.send_modal(
             CreateReportModal(
-                self.bot,
+                self.database,
             )
         )

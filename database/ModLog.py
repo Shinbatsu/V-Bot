@@ -498,11 +498,11 @@ class ModLog(BaseCog):
                                             collections.OrderedDict(sorted(message_list.items())))
 
     @commands.Cog.listener()
-    async def on_command_completion(self, ctx):
-        if ctx.guild is not None and Features.is_logged(ctx.guild.id, "MISC"):
-            clean_content = await Utils.clean(ctx.message.content, ctx.guild, markdown=False, links=False, emoji=False)
-            GearbotLogging.log_key(ctx.guild.id, 'command_used', user=Utils.escape_markdown(ctx.author),
-                                   user_id=ctx.author.id, channel=ctx.message.channel.mention,
+    async def on_command_completion(self, context):
+        if context.guild is not None and Features.is_logged(context.guild.id, "MISC"):
+            clean_content = await Utils.clean(context.message.content, context.guild, markdown=False, links=False, emoji=False)
+            GearbotLogging.log_key(context.guild.id, 'command_used', user=Utils.escape_markdown(context.author),
+                                   user_id=context.author.id, channel=context.message.channel.mention,
                                    tag_on=f"`{Utils.trim_message(clean_content, 1996)}`")
 
     @commands.Cog.listener()

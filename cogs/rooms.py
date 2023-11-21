@@ -36,7 +36,7 @@ class Rooms(commands.Cog, name="rooms"):
                 await self.bot.database.add_user_room(member.id, user_room.id, room_name)
                 await member.edit(voice_channel=user_room)
                 invite_link = await user_room.create_invite(unique=True)
-                await member.send(embed=get_room_link_embed(self.bot, invite_link.url))
+                await member.send(embed=get_room_link_embed(invite_link.url))
                 return
             else:
                 user_room_id = await self.bot.database.get_user_room_id(member.id)
@@ -63,11 +63,14 @@ class Rooms(commands.Cog, name="rooms"):
         description="Cоздать панель с настройками для личной комнаты.",
     )
     @commands.has_role("Администратор")
-    async def panel_room_settings(self, ctx: Context) -> None:
-        self.bot.logger.info("Execute  panel_room_settings command")
-        self.bot.logger.info(type(ctx))
-        await ctx.send(file=File("src/banners/room_settings.png"))
-        await ctx.send(embed=get_room_settings_embed(self.bot), view=RoomSettingsView(self.bot))
+    async def panel_room_settings(self, context: Context) -> None:
+        await context.defer()
+        await context.send("Создание панели...", ephemeral=True)
+        await context.send(file=File("src/banners/room_settings.png"))
+        await context.send(embed=get_room_settings_embed(), view=RoomSettingsView(self.bot.database))
+
+    async def setup_hook(self) -> None:
+        self.add_view(RoomSettingsView(self.bot.database))
 
 
 async def setup(bot) -> None:

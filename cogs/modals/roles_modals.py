@@ -40,9 +40,9 @@ class RankModal(Modal, title="RIOT ник"):
         max_length=30,
     )
 
-    def __init__(self, bot):
+    def __init__(self, database):
         super().__init__()
-        self.bot = bot
+        self.database = database
 
     async def on_submit(self, interaction) -> None:
         await interaction.response.defer() 
@@ -50,35 +50,35 @@ class RankModal(Modal, title="RIOT ник"):
         riot_username_repeat = str(self.rank_check.value)
         if riot_username != riot_username_repeat:
             await interaction.followup.send(
-                embed=get_different_nicknames_embed(self.bot, riot_username, riot_username_repeat)
+                embed=get_different_nicknames_embed( riot_username, riot_username_repeat)
             )
         else:
             already_has_nickname = bool(
-                await self.bot.database.get_valorant_nickname(user_id=interaction.user.id)
+                await self.database.get_valorant_nickname(user_id=interaction.user.id)
             )
             if already_has_nickname:
-                who_has_this_nick_id = await self.bot.database.get_user_id_by_nickname(
+                who_has_this_nick_id = await self.database.get_user_id_by_nickname(
                     nickname=riot_username
                 )
-                user = self.bot.get_user(int(who_has_this_nick_id))
+                user = interaction.guild.get_member(int(who_has_this_nick_id))
                 await interaction.followup.send(
-                    embed=get_already_has_nickname_embed(self.bot, user.name)
+                    embed=get_already_has_nickname_embed( user.name)
                 )
             else:
                 rank = await fetch_rank(self.rank.value)
                 if rank:
                     username = interaction.user.name
-                    await self.bot.database.updata_nick_name(
+                    await self.database.updata_nick_name(
                         user_id=interaction.user.id, valorant_nickname=riot_username
                     )
                     await interaction.user.add_roles(
                         discord.utils.get(interaction.user.guild.roles, name=rank)
                     )
                     await interaction.followup.send(
-                        embed=get_you_got_rank_embed(self.bot, username=username, rank=rank),
+                        embed=get_you_got_rank_embed(username=username, rank=rank),
                         ephemeral=True,
                     )
                 else:
                     await interaction.followup.send(
-                        embed=get_cant_get_rank_embed(self.bot), ephemeral=True
+                        embed=get_cant_get_rank_embed(), ephemeral=True
                     )

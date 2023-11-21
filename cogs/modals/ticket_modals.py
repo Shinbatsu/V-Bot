@@ -23,47 +23,43 @@ class CreateReportModal(Modal, title="Создание жалобы"):
         max_length=512,
     )
 
-    def __init__(self, bot):
+    def __init__(self, database):
         super().__init__()
-        self.bot = bot
-        self.guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
-        
+        self.database = database
 
-    def get_member_by_name(self, username):
-        for member in self.guild.members:
+    def get_member_by_name(self, guild, username):
+        for member in guild.members:
             if member.name == username:
                 return member
 
     async def on_submit(self, interaction) -> None:
         if self.reported_user.value.isdigit():
-            self.reported_user = self.guild.get_member(int(self.reported_user.value))
+            self.reported_user = interaction.guild.get_member(int(self.reported_user.value))
         else:
-            self.reported_user = self.get_member_by_name(self.reported_user.value)
+            self.reported_user = self.get_member_by_name(
+                interaction.guild, self.reported_user.value
+            )
         if self.reported_user.id == interaction.user.id:
             await interaction.response.defer()
-            await interaction.followup.send(
-                embed=get_report_sent_embed(self.bot), ephemeral=True
-            )
-        report_channel = self.bot.get_channel(self.bot.config["REPORT_CHANNEL_ID"])
+            await interaction.followup.send(embed=get_report_sent_embed(), ephemeral=True)
+        report_channel = interaction.guild.get_channel(1171364238330179635)
         description = self.description.value
         message = await report_channel.send(".")
         message_url = message.jump_url
         await message.edit(
             embed=get_report_info_embed(
-                self.bot, interaction.user.name, self.reported_user.name, description
+                interaction.user.name, self.reported_user.name, description
             ),
-            view=ModeratorActionView(self.bot, self.reported_user, message_url),
+            view=ModeratorActionView(self.reported_user, message_url),
         )
         await interaction.response.defer()
-        await interaction.followup.send(
-            embed=get_report_sent_embed(self.bot), ephemeral=True
-        )
+        await interaction.followup.send(embed=get_report_sent_embed(), ephemeral=True)
 
 
 class ModeratorActionView(View):
-    def __init__(self, bot, user_to_action, message_url):
+    def __init__(self, database, user_to_action, message_url):
         super().__init__()
-        self.bot = bot
+        self.database = database
         self.user_to_action = user_to_action
         self.message_url = message_url
 
@@ -88,23 +84,24 @@ class ModeratorActionView(View):
             await interaction.response.defer()
             await interaction.followup.send(
                 embed=get_report_was_resolved_embed(
-                    self.bot, self.message_url, interaction.user.name
+                    self.message_url, interaction.user.name
                 )
             )
         elif user_pick == "Отправить предупреждение":
-            await interaction.response.send_modal(UserWarnModal(self.bot, self.user_to_action))
+            await interaction.response.send_modal(UserWarnModal(self.database, self.user_to_action))
         elif user_pick == "Кик":
-            await interaction.response.send_modal(UserKickModal(self.bot, self.user_to_action))
+            await interaction.response.send_modal(UserKickModal(self.database, self.user_to_action))
         elif user_pick == "Временный мут":
-            await interaction.response.send_modal(TempMuteModal(self.bot, self.user_to_action))
+            await interaction.response.send_modal(TempMuteModal(self.database, self.user_to_action))
         elif user_pick == "Временный запрет печати":
-            await interaction.response.send_modal(
-                TempStopTypingModal(self.bot, self.user_to_action)
+            await interaction.response.send_modal(TempStopTypingModal(self.database, self.user_to_action)
             )
         elif user_pick == "Временный бан":
-            await interaction.response.send_modal(TempBanModal(self.bot, self.user_to_action))
+            await interaction.response.send_modal(TempBanModal(self.database, self.user_to_action))
         elif user_pick == "Бан-хаммер":
-            await interaction.response.send_modal(BanForeverModal(self.bot, self.user_to_action))
+            await interaction.response.send_modal(
+                BanForeverModal(self.database, self.user_to_action)
+            )
 
 
 class UserWarnModal(Modal, title="Замечание"):
@@ -117,18 +114,16 @@ class UserWarnModal(Modal, title="Замечание"):
         max_length=512,
     )
 
-    def __init__(self, bot, user_to_warn):
+    def __init__(self, database, user_to_warn):
         super().__init__()
-        self.bot = bot
+        self.database = database
         self.user_to_warn = user_to_warn
 
     async def on_submit(self, interaction) -> None:
         description = self.description.value
         await interaction.response.defer()
-        await self.user_to_warn.send(embed=get_user_warn_embed(self.bot, description))
-        await interaction.followup.send(
-            embed=get_user_warn_sent_embed(self.bot), ephemeral=True
-        )
+        await self.user_to_warn.send(embed=get_user_warn_embed(description))
+        await interaction.followup.send(embed=get_user_warn_sent_embed(), ephemeral=True)
 
 
 class UserKickModal(Modal, title="Кик"):
@@ -141,18 +136,16 @@ class UserKickModal(Modal, title="Кик"):
         max_length=512,
     )
 
-    def __init__(self, bot, user_to_kick):
+    def __init__(self, database, user_to_kick):
         super().__init__()
-        self.bot = bot
+        self.database = database
         self.user_to_kick = user_to_kick
 
     async def on_submit(self, interaction) -> None:
-        await interaction.response.defer() 
+        await interaction.response.defer()
         description = self.description.value
-        await self.user_to_kick.send(embed=get_user_kick_embed(self.bot, description))
-        await interaction.followup.send(
-            embed=get_user_kick_sent_embed(self.bot), ephemeral=True
-        )
+        await self.user_to_kick.send(embed=get_user_kick_embed(description))
+        await interaction.followup.send(embed=get_user_kick_sent_embed(), ephemeral=True)
 
 
 class TempMuteModal(Modal, title="Временный мут"):
@@ -173,25 +166,22 @@ class TempMuteModal(Modal, title="Временный мут"):
         max_length=512,
     )
 
-    def __init__(self, bot, user_to_mute):
+    def __init__(self, database, user_to_mute):
         super().__init__()
-        self.bot = bot
-        self.guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
-        self.user_to_mute = self.guild.get_member(user_to_mute.id)
+        self.database = database
+        self.user_to_mute = user_to_mute
 
     async def on_submit(self, interaction) -> None:
-        await interaction.response.defer() 
+        await interaction.response.defer()
         description = self.description.value
-        mute_role = [*filter(lambda role: role.name == "M", self.guild.roles)][0]
+        mute_role = [*filter(lambda role: role.name == "M", interaction.guild.roles)][0]
         await self.user_to_mute.add_roles(mute_role)
         time = int(self.seconds.value)
-        await self.user_to_mute.send(embed=get_user_temp_mute_embed(self.bot, description, time))
-        await interaction.followup.send(
-            embed=get_user_temp_mute_sent_embed(self.bot), ephemeral=True
-        )
+        await self.user_to_mute.send(embed=get_user_temp_mute_embed(description, time))
+        await interaction.followup.send(embed=get_user_temp_mute_sent_embed(), ephemeral=True)
         await asyncio.sleep(time)
         await self.user_to_mute.remove_roles(mute_role)
-        await self.user_to_mute.send(embed=get_user_unmute_embed(self.bot))
+        await self.user_to_mute.send(embed=get_user_unmute_embed())
 
 
 class TempStopTypingModal(Modal, title="Временный запрет печати"):
@@ -212,27 +202,26 @@ class TempStopTypingModal(Modal, title="Временный запрет печа
         max_length=512,
     )
 
-    def __init__(self, bot, user_to_stop_typing):
+    def __init__(self, database, user_to_stop_typing):
         super().__init__()
-        self.bot = bot
-        self.guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
-        self.user_to_stop_typing = self.guild.get_member(user_to_stop_typing.id)
+        self.database = database
+        self.user_to_stop_typing = user_to_stop_typing
 
     async def on_submit(self, interaction) -> None:
-        await interaction.response.defer() 
+        await interaction.response.defer()
         description = self.description.value
-        stop_typing_role = [*filter(lambda role: role.name == "T", self.guild.roles)][0]
+        stop_typing_role = [*filter(lambda role: role.name == "T", interaction.guild.roles)][0]
         await self.user_to_stop_typing.add_roles(stop_typing_role)
         time = int(self.seconds.value)
         await self.user_to_stop_typing.send(
-            embed=get_user_temp_stop_typing_embed(self.bot, description, time)
+            embed=get_user_temp_stop_typing_embed(description, time)
         )
         await interaction.followup.send(
-            embed=get_user_temp_stop_typing_sent_embed(self.bot), ephemeral=True
+            embed=get_user_temp_stop_typing_sent_embed(), ephemeral=True
         )
         await asyncio.sleep(time)
         await self.user_to_stop_typing.remove_roles(stop_typing_role)
-        await self.user_to_stop_typing.send(embed=get_user_temp_unstop_typing_embed(self.bot))
+        await self.user_to_stop_typing.send(embed=get_user_temp_unstop_typing_embed())
 
 
 class TempBanModal(Modal, title="Временный бан"):
@@ -253,29 +242,24 @@ class TempBanModal(Modal, title="Временный бан"):
         max_length=512,
     )
 
-    def __init__(self, bot, user_to_ban):
+    def __init__(self, database, user_to_ban):
         super().__init__()
-        self.bot = bot
-        self.guild = self.bot.get_guild(self.bot.config["GUILD_ID"])
-        self.user_to_ban = self.guild.get_member(user_to_ban.id)
+        self.database = database
+        self.user_to_ban = user_to_ban
 
     async def on_submit(self, interaction) -> None:
         await interaction.response.defer()
         description = self.description.value
-        temp_ban_role = [*filter(lambda role: role.name == "B", self.guild.roles)][0]
+        temp_ban_role = [*filter(lambda role: role.name == "B", interaction.guild.roles)][0]
         await self.user_to_ban.add_roles(temp_ban_role)
         time = int(self.seconds.value)
-        await self.user_to_ban.send(
-            embed=get_user_temp_stop_typing_embed(self.bot, description, time)
-        )
-        lp_room = self.bot.get_channel(self.bot.config["SHIT"])
+        await self.user_to_ban.send(embed=get_user_temp_stop_typing_embed(description, time))
+        lp_room = interaction.guild.get_channel(1175538192582193222)
         await self.user_to_ban.edit(voice_channel=lp_room)
-        await interaction.followup.send(
-            embed=get_user_temp_ban_sent_embed(self.bot), ephemeral=True
-        )
+        await interaction.followup.send(embed=get_user_temp_ban_sent_embed(), ephemeral=True)
         await asyncio.sleep(time)
         await self.user_to_ban.remove_roles(temp_ban_role)
-        await self.user_to_ban.send(embed=get_user_unban_embed(self.bot))
+        await self.user_to_ban.send(embed=get_user_unban_embed())
 
 
 class BanForeverModal(Modal, title="Вечный бан"):
@@ -288,16 +272,14 @@ class BanForeverModal(Modal, title="Вечный бан"):
         max_length=512,
     )
 
-    def __init__(self, bot, user_to_ban):
+    def __init__(self, database, user_to_ban):
         super().__init__()
-        self.bot = bot
+        self.database = database
         self.user_to_ban = user_to_ban
 
     async def on_submit(self, interaction) -> None:
         await interaction.response.defer()
         description = self.description.value
         await self.user_to_ban.ban()
-        await self.user_to_ban.send(embed=get_user_ban_embed(self.bot, description))
-        await interaction.followup.send(
-            embed=get_user_ban_sent_embed(self.bot), ephemeral=True
-        )
+        await self.user_to_ban.send(embed=get_user_ban_embed(description))
+        await interaction.followup.send(embed=get_user_ban_sent_embed(), ephemeral=True)

@@ -1,12 +1,11 @@
-from discord import Embed, Colour
-from discord import Client
+from discord import Embed
 
 from .url_icons import *
 from .embed_utils import *
 
 
 @success_color()
-def get_navigator_roles_wiki_embed(bot: Client) -> Embed:
+def get_navigator_roles_wiki_embed() -> Embed:
     embed = Embed()
     embed.add_field(
         "Путник (5+) - даёт возможность стримить в голосовых каналах.", value="", inline=False
@@ -43,7 +42,7 @@ def get_navigator_roles_wiki_embed(bot: Client) -> Embed:
 
 @with_date()
 @success_color()
-def get_navigation_room_embed(bot: Client) -> Embed:
+def get_navigation_room_embed() -> Embed:
     embed = Embed()
     embed.set_author(
         name="Перейдите в раздел, нажав на него в меню выбора.",

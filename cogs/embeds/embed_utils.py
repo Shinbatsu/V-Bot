@@ -1,5 +1,4 @@
-from discord import Embed, Colour
-from discord import Client
+from discord import Colour
 from datetime import datetime
 from .url_icons import *
 

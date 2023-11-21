@@ -1,11 +1,11 @@
 from discord import Embed, Colour
-from discord import Client
 from datetime import datetime
 from .url_icons import *
 from .embed_utils import *
 
+
 @error_color()
-def get_slow_down_embed(bot: Client, cooldown: float) -> Embed:
+def get_slow_down_embed(cooldown: float) -> Embed:
     embed = Embed(
         title="Подождите!",
     )
@@ -14,8 +14,9 @@ def get_slow_down_embed(bot: Client, cooldown: float) -> Embed:
     )
     return embed
 
+
 @info_color()
-def get_ticket_embed(bot: Client) -> Embed:
+def get_ticket_embed() -> Embed:
     embed = Embed()
     embed.set_author(icon_url=star_url, name=" Оставьте жалобу на участника")
     embed.add_field(
@@ -42,7 +43,7 @@ def get_ticket_embed(bot: Client) -> Embed:
 
 
 @success_color()
-def get_report_sent_embed(bot: Client) -> Embed:
+def get_report_sent_embed() -> Embed:
     embed = Embed()
     embed.set_author(icon_url=dot_url, name=" Оставьте жалобу на участника")
     embed.add_field(
@@ -56,10 +57,9 @@ def get_report_sent_embed(bot: Client) -> Embed:
     return embed
 
 
-def get_self_report_embed(bot: Client) -> Embed:
+def get_self_report_embed() -> Embed:
     embed = Embed(
         title="Попытка саморепорта!",
-        color=Colour.from_str(bot.config["ERROR_COLOR"]),
     )
     embed.add_field(
         name="",
@@ -69,10 +69,9 @@ def get_self_report_embed(bot: Client) -> Embed:
     return embed
 
 
-def get_report_info_embed(bot: Client, author: str, reported_user: str, description: str) -> Embed:
+def get_report_info_embed(author: str, reported_user: str, description: str) -> Embed:
     embed = Embed(
         title="Cоздана новая жалоба на пользователя",
-        color=Colour.from_str(bot.config["INFO_COLOR"]),
     )
     embed.add_field(
         name=f"""{dot}Автор: {author}""",
@@ -81,7 +80,7 @@ def get_report_info_embed(bot: Client, author: str, reported_user: str, descript
     )
     embed.add_field(
         name=f"""```{dot}Виновник: {reported_user}```""",
-        value="" ,
+        value="",
         inline=False,
     )
     embed.add_field(
@@ -101,10 +100,9 @@ def get_report_info_embed(bot: Client, author: str, reported_user: str, descript
 
 
 ### ЖАЛОБА ЗАКРЫТА
-def get_report_was_resolved_embed(bot: Client, jump_url, moderator_name) -> Embed:
+def get_report_was_resolved_embed(jump_url, moderator_name) -> Embed:
     embed = Embed(
         title="Жалоба закрыта",
-        color=Colour.from_str(bot.config["INFO_COLOR"]),
     )
     embed.add_field(
         name="",
@@ -116,20 +114,18 @@ def get_report_was_resolved_embed(bot: Client, jump_url, moderator_name) -> Embe
 
 
 ### ПРЕДУПРЕЖДЕНИЕ
-def get_user_warn_embed(bot: Client, description: str) -> Embed:
+def get_user_warn_embed(description: str) -> Embed:
     embed = Embed(
         title="Замечание",
-        color=Colour.from_str(bot.config["ERROR_COLOR"]),
     )
     embed.add_field(name="", value=f"```ПРИЧИНА: {description.capitalize()}```")
     embed.set_footer(text=f"Дата: {datetime.now()}")
     return embed
 
 
-def get_user_warn_sent_embed(bot: Client) -> Embed:
+def get_user_warn_sent_embed() -> Embed:
     embed = Embed(
         title="Замечание",
-        color=Colour.from_str(bot.config["SUCCESS_COLOR"]),
     )
     embed.add_field(
         name="",
@@ -141,10 +137,9 @@ def get_user_warn_sent_embed(bot: Client) -> Embed:
 
 
 ### КИК
-def get_user_kick_embed(bot: Client, description: str) -> Embed:
+def get_user_kick_embed(description: str) -> Embed:
     embed = Embed(
         title="Кик",
-        color=Colour.from_str(bot.config["ERROR_COLOR"]),
     )
     embed.add_field(
         name="",
@@ -160,10 +155,9 @@ def get_user_kick_embed(bot: Client, description: str) -> Embed:
     return embed
 
 
-def get_user_kick_sent_embed(bot: Client) -> Embed:
+def get_user_kick_sent_embed() -> Embed:
     embed = Embed(
         title="Кик",
-        color=Colour.from_str(bot.config["SUCCESS_COLOR"]),
     )
     embed.add_field(
         name="",
@@ -176,10 +170,9 @@ def get_user_kick_sent_embed(bot: Client) -> Embed:
 
 
 ### ВРЕМЕННЫЙ МУТ
-def get_user_temp_mute_embed(bot: Client, description: str, time: int) -> Embed:
+def get_user_temp_mute_embed(description: str, time: int) -> Embed:
     embed = Embed(
         title="Временный мут",
-        color=Colour.from_str(bot.config["ERROR_COLOR"]),
     )
     embed.add_field(
         name="",
@@ -195,10 +188,9 @@ def get_user_temp_mute_embed(bot: Client, description: str, time: int) -> Embed:
     return embed
 
 
-def get_user_temp_mute_sent_embed(bot: Client) -> Embed:
+def get_user_temp_mute_sent_embed() -> Embed:
     embed = Embed(
         title="Временный мут",
-        color=Colour.from_str(bot.config["SUCCESS_COLOR"]),
     )
     embed.add_field(
         name="",
@@ -209,10 +201,9 @@ def get_user_temp_mute_sent_embed(bot: Client) -> Embed:
     return embed
 
 
-def get_user_unmute_embed(bot: Client) -> Embed:
+def get_user_unmute_embed() -> Embed:
     embed = Embed(
         title="Временный мут",
-        color=Colour.from_str(bot.config["SUCCESS_COLOR"]),
     )
     embed.add_field(
         name="",
@@ -224,10 +215,9 @@ def get_user_unmute_embed(bot: Client) -> Embed:
     ### ВРЕМЕННЫЙ ЗАПРЕТ ПЕЧАТИ
 
 
-def get_user_temp_stop_typing_embed(bot: Client, description: str, time: int) -> Embed:
+def get_user_temp_stop_typing_embed(description: str, time: int) -> Embed:
     embed = Embed(
         title="Временный мут",
-        color=Colour.from_str(bot.config["ERROR_COLOR"]),
     )
     embed.add_field(
         name="",
@@ -243,10 +233,9 @@ def get_user_temp_stop_typing_embed(bot: Client, description: str, time: int) ->
     return embed
 
 
-def get_user_temp_stop_typing_sent_embed(bot: Client) -> Embed:
+def get_user_temp_stop_typing_sent_embed() -> Embed:
     embed = Embed(
         title="Временный мут",
-        color=Colour.from_str(bot.config["SUCCESS_COLOR"]),
     )
     embed.add_field(
         name="",
@@ -257,10 +246,9 @@ def get_user_temp_stop_typing_sent_embed(bot: Client) -> Embed:
     return embed
 
 
-def get_user_temp_unstop_typing_embed(bot: Client) -> Embed:
+def get_user_temp_unstop_typing_embed() -> Embed:
     embed = Embed(
         title="Временный мут",
-        color=Colour.from_str(bot.config["SUCCESS_COLOR"]),
     )
     embed.add_field(
         name="",
@@ -272,10 +260,9 @@ def get_user_temp_unstop_typing_embed(bot: Client) -> Embed:
 
 
 ### ВРЕМЕННЫЙ БАН
-def get_user_temp_ban_embed(bot: Client, description: str, time: int) -> Embed:
+def get_user_temp_ban_embed(description: str, time: int) -> Embed:
     embed = Embed(
         title="Временная блокировка",
-        color=Colour.from_str(bot.config["ERROR_COLOR"]),
     )
     embed.add_field(
         name="",
@@ -291,10 +278,9 @@ def get_user_temp_ban_embed(bot: Client, description: str, time: int) -> Embed:
     return embed
 
 
-def get_user_temp_ban_sent_embed(bot: Client) -> Embed:
+def get_user_temp_ban_sent_embed() -> Embed:
     embed = Embed(
         title="Временная блокировка",
-        color=Colour.from_str(bot.config["SUCCESS_COLOR"]),
     )
     embed.add_field(
         name="",
@@ -305,10 +291,9 @@ def get_user_temp_ban_sent_embed(bot: Client) -> Embed:
     return embed
 
 
-def get_user_unban_embed(bot: Client) -> Embed:
+def get_user_unban_embed() -> Embed:
     embed = Embed(
         title="Временный мут",
-        color=Colour.from_str(bot.config["SUCCESS_COLOR"]),
     )
     embed.add_field(
         name="",
@@ -320,10 +305,9 @@ def get_user_unban_embed(bot: Client) -> Embed:
 
 
 ### ВЕЧНЫЙ БАН
-def get_user_ban_embed(bot: Client, description: str) -> Embed:
+def get_user_ban_embed(description: str) -> Embed:
     embed = Embed(
         title="Вечная блокировка",
-        color=Colour.from_str(bot.config["ERROR_COLOR"]),
     )
     embed.add_field(
         name="",
@@ -339,10 +323,9 @@ def get_user_ban_embed(bot: Client, description: str) -> Embed:
     return embed
 
 
-def get_user_ban_sent_embed(bot: Client) -> Embed:
+def get_user_ban_sent_embed() -> Embed:
     embed = Embed(
         title="Временная блокировка",
-        color=Colour.from_str(bot.config["SUCCESS_COLOR"]),
     )
     embed.add_field(
         name="",

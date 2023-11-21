@@ -25,15 +25,20 @@ class Roles(commands.Cog, name="roles"):
         description="Cоздать панель с выбором ролей.",
     )
     @commands.has_role("Администратор")
-    async def panel_roles(self, ctx:Context) -> None:
-        self.bot.logger.info("Execute  panel_roles command")
-        await ctx.send(file=File("src/banners/roles.png"))
-        await ctx.send(file=File("src/banners/valorant_ranking.png"))
-        await ctx.send(embed=get_pick_rank_embed(self.bot), view=UserRoleView(self.bot))
-        await ctx.send(file=File("src/banners/agent_roles.png"))
-        await ctx.send(embed=get_pick_your_agents_embed(self.bot), view=PickAgentsView(self.bot))
-        await ctx.send(file=File("src/banners/nick_color.png"))
-        await ctx.send(embed=get_pick_your_nick_color_embed(self.bot), view=PickColorView(self.bot))
+    async def panel_roles(self, context:Context) -> None:
+        await context.defer()
+        await context.send("Создание панели...", ephemeral=True)
+        await context.send(file=File("src/banners/roles.png"))
+        await context.send(file=File("src/banners/valorant_ranking.png"))
+        await context.send(embed=get_pick_rank_embed(), view=PickRankView(self.bot.database))
+        await context.send(file=File("src/banners/agent_roles.png"))
+        await context.send(embed=get_pick_your_agents_embed(), view=PickAgentsView(self.bot.database))
+        await context.send(file=File("src/banners/nick_color.png"))
+        await context.send(embed=get_pick_your_nick_color_embed(), view=PickColorView(self.bot.database))
+    async def setup_hook(self) -> None:
+        self.add_view(PickRankView(self.bot.database))
+        self.add_view(PickAgentsView(self.bot.database))
+        self.add_view(PickColorView(self.bot.database))
 
 async def setup(bot) -> None:
     await bot.add_cog(Roles(bot))
