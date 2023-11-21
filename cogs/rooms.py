@@ -64,9 +64,11 @@ class Rooms(commands.Cog, name="rooms"):
     )
     @commands.has_role("Администратор")
     async def panel_room_settings(self, ctx: Context) -> None:
-
+        self.bot.logger.info("Execute  panel_room_settings command")
+        self.bot.logger.info(type(ctx))
         await ctx.send(file=File("src/banners/room_settings.png"))
         await ctx.send(embed=get_room_settings_embed(self.bot), view=RoomSettingsView(self.bot))
+
 
 async def setup(bot) -> None:
     await bot.add_cog(Rooms(bot))

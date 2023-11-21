@@ -72,7 +72,6 @@ class Avatar(commands.Cog, name="avatar"):
         bar_size = 1095
         activity = 401
         size = int((bar_size / 100) * (activity / 500 * 100))
-        print(size)
         draw = ImageDraw.Draw(image)
         draw.rounded_rectangle((714, 578, 714 + size, 615), fill="white", radius=100)
         return image
@@ -81,7 +80,6 @@ class Avatar(commands.Cog, name="avatar"):
         bar_size = 1095
         activity = 401
         size = int((bar_size / 100) * (activity / 500 * 100))
-        print(size)
         draw = ImageDraw.Draw(image)
         draw.rounded_rectangle((714, 578, 714 + size, 615), fill=(120, 120, 120), radius=100)
         return image
@@ -89,9 +87,11 @@ class Avatar(commands.Cog, name="avatar"):
     @commands.hybrid_command(name="avatar", description="Отображает твой профиль на сервере")
     @app_commands.describe(user="Пользователь, чей профиль хотите увидеть")
     async def avatar(self, ctx: Context, *, user: discord.Member = None) -> None:
+        self.bot.logger.info("Execute  avatar command")
         await ctx.defer()
         if user is None:
             user = ctx.author
+        self.bot.logger.info("1")
         background = Image.open("src/img/background.png")
         activity = int(await self.bot.database.get_user_activity(user.id))
         background = self.add_progress(background, activity)
