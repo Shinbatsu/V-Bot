@@ -2,7 +2,7 @@ from discord.ext import commands
 from .embeds.rooms_embed import *
 from .views.rooms_views import *
 from discord.ext.commands import Context
-from discord import File
+from discord import File, app_commands, Interaction,Object
 
 
 class Rooms(commands.Cog, name="rooms"):
@@ -59,15 +59,18 @@ class Rooms(commands.Cog, name="rooms"):
             await self.bot.database.delete_user_room(room_id=channel.id)
         return
 
-    @commands.hybrid_command(
+    @app_commands.command(
         name="panel_room_settings",
         description="Cоздать панель с настройками для личной комнаты.",
     )
-    async def _panel_room_settings(self, context: Context) -> None:
-        self.bot.logger.info(type(context))
-        await context.send("Создание панели...", ephemeral=True)
-        await context.send(file=File("src/banners/room_settings.png"))
-        await context.send(embed=get_room_settings_embed(), view=RoomSettingsView(self.bot.database))
+    @app_commands.guilds(Object(id=711201809372414062))
+    async def _panel_room_settings(self, interaction: Interaction) -> None:
+        self.bot.logger.info(type(interaction))
+        await interaction.response.send_message("Создание панели...", ephemeral=True)
+        await interaction.followup.send(file=File("src/banners/room_settings.png"))
+        await interaction.followup.send(
+            embed=get_room_settings_embed(), view=RoomSettingsView(self.bot.database)
+        )
 
     async def setup_hook(self) -> None:
         self.add_view(RoomSettingsView(self.bot.database))
