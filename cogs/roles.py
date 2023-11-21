@@ -29,7 +29,6 @@ class Roles(commands.Cog, name="roles"):
     async def _panel_roles(self, context: Context) -> None:
         if context.interaction:
             context = await Context.from_interaction(context.interaction)
-        await context.defer()
         print(context.interaction)
         self.bot.logger.info(type(context))
         await context.reply("Создание панели...", ephemeral=True)
