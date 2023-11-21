@@ -59,7 +59,7 @@ class Rooms(commands.Cog, name="rooms"):
             await self.bot.database.delete_user_room(room_id=channel.id)
         return
 
-    @app_commands.command(
+    @commands.hybrid_command(
         name="panel_room_settings",
         description="Cоздать панель с настройками для личной комнаты.",
     )
