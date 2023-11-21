@@ -40,7 +40,7 @@ class CreateReportModal(Modal, title="Создание жалобы"):
                 interaction.guild, self.reported_user.value
             )
         if self.reported_user.id == interaction.user.id:
-            await interaction.response.defer()
+            await interaction.response.defer(ephemeral=True)
             await interaction.followup.send(embed=get_report_sent_embed(), ephemeral=True)
         report_channel = interaction.guild.get_channel(1171364238330179635)
         description = self.description.value
@@ -52,7 +52,7 @@ class CreateReportModal(Modal, title="Создание жалобы"):
             ),
             view=ModeratorActionView(self.reported_user, message_url),
         )
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
         await interaction.followup.send(embed=get_report_sent_embed(), ephemeral=True)
 
 
@@ -81,7 +81,7 @@ class ModeratorActionView(View):
         user_pick = select.values[0]
         if user_pick == "Закрыть жалобу":
             self.action.disabled = True
-            await interaction.response.defer()
+            await interaction.response.defer(ephemeral=True)
             await interaction.followup.send(
                 embed=get_report_was_resolved_embed(
                     self.message_url, interaction.user.name
@@ -121,7 +121,7 @@ class UserWarnModal(Modal, title="Замечание"):
 
     async def on_submit(self, interaction) -> None:
         description = self.description.value
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
         await self.user_to_warn.send(embed=get_user_warn_embed(description))
         await interaction.followup.send(embed=get_user_warn_sent_embed(), ephemeral=True)
 
@@ -142,7 +142,7 @@ class UserKickModal(Modal, title="Кик"):
         self.user_to_kick = user_to_kick
 
     async def on_submit(self, interaction) -> None:
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
         description = self.description.value
         await self.user_to_kick.send(embed=get_user_kick_embed(description))
         await interaction.followup.send(embed=get_user_kick_sent_embed(), ephemeral=True)
@@ -172,7 +172,7 @@ class TempMuteModal(Modal, title="Временный мут"):
         self.user_to_mute = user_to_mute
 
     async def on_submit(self, interaction) -> None:
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
         description = self.description.value
         mute_role = [*filter(lambda role: role.name == "M", interaction.guild.roles)][0]
         await self.user_to_mute.add_roles(mute_role)
@@ -208,7 +208,7 @@ class TempStopTypingModal(Modal, title="Временный запрет печа
         self.user_to_stop_typing = user_to_stop_typing
 
     async def on_submit(self, interaction) -> None:
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
         description = self.description.value
         stop_typing_role = [*filter(lambda role: role.name == "T", interaction.guild.roles)][0]
         await self.user_to_stop_typing.add_roles(stop_typing_role)
@@ -248,7 +248,7 @@ class TempBanModal(Modal, title="Временный бан"):
         self.user_to_ban = user_to_ban
 
     async def on_submit(self, interaction) -> None:
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
         description = self.description.value
         temp_ban_role = [*filter(lambda role: role.name == "B", interaction.guild.roles)][0]
         await self.user_to_ban.add_roles(temp_ban_role)
@@ -278,7 +278,7 @@ class BanForeverModal(Modal, title="Вечный бан"):
         self.user_to_ban = user_to_ban
 
     async def on_submit(self, interaction) -> None:
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
         description = self.description.value
         await self.user_to_ban.ban()
         await self.user_to_ban.send(embed=get_user_ban_embed(description))

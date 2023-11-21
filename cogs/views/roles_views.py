@@ -78,7 +78,7 @@ class PickRankView(View):
         custom_id="PickRankView:update_rank",
     )
     async def update_rank(self, interaction, button):
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
         valorant_nick_name = await self.database.get_valorant_nickname(interaction.user.id)
         if not valorant_nick_name:
             return await interaction.followup.send(
@@ -131,7 +131,7 @@ class PickColorView(View):
         custom_id="PickColorView:color",
     )
     async def color(self, interaction, select):
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
         user_pick = select.values[0]
         user_roles = [role.name for role in interaction.user.roles]
         if user_pick in user_roles or user_pick == "Remove":
@@ -168,7 +168,7 @@ class PickAgentsView(View):
         custom_id="PickAgentsView:guardians_callback",
     )
     async def guardians_callback(self, interaction, select):
-        await interaction.response.defer(thinking=True)
+        await interaction.response.defer(ephemeral=True)
         user_roles = [role.name for role in interaction.user.roles]
         user_pick = select.values[0]
         if user_pick == "Remove":
@@ -196,7 +196,7 @@ class PickAgentsView(View):
         custom_id="PickAgentsView:duelist_callback",
     )
     async def duelist_callback(self, interaction, select):
-        await interaction.response.defer(thinking=True)
+        await interaction.response.defer(ephemeral=True)
         user_roles = [role.name for role in interaction.user.roles]
         user_pick = select.values[0]
         if user_pick == "Remove":
@@ -224,7 +224,7 @@ class PickAgentsView(View):
         custom_id="PickAgentsView:initiator_callback",
     )
     async def initiator_callback(self, interaction, select):
-        await interaction.response.defer(thinking=True)
+        await interaction.response.defer(ephemeral=True)
         user_roles = [role.name for role in interaction.user.roles]
         user_pick = select.values[0]
         if user_pick == "Remove":
@@ -252,7 +252,7 @@ class PickAgentsView(View):
         custom_id="PickAgentsView:specialist_callback",
     )
     async def specialist_callback(self, interaction, select):
-        await interaction.response.defer(thinking=True)
+        await interaction.response.defer(ephemeral=True)
         user_roles = [role.name for role in interaction.user.roles]
         user_pick = select.values[0]
         if user_pick == "Remove":

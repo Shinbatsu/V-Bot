@@ -71,7 +71,7 @@ class Owner(commands.Cog, name="owner"):
     @app_commands.describe(cog="The name of the cog to load")
     @commands.is_owner()
     async def load(self, context: Context, cog: str) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         try:
             await self.bot.load_extension(f"cogs.{cog}")
         except Exception:
@@ -88,7 +88,7 @@ class Owner(commands.Cog, name="owner"):
     @app_commands.describe(cog="The name of the cog to unload")
     @commands.is_owner()
     async def unload(self, context: Context, cog: str) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         try:
             await self.bot.unload_extension(f"cogs.{cog}")
         except Exception:
@@ -105,7 +105,7 @@ class Owner(commands.Cog, name="owner"):
     @app_commands.describe(cog="The name of the cog to reload")
     @commands.is_owner()
     async def reload(self, context: Context, cog: str) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         try:
             await self.bot.reload_extension(f"cogs.{cog}")
         except Exception:
@@ -121,7 +121,7 @@ class Owner(commands.Cog, name="owner"):
     )
     @commands.is_owner()
     async def shutdown(self, context: Context) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         embed = discord.Embed(description="Shutting down. Bye! :wave:", color=0xBEBEFE)
         await context.send(embed=embed)
         await self.bot.close()
@@ -133,7 +133,7 @@ class Owner(commands.Cog, name="owner"):
     @app_commands.describe(message="The message that should be repeated by the bot")
     @commands.is_owner()
     async def say(self, context: Context, *, message: str) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         await context.send(message)
 
     @commands.hybrid_command(
@@ -143,7 +143,7 @@ class Owner(commands.Cog, name="owner"):
     @app_commands.describe(message="The message that should be repeated by the bot")
     @commands.is_owner()
     async def embed(self, context: Context, *, message: str) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         embed = discord.Embed(description=message, color=0xBEBEFE)
         await context.send(embed=embed)
 
@@ -153,7 +153,7 @@ class Owner(commands.Cog, name="owner"):
     )
     @commands.is_owner()
     async def blacklist(self, context: Context) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         if context.invoked_subcommand is None:
             embed = discord.Embed(
                 description="You need to specify a subcommand.\n\n**Subcommands:**\n`add` - Add a user to the blacklist.\n`remove` - Remove a user from the blacklist.",
@@ -168,7 +168,7 @@ class Owner(commands.Cog, name="owner"):
     )
     @commands.is_owner()
     async def blacklist_show(self, context: Context) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         blacklisted_users = await self.bot.database.get_blacklisted_users()
         if len(blacklisted_users) == 0:
             embed = discord.Embed(
@@ -225,7 +225,7 @@ class Owner(commands.Cog, name="owner"):
     @app_commands.describe(user="The user that should be removed from the blacklist.")
     @commands.is_owner()
     async def blacklist_remove(self, context: Context, user: discord.User) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         user_id = user.id
         if not await self.bot.database.is_blacklisted(user_id):
             embed = discord.Embed(

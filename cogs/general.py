@@ -62,7 +62,7 @@ class General(commands.Cog, name="general"):
         name="help", description="List all commands the bot has loaded."
     )
     async def help(self, context: Context) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         prefix = self.bot.config["prefix"]
         embed = discord.Embed(
             title="Help", description="List of available commands:", color=0xBEBEFE
@@ -87,8 +87,8 @@ class General(commands.Cog, name="general"):
         description="Get some useful (or not) information about the bot.",
     )
     async def botinfo(self, context: Context) -> None:
-        await context.defer()        
-        await context.defer()
+        await context.defer(ephemeral=True)
+        await context.defer(ephemeral=True)
         """
         Get some useful (or not) information about the bot.
 
@@ -116,7 +116,7 @@ class General(commands.Cog, name="general"):
         description="Get some useful (or not) information about the server.",
     )
     async def serverinfo(self, context: Context) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         roles = [role.name for role in context.guild.roles]
         if len(roles) > 50:
             roles = roles[:50]
@@ -142,7 +142,7 @@ class General(commands.Cog, name="general"):
         description="Check if the bot is alive.",
     )
     async def ping(self, context: Context) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         embed = discord.Embed(
             title="🏓 Pong!",
             description=f"The bot latency is {round(self.bot.latency * 1000)}ms.",
@@ -212,7 +212,7 @@ class General(commands.Cog, name="general"):
         description="Get the current price of bitcoin.",
     )
     async def bitcoin(self, context: Context) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         async with aiohttp.ClientSession() as session:
             async with session.get(
                 "https://api.coindesk.com/v1/bpi/currentprice/BTC.json"

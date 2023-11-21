@@ -23,7 +23,7 @@ class KickModal(Modal, title="Изгнать пользователя"):
                 return member
 
     async def on_submit(self, interaction) -> None:
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
         try:
             if self.person_id.value.isdigit():
                 person_id = interaction.guild.get_member(int(self.reported_user.value)).id
@@ -66,7 +66,7 @@ class ChangeOwnerModal(Modal, title="Изменение владельца"):
         self.database = database
 
     async def on_submit(self, interaction) -> None:
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
         try:
             new_owner_id = int(self.new_owner_id.value)
             guild = interaction.guild
@@ -114,7 +114,7 @@ class CreateRoomModal(Modal, title="Название комнаты"):
         self.room_name.default = f"{username}'s room"
 
     async def on_submit(self, interaction) -> None:
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
         mute_role = [*filter(lambda role: role.name == "M", interaction.guild.roles)][0]
         untype_role = [*filter(lambda role: role.name == "T", interaction.guild.roles)][0]
         ban_role = [*filter(lambda role: role.name == "B", interaction.guild.roles)][0]
@@ -212,7 +212,7 @@ class RenameRoomModal(Modal, title="Переименование канала"):
         self.database = database
 
     async def on_submit(self, interaction) -> None:
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
         new_name = self.new_name.value
         user_room_id = await self.database.get_user_room_id(user_id=interaction.user.id)
         user_room = interaction.guild.get_channel(user_room_id)
@@ -238,7 +238,7 @@ class ChangeSlotsModal(Modal, title="Изменение количества у�
         self.database = database
 
     async def on_submit(self, interaction) -> None:
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
         try:
             t = int(self.new_user_limit.value)
             new_user_limit = [[t, 1], [20, t]][t > 20][t < 1]

@@ -24,7 +24,7 @@ class Moderation(commands.Cog, name="moderation"):
     async def kick(
         self, context: Context, user: discord.User, *, reason: str = "Not specified"
     ) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         member = context.guild.get_member(user.id) or await context.guild.fetch_member(user.id)
         if member.guild_permissions.administrator:
             embed = discord.Embed(description="User has administrator permissions.", color=0xE02B2B)
@@ -63,7 +63,7 @@ class Moderation(commands.Cog, name="moderation"):
         nickname="Новый ник.",
     )
     async def nick(self, context: Context, user: discord.User, *, nickname: str = None) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         member = context.guild.get_member(user.id) or await context.guild.fetch_member(user.id)
         try:
             await member.edit(nick=nickname)
@@ -92,7 +92,7 @@ class Moderation(commands.Cog, name="moderation"):
     async def ban(
         self, context: Context, user: discord.User, *, reason: str = "Not specified"
     ) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         member = context.guild.get_member(user.id) or await context.guild.fetch_member(user.id)
         try:
             if member.guild_permissions.administrator:
@@ -128,7 +128,7 @@ class Moderation(commands.Cog, name="moderation"):
     )
     @commands.has_permissions(manage_messages=True)
     async def warning(self, context: Context) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         if context.invoked_subcommand is None:
             embed = discord.Embed(
                 description="Please specify a subcommand.\n\n**Subcommands:**\n`add` - Add a warning to a user.\n`remove` - Remove a warning from a user.\n`list` - List all warnings of a user.",
@@ -212,7 +212,7 @@ class Moderation(commands.Cog, name="moderation"):
     @commands.bot_has_permissions(manage_messages=True)
     @app_commands.describe(amount="The amount of messages that should be deleted.")
     async def purge(self, context: Context, amount: int = 100) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         await context.send("Deleting messages...", ephemeral=True)
         purged_messages = await context.channel.purge(limit=amount + 1)
         embed = discord.Embed(
@@ -261,7 +261,7 @@ class Moderation(commands.Cog, name="moderation"):
         limit="The limit of messages that should be archived.",
     )
     async def archive(self, context: Context, limit: int = 10) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         log_file = f"{context.channel.id}.log"
         with open(log_file, "w", encoding="UTF-8") as f:
             f.write(

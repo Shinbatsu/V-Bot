@@ -15,7 +15,7 @@ class Ticket(commands.Cog, name="ticket"):
     )
     @commands.has_role("Администратор")
     async def panel_ticket(self, context: Context) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         await context.send("Создание панели...", ephemeral=True)
         await context.send(file=File("src/banners/ticket.png"))
         await context.send(embed=get_ticket_embed(), view=TicketView(self.bot.database))

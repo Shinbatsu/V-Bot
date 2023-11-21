@@ -45,7 +45,7 @@ class RankModal(Modal, title="RIOT ник"):
         self.database = database
 
     async def on_submit(self, interaction) -> None:
-        await interaction.response.defer() 
+        await interaction.response.defer(ephemeral=True)
         riot_username = str(self.rank.value)
         riot_username_repeat = str(self.rank_check.value)
         if riot_username != riot_username_repeat:

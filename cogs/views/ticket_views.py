@@ -23,7 +23,7 @@ class TicketView(
         bucket = self.cooldown.get_bucket(interaction.message)
         retry = bucket.update_rate_limit()
         if retry:
-            await interaction.response.defer()
+            await interaction.response.defer(ephemeral=True)
             return await interaction.followup.send(
                 embed=get_slow_down_embed(round(retry, 1)), ephemeral=True
             )

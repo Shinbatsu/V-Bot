@@ -19,7 +19,7 @@ class Navigation(commands.Cog, name="navigation"):
     )
     @commands.has_role("Администратор")
     async def panel_navigation(self, context: Context) -> None:
-        await context.defer()
+        await context.defer(ephemeral=True)
         await context.send("Создание панели...", ephemeral=True)
         await context.send(file=File("src/banners/navigation.png"))
         await context.send(

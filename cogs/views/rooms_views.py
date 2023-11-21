@@ -26,7 +26,7 @@ class RoomSettingsView(
         custom_id="RoomSettingsView:lock",
     )
     async def lock(self, interaction, button):
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
         member = interaction.user
         is_owner = await self.database.is_owner(interaction.user.id)
         if is_owner:
@@ -68,7 +68,7 @@ class RoomSettingsView(
             await interaction.response.send_modal(KickModal(self.database))
             return
         else:
-            await interaction.response.defer()
+            await interaction.response.defer(ephemeral=True)
             await interaction.response.send_message(embed=get_havent_room_embed(), ephemeral=True)
 
     @button(
@@ -83,7 +83,7 @@ class RoomSettingsView(
         if has_room:
             await interaction.response.send_modal(ChangeSlotsModal(self.database))
         else:
-            await interaction.response.defer()
+            await interaction.response.defer(ephemeral=True)
             await interaction.followup.send(embed=get_havent_room_embed(), ephemeral=True)
 
     @button(
@@ -97,7 +97,7 @@ class RoomSettingsView(
         bucket = self.cooldown_mini.get_bucket(interaction.message)
         retry = bucket.update_rate_limit()
         if retry:
-            await interaction.response.defer()
+            await interaction.response.defer(ephemeral=True)
             return await interaction.followup.send(
                 embed=get_slow_down_embed(round(retry, 1)), ephemeral=True
             )
@@ -105,7 +105,7 @@ class RoomSettingsView(
         if has_room:
             await interaction.response.send_modal(ChangeOwnerModal(self.database))
         else:
-            await interaction.response.defer()
+            await interaction.response.defer(ephemeral=True)
             await interaction.followup.send(embed=get_havent_room_embed(), ephemeral=True)
 
     @button(
@@ -120,7 +120,7 @@ class RoomSettingsView(
         if has_room:
             return await interaction.response.send_modal(RenameRoomModal(self.database))
         else:
-            await interaction.response.defer()
+            await interaction.response.defer(ephemeral=True)
             await interaction.followup.send(embed=get_havent_room_embed(), ephemeral=True)
 
     @button(
@@ -133,7 +133,7 @@ class RoomSettingsView(
         user_id = interaction.user.id
         has_room = await self.database.is_owner(user_id)
         if has_room:
-            await interaction.response.defer()
+            await interaction.response.defer(ephemeral=True)
             return await interaction.followup.send(
                 embed=get_you_already_has_room_embed(), ephemeral=True
             )
@@ -147,7 +147,7 @@ class RoomSettingsView(
         custom_id="RoomSettingsView:delete",
     )
     async def delete(self, interaction, button):
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
         has_room = await self.database.is_owner(interaction.user.id)
         if has_room:
             user_room_id = await self.database.get_user_room_id(interaction.user.id)
@@ -166,7 +166,7 @@ class RoomSettingsView(
         custom_id="RoomSettingsView:up",
     )
     async def up(self, interaction, button):
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
         has_room = await self.database.is_owner(interaction.user.id)
         if has_room:
             user_room_id = await self.database.get_user_room_id(interaction.user.id)
