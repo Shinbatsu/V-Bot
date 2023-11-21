@@ -28,8 +28,7 @@ class Roles(commands.Cog, name="roles"):
     )
     async def _panel_roles(self, context: Context) -> None:
         self.bot.logger.info(str(context.interaction))
-        await context.defer(ephemeral=True)
-        await context.reply(file=File("src/banners/roles.png"))
+        await context.defer()
         await context.reply(file=File("src/banners/roles.png"))
         await context.send(
             embed=get_pick_your_nick_color_embed(), view=PickColorView(self.bot.database)
