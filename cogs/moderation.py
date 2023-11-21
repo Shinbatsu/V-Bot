@@ -212,7 +212,6 @@ class Moderation(commands.Cog, name="moderation"):
     @commands.bot_has_permissions(manage_messages=True)
     @app_commands.describe(amount="The amount of messages that should be deleted.")
     async def purge(self, context: Context, amount: int = 100) -> None:
-        await context.defer(ephemeral=True)
         await context.send("Deleting messages...", ephemeral=True)
         purged_messages = await context.channel.purge(limit=amount + 1)
         embed = discord.Embed(

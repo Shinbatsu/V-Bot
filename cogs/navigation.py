@@ -17,7 +17,8 @@ class Navigation(commands.Cog, name="navigation"):
         name="panel_navigation",
         description="Cоздать панель с навигационными кнопками.",
     )
-    async def panel_navigation(self, context: Context) -> None:
+    async def _panel_navigation(self, context: Context) -> None:
+        self.bot.logger.info(type(context))
         await context.send("Создание панели...", ephemeral=True)
         await context.send(file=File("src/banners/navigation.png"))
         await context.send(
@@ -25,7 +26,7 @@ class Navigation(commands.Cog, name="navigation"):
             view=NavigationView(),
         )
     async def setup_hook(self) -> None:
-        self.add_view(NavigationView(self.bot.database))
+        self.add_view(NavigationView())
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
 async def setup(bot) -> None:

@@ -113,24 +113,24 @@ class DiscordBot(commands.Bot):
                     exception = f"{type(e).__name__}: {e}"
                     self.logger.error(f"Failed to load extension {extension}\n{exception}")
 
-    # @tasks.loop(minutes=1.0)
-    # async def status_task(self) -> None:
-    #     """
-    #     Setup the game status task of the bot.
-    #     """
-    #     guild = self.get_guild(self.config["GUILD_ID"])
-    #     await self.change_presence(
-    #         activity=discord.CustomActivity(
-    #             name=f"Наблюдаю за {len(guild.members)} участниками.", emoji="🖥"
-    #         )
-    #     )
+    @tasks.loop(seconds=20.0)
+    async def status_task(self) -> None:
+        """
+        Setup the game status task of the bot.
+        """
+        guild = self.get_guild(self.config["GUILD_ID"])
+        await self.change_presence(
+            activity=discord.CustomActivity(
+                name=f"Наблюдаю за {len(guild.members)} участниками.", emoji="🖥"
+            )
+        )
 
-    # @status_task.before_loop
-    # async def before_status_task(self) -> None:
-    #     """
-    #     Before starting the status changing task, we make sure the bot is ready
-    #     """
-    #     await self.wait_until_ready()
+    @status_task.before_loop
+    async def before_status_task(self) -> None:
+        """
+        Before starting the status changing task, we make sure the bot is ready
+        """
+        await self.wait_until_ready()
 
     async def setup_hook(self) -> None:
         self.logger.info(f"Logged in as {self.user.name}")
@@ -140,7 +140,7 @@ class DiscordBot(commands.Bot):
         self.logger.info("-------------------")
         await self.init_db()
         await self.load_cogs()
-        # self.status_task.start()
+        self.status_task.start()
         self.database = DatabaseManager(
             connection=await aiosqlite.connect(
                 f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"

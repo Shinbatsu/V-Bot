@@ -84,13 +84,12 @@ class Avatar(commands.Cog, name="avatar"):
         return image
 
     @commands.hybrid_command(name="avatar", description="Отображает твой профиль на сервере")
-    @app_commands.describe(user="Пользователь, чей профиль хотите увидеть")
-    async def avatar(self, context: Context, *, user: discord.Member = None) -> None:
+    async def _avatar(self, context: Context, *, user: discord.Member = None) -> None:
+        self.bot.logger.info(type(context))
         await context.defer(ephemeral=True)
         await context.send("Рисую аватарку...", ephemeral=True)
         if user is None:
             user = context.author
-        self.bot.logger.info("1")
         background = Image.open("src/img/background.png")
         activity = int(await self.bot.database.get_user_activity(user.id))
         background = self.add_progress(background, activity)

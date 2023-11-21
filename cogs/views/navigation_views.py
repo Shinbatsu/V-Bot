@@ -7,6 +7,7 @@ class NavigationView(
 ):
     def __init__(self):
         super().__init__()
+        
         roles_link = Button(
             label="⠀⠀Роли⠀⠀",
             style=ButtonStyle.url,
