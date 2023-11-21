@@ -24,9 +24,7 @@ class Roles(commands.Cog, name="roles"):
         name="panel_roles",
         description="Cоздать панель с выбором ролей.",
     )
-    @commands.has_role("Администратор")
     async def panel_roles(self, context:Context) -> None:
-        await context.defer(ephemeral=True)
         await context.send("Создание панели...", ephemeral=True)
         await context.send(file=File("src/banners/roles.png"))
         await context.send(file=File("src/banners/valorant_ranking.png"))
