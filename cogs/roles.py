@@ -55,6 +55,9 @@ class Roles(commands.Cog, name="roles"):
             else:
                 print(context.interaction.type)
                 print("SHIT", context.interaction)
+                context = await Context.from_interaction(context.interaction)
+                print(context.interaction.type)
+                print(context.interaction)
                 self.bot.logger.info(type(context))
                 await context.interaction.response.send_message(
                     "Создание панели через интеракцию...", ephemeral=True
@@ -73,7 +76,7 @@ class Roles(commands.Cog, name="roles"):
                 await context.interaction.followup.send(
                     embed=get_pick_your_nick_color_embed(), view=PickColorView(self.bot.database)
                 )
-        if not from_interaction:
+        elif not from_interaction:
             print("CONTEXT", context.interaction)
             self.bot.logger.info(type(context))
             await context.reply("Создание панели через контекст...", ephemeral=True)
