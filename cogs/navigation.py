@@ -19,8 +19,8 @@ class Navigation(commands.Cog, name="navigation"):
     )
     async def _panel_navigation(self, context: Context) -> None:
         self.bot.logger.info(type(context))
-        await context.send("Создание панели...", ephemeral=True)
-        await context.send(file=File("src/banners/navigation.png"))
+        # await context.send("Создание панели...", ephemeral=True)
+        # await context.send(file=File("src/banners/navigation.png"))
         await context.send(
             embed=get_navigation_room_embed(),
             view=NavigationView(),
