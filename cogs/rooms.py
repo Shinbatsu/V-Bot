@@ -63,12 +63,11 @@ class Rooms(commands.Cog, name="rooms"):
         name="panel_room_settings",
         description="Cоздать панель с настройками для личной комнаты.",
     )
-    async def _panel_room_settings(self, interaction) -> None:
-        await interaction.response.defer(ephemeral=True)
-        self.bot.logger.info(str(interaction.type))
-        await interaction.followup.send("Создание панели...", ephemeral=True)
-        await interaction.followup.send(file=File("src/banners/room_settings.png"))
-        await interaction.followup.send(
+    async def _panel_room_settings(self, context: Context) -> None:
+        await context.defer(ephemeral=True)
+        await context.send("Создание панели...", ephemeral=True)
+        await context.send(file=File("src/banners/room_settings.png"))
+        await context.send(
             embed=get_room_settings_embed(), view=RoomSettingsView(self.bot.database)
         )
 

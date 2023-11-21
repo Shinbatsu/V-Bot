@@ -27,12 +27,24 @@ class Roles(commands.Cog, name="roles"):
         description="Create a roles panel.",
     )
     async def _panel_roles(self, context: Context) -> None:
-        self.bot.logger.info(str(context.interaction))
-        await context.defer()
-        await context.reply(file=File("src/banners/roles.png"))
+        await context.defer(ephemeral=True)
+        await context.send("Создание панели...", ephemeral=True)
+        await context.send(file=File("src/banners/roles.png"))
+        await context.send(file=File("src/banners/valorant_ranking.png"))
+        await context.send(embed=get_pick_rank_embed(), view=PickRankView(self.bot.database))
+        await context.send(file=File("src/banners/agent_roles.png"))
+        await context.send(
+            embed=get_pick_your_agents_embed(), view=PickAgentsView(self.bot.database)
+        )
+        await context.send(file=File("src/banners/nick_color.png"))
         await context.send(
             embed=get_pick_your_nick_color_embed(), view=PickColorView(self.bot.database)
         )
+
+    async def setup_hook(self) -> None:
+        self.add_view(PickRankView(self.bot.database))
+        self.add_view(PickAgentsView(self.bot.database))
+        self.add_view(PickColorView(self.bot.database))
 
 
 async def setup(bot) -> None:
