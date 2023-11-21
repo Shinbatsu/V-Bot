@@ -28,10 +28,51 @@ class Roles(commands.Cog, name="roles"):
     )
     async def _panel_roles(self, context: Context) -> None:
         from_interaction = context.interaction != None
-        if context.interaction:
+        if from_interaction:
             if context.interaction.is_expired():
                 context = await Context.from_interaction(context.interaction)
                 await context.defer()
+                print(context.interaction.type)
+                print("INTERACTION EXPIRED", context.interaction)
+                self.bot.logger.info(type(context))
+                await context.interaction.response.send_message(
+                    "Создание панели через интеракцию...", ephemeral=True
+                )
+                self.bot.logger.info(type(context))
+                await context.interaction.followup.send(file=File("src/banners/roles.png"))
+                await context.interaction.followup.send(file=File("src/banners/valorant_ranking.png"))
+                await context.interaction.followup.send(
+                    embed=get_pick_rank_embed(), view=PickRankView(self.bot.database)
+                )
+                await context.interaction.followup.send(file=File("src/banners/agent_roles.png"))
+                await context.interaction.followup.send(
+                    embed=get_pick_your_agents_embed(), view=PickAgentsView(self.bot.database)
+                )
+                await context.interaction.followup.send(file=File("src/banners/nick_color.png"))
+                await context.interaction.followup.send(
+                    embed=get_pick_your_nick_color_embed(), view=PickColorView(self.bot.database)
+                )
+            else:
+                print(context.interaction.type)
+                print("SHIT", context.interaction)
+                self.bot.logger.info(type(context))
+                await context.interaction.response.send_message(
+                    "Создание панели через интеракцию...", ephemeral=True
+                )
+                self.bot.logger.info(type(context))
+                await context.interaction.followup.send(file=File("src/banners/roles.png"))
+                await context.interaction.followup.send(file=File("src/banners/valorant_ranking.png"))
+                await context.interaction.followup.send(
+                    embed=get_pick_rank_embed(), view=PickRankView(self.bot.database)
+                )
+                await context.interaction.followup.send(file=File("src/banners/agent_roles.png"))
+                await context.interaction.followup.send(
+                    embed=get_pick_your_agents_embed(), view=PickAgentsView(self.bot.database)
+                )
+                await context.interaction.followup.send(file=File("src/banners/nick_color.png"))
+                await context.interaction.followup.send(
+                    embed=get_pick_your_nick_color_embed(), view=PickColorView(self.bot.database)
+                )
         if not from_interaction:
             print("CONTEXT", context.interaction)
             self.bot.logger.info(type(context))
@@ -48,7 +89,6 @@ class Roles(commands.Cog, name="roles"):
             await context.reply(
                 embed=get_pick_your_nick_color_embed(), view=PickColorView(self.bot.database)
             )
-
         else:
             print(context.interaction.type)
             print("INTERACTION", context.interaction)
