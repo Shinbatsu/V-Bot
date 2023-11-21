@@ -64,6 +64,7 @@ class Rooms(commands.Cog, name="rooms"):
         description="Cоздать панель с настройками для личной комнаты.",
     )
     async def _panel_room_settings(self, context: Context) -> None:
+        await context.interaction.response.defer(ephemeral=True)
         self.bot.logger.info(type(context))
         await context.reply("Создание панели...", ephemeral=True)
         await context.reply(file=File("src/banners/room_settings.png"))
