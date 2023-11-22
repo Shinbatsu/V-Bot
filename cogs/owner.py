@@ -20,26 +20,26 @@ class Owner(commands.Cog, name="owner"):
                 description="Slash commands have been globally synchronized.",
                 color=0xBEBEFE,
             )
-            await context.send(embed=embed)
+            await context.send(embed=embed,ephemeral=True)
             return
         elif scope == "guild":
             context.bot.tree.copy_global_to(guild=context.guild)
             await context.bot.tree.sync(guild=context.guild)
             embed = discord.Embed(
-                description="Slash commands have been synchronized in this guild.",
+                description="Слеш команды на этом сервере были синхронизированы.",
                 color=0xBEBEFE,
             )
             await context.send(embed=embed)
             return
-        embed = discord.Embed(description="The scope must be `global` or `guild`.", color=0xE02B2B)
+        embed = discord.Embed(description="Область должна иметь значения `global` или `guild`.", color=0xE02B2B)
         await context.send(embed=embed)
 
     @commands.command(
         name="unsync",
-        description="Unsynchonizes the slash commands.",
+        description="Отключить слеш команды.",
     )
     @app_commands.describe(
-        scope="The scope of the sync. Can be `global`, `current_guild` or `guild`"
+        scope="Пространство выполнения. Может быть `global`, `current_guild` или `guild`"
     )
     @commands.is_owner()
     async def unsync(self, context: Context, scope: str) -> None:
@@ -47,7 +47,7 @@ class Owner(commands.Cog, name="owner"):
             context.bot.tree.clear_commands(guild=None)
             await context.bot.tree.sync()
             embed = discord.Embed(
-                description="Slash commands have been globally unsynchronized.",
+                description="Слеш команды были отключены глобально.",
                 color=0xBEBEFE,
             )
             await context.send(embed=embed)
@@ -56,7 +56,7 @@ class Owner(commands.Cog, name="owner"):
             context.bot.tree.clear_commands(guild=context.guild)
             await context.bot.tree.sync(guild=context.guild)
             embed = discord.Embed(
-                description="Slash commands have been unsynchronized in this guild.",
+                description="Слеш команды на этом сервере были отключены.",
                 color=0xBEBEFE,
             )
             await context.send(embed=embed)
@@ -66,71 +66,71 @@ class Owner(commands.Cog, name="owner"):
 
     @commands.hybrid_command(
         name="load",
-        description="Load a cog",
+        description="Загружает модуль",
     )
-    @app_commands.describe(cog="The name of the cog to load")
+    @app_commands.describe(cog="Название модуля для загрузки")
     @commands.is_owner()
     async def load(self, context: Context, cog: str) -> None:
         await context.defer(ephemeral=True)
         try:
             await self.bot.load_extension(f"cogs.{cog}")
         except Exception:
-            embed = discord.Embed(description=f"Could not load the `{cog}` cog.", color=0xE02B2B)
+            embed = discord.Embed(description=f"Не смог загрузить `{cog}` модуль.", color=0xE02B2B)
             await context.send(embed=embed)
             return
-        embed = discord.Embed(description=f"Successfully loaded the `{cog}` cog.", color=0xBEBEFE)
+        embed = discord.Embed(description=f"Модуль `{cog}` успешно загружен.", color=0xBEBEFE)
         await context.send(embed=embed)
 
     @commands.hybrid_command(
         name="unload",
-        description="Unloads a cog.",
+        description="Отключить модуль.",
     )
-    @app_commands.describe(cog="The name of the cog to unload")
+    @app_commands.describe(cog="Отключаемый модуль")
     @commands.is_owner()
     async def unload(self, context: Context, cog: str) -> None:
         await context.defer(ephemeral=True)
         try:
             await self.bot.unload_extension(f"cogs.{cog}")
         except Exception:
-            embed = discord.Embed(description=f"Could not unload the `{cog}` cog.", color=0xE02B2B)
+            embed = discord.Embed(description=f"Не смог отключить `{cog}` модуль.", color=0xE02B2B)
             await context.send(embed=embed)
             return
-        embed = discord.Embed(description=f"Successfully unloaded the `{cog}` cog.", color=0xBEBEFE)
+        embed = discord.Embed(description=f"Модуль `{cog}` успешно отключен.", color=0xBEBEFE)
         await context.send(embed=embed)
 
     @commands.hybrid_command(
         name="reload",
-        description="Reloads a cog.",
+        description="Перезагрузить модуль.",
     )
-    @app_commands.describe(cog="The name of the cog to reload")
+    @app_commands.describe(cog="Перезагружаемый модуль")
     @commands.is_owner()
     async def reload(self, context: Context, cog: str) -> None:
         await context.defer(ephemeral=True)
         try:
             await self.bot.reload_extension(f"cogs.{cog}")
         except Exception:
-            embed = discord.Embed(description=f"Could not reload the `{cog}` cog.", color=0xE02B2B)
+            embed = discord.Embed(description=f"Не смог перезагрузить `{cog}` модуль.", color=0xE02B2B)
             await context.send(embed=embed)
             return
-        embed = discord.Embed(description=f"Successfully reloaded the `{cog}` cog.", color=0xBEBEFE)
+        embed = discord.Embed(description=f"Модуль `{cog}` успешно перезагружен.", color=0xBEBEFE)
         await context.send(embed=embed)
 
     @commands.hybrid_command(
         name="shutdown",
-        description="Make the bot shutdown.",
+        description="Выключить бота.",
     )
     @commands.is_owner()
     async def shutdown(self, context: Context) -> None:
         await context.defer(ephemeral=True)
-        embed = discord.Embed(description="Shutting down. Bye! :wave:", color=0xBEBEFE)
+        embed = discord.Embed(description="Выключение... Пока! :wave:", color=0xBEBEFE)
         await context.send(embed=embed)
         await self.bot.close()
 
     @commands.hybrid_command(
         name="say",
-        description="The bot will say anything you want.",
+        description="Бот скажет, то что захочешь",
     )
-    @app_commands.describe(message="The message that should be repeated by the bot")
+    @app_commands.describe(message="Сообщение, которое бот должен повторить")
     @commands.is_owner()
     async def say(self, context: Context, *, message: str) -> None:
         await context.defer(ephemeral=True)
@@ -138,109 +138,13 @@ class Owner(commands.Cog, name="owner"):
 
     @commands.hybrid_command(
         name="embed",
-        description="The bot will say anything you want, but within embeds.",
+        description="Бот скажет, то что захочешь использую embed",
     )
-    @app_commands.describe(message="The message that should be repeated by the bot")
+    @app_commands.describe(message="Сообщение, которое бот должен повторить")
     @commands.is_owner()
     async def embed(self, context: Context, *, message: str) -> None:
         await context.defer(ephemeral=True)
         embed = discord.Embed(description=message, color=0xBEBEFE)
-        await context.send(embed=embed)
-
-    @commands.hybrid_group(
-        name="blacklist",
-        description="Get the list of all blacklisted users.",
-    )
-    @commands.is_owner()
-    async def blacklist(self, context: Context) -> None:
-        await context.defer(ephemeral=True)
-        if context.invoked_subcommand is None:
-            embed = discord.Embed(
-                description="You need to specify a subcommand.\n\n**Subcommands:**\n`add` - Add a user to the blacklist.\n`remove` - Remove a user from the blacklist.",
-                color=0xE02B2B,
-            )
-            await context.send(embed=embed)
-
-    @blacklist.command(
-        base="blacklist",
-        name="show",
-        description="Shows the list of all blacklisted users.",
-    )
-    @commands.is_owner()
-    async def blacklist_show(self, context: Context) -> None:
-        await context.defer(ephemeral=True)
-        blacklisted_users = await self.bot.database.get_blacklisted_users()
-        if len(blacklisted_users) == 0:
-            embed = discord.Embed(
-                description="There are currently no blacklisted users.", color=0xE02B2B
-            )
-            await context.send(embed=embed)
-            return
-
-        embed = discord.Embed(title="Blacklisted Users", color=0xBEBEFE)
-        users = []
-        for bluser in blacklisted_users:
-            user = self.bot.get_user(int(bluser[0])) or await self.bot.fetch_user(int(bluser[0]))
-            users.append(f"• {user.mention} ({user}) - Blacklisted <t:{bluser[1]}>")
-        embed.description = "\n".join(users)
-        await context.send(embed=embed)
-
-    @blacklist.command(
-        base="blacklist",
-        name="add",
-        description="Lets you add a user from not being able to use the bot.",
-    )
-    @app_commands.describe(user="The user that should be added to the blacklist")
-    @commands.is_owner()
-    async def blacklist_add(self, context: Context, user: discord.User) -> None:
-        """
-        Lets you add a user from not being able to use the bot.
-
-        :param context: The hybrid command context.
-        :param user: The user that should be added to the blacklist.
-        """
-        user_id = user.id
-        if await self.bot.database.is_blacklisted(user_id):
-            embed = discord.Embed(
-                description=f"**{user.name}** is already in the blacklist.",
-                color=0xE02B2B,
-            )
-            await context.send(embed=embed)
-            return
-        total = await self.bot.database.add_user_to_blacklist(user_id)
-        embed = discord.Embed(
-            description=f"**{user.name}** has been successfully added to the blacklist",
-            color=0xBEBEFE,
-        )
-        embed.set_footer(
-            text=f"There {'is' if total == 1 else 'are'} now {total} {'user' if total == 1 else 'users'} in the blacklist"
-        )
-        await context.send(embed=embed)
-
-    @blacklist.command(
-        base="blacklist",
-        name="remove",
-        description="Lets you remove a user from not being able to use the bot.",
-    )
-    @app_commands.describe(user="The user that should be removed from the blacklist.")
-    @commands.is_owner()
-    async def blacklist_remove(self, context: Context, user: discord.User) -> None:
-        await context.defer(ephemeral=True)
-        user_id = user.id
-        if not await self.bot.database.is_blacklisted(user_id):
-            embed = discord.Embed(
-                description=f"**{user.name}** is not in the blacklist.", color=0xE02B2B
-            )
-            await context.send(embed=embed)
-            return
-        total = await self.bot.database.remove_user_from_blacklist(user_id)
-        embed = discord.Embed(
-            description=f"**{user.name}** has been successfully removed from the blacklist",
-            color=0xBEBEFE,
-        )
-        embed.set_footer(
-            text=f"There {'is' if total == 1 else 'are'} now {total} {'user' if total == 1 else 'users'} in the blacklist"
-        )
         await context.send(embed=embed)
 
 

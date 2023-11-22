@@ -123,18 +123,24 @@ class PickColorView(View):
             SelectOption(label="Yellow"),
             SelectOption(label="Black"),
             SelectOption(label="Orange"),
-            SelectOption(label="Remove"),
+            SelectOption(label="Убрать"),
         ],
         custom_id="PickColorView:color",
     )
     async def color(self, interaction, select):
         await interaction.response.defer(ephemeral=True)
-        for role in interaction.guild.roles:
-            if role in color_roles:
-                await interaction.user.remove_roles(role)
-        await interaction.user.add_roles(select.values[0])
-        await interaction.followup.send(embed=get_color_nick_added_embed(), ephemeral=True)
-
+        color_roles_o = [*filter(lambda x: x.name in color_roles, interaction.guild.roles)]
+        user_roles = [role.name for role in interaction.user.roles]
+        user_pick = select.values[0]
+        if user_pick in user_roles or user_pick == "Убрать":
+            await interaction.user.remove_roles(*color_roles_o)
+            await interaction.followup.send(embed=get_color_nick_removed_embed(), ephemeral=True)
+        else:
+            await interaction.user.remove_roles(*color_roles_o)
+            for role in color_roles_o:
+                if role.name == user_pick:
+                    await interaction.user.add_roles(role)
+            await interaction.followup.send(embed=get_color_nick_added_embed(), ephemeral=True)
 
 class PickAgentsView(View):
     def __init__(self, database):
@@ -145,62 +151,81 @@ class PickAgentsView(View):
         placeholder="Стражи",
         min_values=1,
         max_values=1,
-        options=[SelectOption(label=x) for x in guardian_roles],
+        options=[*[SelectOption(label=x) for x in guardian_roles], SelectOption(label="Убрать")],
         custom_id="PickAgentsView:guardians_callback",
     )
     async def guardians_callback(self, interaction, select):
         await interaction.response.defer(ephemeral=True)
-        new_role = [*filter(lambda x: x.name == select.values[0], interaction.guild.roles)][0]
-        for role in interaction.guild.roles:
-            if role in guardian_roles:
-                await interaction.user.remove_roles(role)
-        await interaction.user.add_roles(new_role)
-        await interaction.followup.send(embed=get_agent_added_embed(), ephemeral=True)
+        guardian_roles_o = [*filter(lambda x: x.name in guardian_roles, interaction.guild.roles)]
+        user_roles = [role.name for role in interaction.user.roles]
+        user_pick = select.values[0]
+        if user_pick in user_roles or user_pick == "Убрать":
+            await interaction.user.remove_roles(*guardian_roles_o)
+            await interaction.followup.send(embed=get_agent_removed_embed(), ephemeral=True)
+        else:
+            for role in guardian_roles_o:
+                if role.name == user_pick:
+                    await interaction.user.add_roles(role)
+            await interaction.followup.send(embed=get_agent_added_embed(), ephemeral=True)
 
     @select(
         placeholder="Дуэлянты",
         min_values=1,
         max_values=1,
-        options=[SelectOption(label=x) for x in duelist_roles],
+        options=[*[SelectOption(label=x) for x in duelist_roles], SelectOption(label="Убрать")],
         custom_id="PickAgentsView:duelist_callback",
     )
     async def duelist_callback(self, interaction, select):
         await interaction.response.defer(ephemeral=True)
-        new_role = [*filter(lambda x: x.name == select.values[0], interaction.guild.roles)][0]
-        for role in interaction.guild.roles:
-            if role in duelist_roles:
-                await interaction.user.remove_roles(role)
-        await interaction.user.add_roles(new_role)
-        await interaction.followup.send(embed=get_agent_added_embed(), ephemeral=True)
-
+        duelist_roles_o = [*filter(lambda x: x.name in duelist_roles, interaction.guild.roles)]
+        user_roles = [role.name for role in interaction.user.roles]
+        user_pick = select.values[0]
+        if user_pick in user_roles or user_pick == "Убрать":
+            await interaction.user.remove_roles(*duelist_roles_o)
+            await interaction.followup.send(embed=get_agent_removed_embed(), ephemeral=True)
+        else:
+            for role in duelist_roles_o:
+                if role.name == user_pick:
+                    await interaction.user.add_roles(role)
+            await interaction.followup.send(embed=get_agent_added_embed(), ephemeral=True)
     @select(
         placeholder="Зачинщики",
         min_values=1,
         max_values=1,
-        options=[SelectOption(label=x) for x in initiator_roles],
+        options=[*[SelectOption(label=x) for x in initiator_roles], SelectOption(label="Убрать")],
         custom_id="PickAgentsView:initiator_callback",
     )
     async def initiator_callback(self, interaction, select):
         await interaction.response.defer(ephemeral=True)
-        new_role = [*filter(lambda x: x.name == select.values[0], interaction.guild.roles)][0]
-        for role in interaction.guild.roles:
-            if role in initiator_roles:
-                await interaction.user.remove_roles(role)
-        await interaction.user.add_roles(new_role)
-        await interaction.followup.send(embed=get_agent_added_embed(), ephemeral=True)
+        initiator_roles_o = [*filter(lambda x: x.name in initiator_roles, interaction.guild.roles)]
+        user_roles = [role.name for role in interaction.user.roles]
+        user_pick = select.values[0]
+        if user_pick in user_roles or user_pick == "Убрать":
+            await interaction.user.remove_roles(*initiator_roles_o)
+            await interaction.followup.send(embed=get_agent_removed_embed(), ephemeral=True)
+        else:
+            for role in initiator_roles_o:
+                if role.name == user_pick:
+                    await interaction.user.add_roles(role)
+            await interaction.followup.send(embed=get_agent_added_embed(), ephemeral=True)
 
     @select(
         placeholder="Специалисты",
         min_values=1,
         max_values=1,
-        options=[SelectOption(label=x) for x in specialist_roles],
+        options=[*[SelectOption(label=x) for x in specialist_roles], SelectOption(label="Убрать")],
         custom_id="PickAgentsView:specialist_callback",
     )
     async def specialist_callback(self, interaction, select):
         await interaction.response.defer(ephemeral=True)
-        new_role = [*filter(lambda x: x.name == select.values[0], interaction.guild.roles)][0]
-        for role in interaction.guild.roles:
-            if role in specialist_roles:
-                await interaction.user.remove_roles(role)
-        await interaction.user.add_roles(new_role)
-        await interaction.followup.send(embed=get_agent_added_embed(), ephemeral=True)
+        specialist_roles_o = [*filter(lambda x: x.name in specialist_roles, interaction.guild.roles)]
+        user_roles = [role.name for role in interaction.user.roles]
+        user_pick = select.values[0]
+        if user_pick in user_roles or user_pick == "Убрать":
+            await interaction.user.remove_roles(*specialist_roles_o)
+            await interaction.followup.send(embed=get_agent_removed_embed(), ephemeral=True)
+        else:
+            for role in specialist_roles_o:
+                if role.name == user_pick:
+                    await interaction.user.add_roles(role)
+            await interaction.followup.send(embed=get_agent_added_embed(), ephemeral=True)

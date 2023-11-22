@@ -13,9 +13,9 @@ class RoomSettingsView(
     def __init__(self, database):
         super().__init__(timeout=None)
         self.database = database
-        self.cooldown = commands.CooldownMapping.from_cooldown(1, 30, commands.BucketType.member)
+        self.cooldown = commands.CooldownMapping.from_cooldown(1, 15, commands.BucketType.member)
         self.cooldown_mini = commands.CooldownMapping.from_cooldown(
-            1, 10, commands.BucketType.member
+            1, 5, commands.BucketType.member
         )
 
     @button(
@@ -27,6 +27,12 @@ class RoomSettingsView(
     )
     async def lock(self, interaction, button):
         await interaction.response.defer(ephemeral=True)
+        bucket = self.cooldown_mini.get_bucket(interaction.message)
+        retry = bucket.update_rate_limit()
+        if retry:
+            return await interaction.followup.send(
+                embed=get_slow_down_embed(round(retry, 1)), ephemeral=True
+            )
         member = interaction.user
         is_owner = await self.database.is_owner(interaction.user.id)
         if is_owner:
@@ -94,13 +100,6 @@ class RoomSettingsView(
         custom_id="RoomSettingsView:change_owner",
     )
     async def change_owner(self, interaction, button):
-        bucket = self.cooldown_mini.get_bucket(interaction.message)
-        retry = bucket.update_rate_limit()
-        if retry:
-            await interaction.response.defer(ephemeral=True)
-            return await interaction.followup.send(
-                embed=get_slow_down_embed(round(retry, 1)), ephemeral=True
-            )
         has_room = await self.database.is_owner(interaction.user.id)
         if has_room:
             await interaction.response.send_modal(ChangeOwnerModal(self.database))
@@ -130,6 +129,12 @@ class RoomSettingsView(
         custom_id="RoomSettingsView:create_room",
     )
     async def create_room(self, interaction, button):
+        bucket = self.cooldown.get_bucket(interaction.message)
+        retry = bucket.update_rate_limit()
+        if retry:
+            return await interaction.followup.send(
+                embed=get_slow_down_embed(round(retry, 1)), ephemeral=True
+            )
         user_id = interaction.user.id
         has_room = await self.database.is_owner(user_id)
         if has_room:
@@ -167,6 +172,12 @@ class RoomSettingsView(
     )
     async def up(self, interaction, button):
         await interaction.response.defer(ephemeral=True)
+        bucket = self.cooldown.get_bucket(interaction.message)
+        retry = bucket.update_rate_limit()
+        if retry:
+            return await interaction.followup.send(
+                embed=get_slow_down_embed(round(retry, 1)), ephemeral=True
+            )
         has_room = await self.database.is_owner(interaction.user.id)
         if has_room:
             user_room_id = await self.database.get_user_room_id(interaction.user.id)

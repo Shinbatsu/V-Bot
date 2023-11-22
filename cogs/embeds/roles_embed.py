@@ -143,18 +143,18 @@ def get_color_nick_removed_embed() -> Embed:
         title="Изменение цвета",
     )
     embed.add_field(
-        name="Ваш цвет ника успешно убран!",
+        name="Ваши цвета ника успешно убраны!",
         value="",
     )
     return embed
 
 
-def get_color_already_selected_embed() -> Embed:
+def get_color_been_changed_embed() -> Embed:
     embed = Embed(
         title="Изменение цвета",
     )
     embed.add_field(
-        name="У вас уже есть цвет ника!",
+        name="Ваш цвет ника изменен!",
         value="",
     )
     return embed

@@ -17,10 +17,11 @@ class Roles(commands.Cog, name="roles"):
     def __init__(self, bot) -> None:
         self.bot = bot
 
-    # @commands.Cog.listener()
-    # async def on_member_join(self, member):
-    #     for role in join_roles:
-    #         await member.add_roles(get(member.guild.roles, name=role))
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
+        for role in member.guild.roles:
+            if role.name in join_roles:
+                await member.add_roles(get(member.guild.roles, name=role))
 
     @commands.hybrid_command(
         name="panel_roles",

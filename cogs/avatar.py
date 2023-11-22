@@ -85,30 +85,35 @@ class Avatar(commands.Cog, name="avatar"):
 
     @commands.hybrid_command(name="avatar", description="Отображает твой профиль на сервере")
     async def _avatar(self, context: Context, *, user: discord.Member = None) -> None:
-        self.bot.logger.info(type(context))
         await context.defer(ephemeral=True)
         await context.reply("Рисую аватарку...", ephemeral=True)
         if user is None:
             user = context.author
         background = Image.open("src/img/background.png")
         activity = int(await self.bot.database.get_user_activity(user.id))
+
         background = self.add_progress(background, activity)
+
         mask = Image.open("src/img/background_m.png")
         mask = self.add_progress_mask(mask, activity)
         mask = mask.convert("L")
+
         toner = Image.new(
             "RGBA",
             background.size,
             tuple([random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]),
         )
         background = Image.composite(background, toner, mask)
+
         avatar = await user.avatar.to_file(filename="avatar.png")
         circular_avatar = square_to_circle(avatar).resize((586, 586), Image.Resampling.LANCZOS)
+        background.paste(circular_avatar, (56, 62), circular_avatar)
+        
         background = self.add_level(background, activity)
         background = self.add_all_level(background, activity)
         background = self.add_name(background, user)
         background = self.add_activity(background, activity)
-        background.paste(circular_avatar, (56, 62), circular_avatar)
+
         # background = self.add_progress(background, activity)
         # Save the final image and send it in the chat
         background.save("src/img/user_profile.png")
