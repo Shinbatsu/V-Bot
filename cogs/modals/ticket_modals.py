@@ -50,7 +50,7 @@ class CreateReportModal(Modal, title="Создание жалобы"):
             embed=get_report_info_embed(
                 interaction.user.name, self.reported_user.name, description
             ),
-            view=ModeratorActionView(self.reported_user, message_url),
+            view=ModeratorActionView(self.database, self.reported_user, message_url),
         )
         await interaction.response.defer(ephemeral=True)
         await interaction.followup.send(embed=get_report_sent_embed(), ephemeral=True)
