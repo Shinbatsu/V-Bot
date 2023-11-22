@@ -129,8 +129,9 @@ class PickColorView(View):
     )
     async def color(self, interaction, select):
         await interaction.response.defer(ephemeral=True)
-        for role in color_roles:
-            await interaction.user.remove_roles(role)
+        for role in interaction.guild.roles:
+            if role in color_roles:
+                await interaction.user.remove_roles(role)
         await interaction.user.add_roles(select.values[0])
         await interaction.followup.send(embed=get_color_nick_added_embed(), ephemeral=True)
 
