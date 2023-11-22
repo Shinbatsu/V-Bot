@@ -159,9 +159,14 @@ class PickAgentsView(View):
         guardian_roles_o = [*filter(lambda x: x.name in guardian_roles, interaction.guild.roles)]
         user_roles = [role.name for role in interaction.user.roles]
         user_pick = select.values[0]
-        if user_pick in user_roles or user_pick == "Убрать":
+        if user_pick in user_roles:
+            for role in guardian_roles_o:
+                if role.name == user_pick:
+                    await interaction.user.remove_roles(role)
+                await interaction.followup.send(embed=get_agent_removed_embed(), ephemeral=True)
+        elif user_pick=="Убрать":
             await interaction.user.remove_roles(*guardian_roles_o)
-            await interaction.followup.send(embed=get_agent_removed_embed(), ephemeral=True)
+            await interaction.followup.send(embed=get_all_agent_removed_embed(), ephemeral=True)
         else:
             for role in guardian_roles_o:
                 if role.name == user_pick:
@@ -180,9 +185,14 @@ class PickAgentsView(View):
         duelist_roles_o = [*filter(lambda x: x.name in duelist_roles, interaction.guild.roles)]
         user_roles = [role.name for role in interaction.user.roles]
         user_pick = select.values[0]
-        if user_pick in user_roles or user_pick == "Убрать":
-            await interaction.user.remove_roles(*duelist_roles_o)
-            await interaction.followup.send(embed=get_agent_removed_embed(), ephemeral=True)
+        if user_pick in user_roles:
+            for role in duelist_roles_o:
+                if role.name == user_pick:
+                    await interaction.user.remove_roles(role)
+                await interaction.followup.send(embed=get_agent_removed_embed(), ephemeral=True)
+        elif user_pick=="Убрать":
+            await interaction.user.remove_roles(*duelist_roles)
+            await interaction.followup.send(embed=get_all_agent_removed_embed(), ephemeral=True)
         else:
             for role in duelist_roles_o:
                 if role.name == user_pick:
@@ -200,9 +210,14 @@ class PickAgentsView(View):
         initiator_roles_o = [*filter(lambda x: x.name in initiator_roles, interaction.guild.roles)]
         user_roles = [role.name for role in interaction.user.roles]
         user_pick = select.values[0]
-        if user_pick in user_roles or user_pick == "Убрать":
-            await interaction.user.remove_roles(*initiator_roles_o)
-            await interaction.followup.send(embed=get_agent_removed_embed(), ephemeral=True)
+        if user_pick in user_roles:
+            for role in initiator_roles_o:
+                if role.name == user_pick:
+                    await interaction.user.remove_roles(role)
+                await interaction.followup.send(embed=get_agent_removed_embed(), ephemeral=True)
+        elif user_pick=="Убрать":
+            await interaction.user.remove_roles(*initiator_roles)
+            await interaction.followup.send(embed=get_all_agent_removed_embed(), ephemeral=True)
         else:
             for role in initiator_roles_o:
                 if role.name == user_pick:
@@ -221,9 +236,14 @@ class PickAgentsView(View):
         specialist_roles_o = [*filter(lambda x: x.name in specialist_roles, interaction.guild.roles)]
         user_roles = [role.name for role in interaction.user.roles]
         user_pick = select.values[0]
-        if user_pick in user_roles or user_pick == "Убрать":
-            await interaction.user.remove_roles(*specialist_roles_o)
-            await interaction.followup.send(embed=get_agent_removed_embed(), ephemeral=True)
+        if user_pick in user_roles:
+            for role in specialist_roles_o:
+                if role.name == user_pick:
+                    await interaction.user.remove_roles(role)
+                await interaction.followup.send(embed=get_agent_removed_embed(), ephemeral=True)
+        elif user_pick=="Убрать":
+            await interaction.user.remove_roles(*specialist_roles)
+            await interaction.followup.send(embed=get_all_agent_removed_embed(), ephemeral=True)
         else:
             for role in specialist_roles_o:
                 if role.name == user_pick:

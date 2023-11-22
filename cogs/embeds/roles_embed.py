@@ -196,3 +196,13 @@ def get_agent_removed_embed() -> Embed:
     )
     return embed
 
+@success_color()
+def get_all_agent_removed_embed() -> Embed:
+    embed = Embed(
+        title="Изменение агента",
+    )
+    embed.add_field(
+        name="",
+        value="Ваш агент этого типы убраны!",
+    )
+    return embed
