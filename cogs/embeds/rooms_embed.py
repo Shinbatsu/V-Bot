@@ -3,7 +3,7 @@ from .url_icons import *
 from .embed_utils import *
 
 
-
+@error_color()
 def get_havent_room_embed() -> Embed:
     embed = Embed()
     embed.set_author(
@@ -14,7 +14,7 @@ def get_havent_room_embed() -> Embed:
     return embed
 
 
-
+@error_color()
 def get_you_already_has_room_embed() -> Embed:
     embed = Embed()
     embed.set_author(
@@ -29,7 +29,7 @@ def get_you_already_has_room_embed() -> Embed:
     return embed
 
 
-
+@error_color()
 def get_another_user_already_has_room_embed(member_name: str) -> Embed:
     embed = Embed(
         icon_url=alert_url,
@@ -39,7 +39,7 @@ def get_another_user_already_has_room_embed(member_name: str) -> Embed:
     return embed
 
 
-
+@success_color()
 def get_room_deleted_embed() -> Embed:
     embed = Embed(
         title="Удаление комнаты",
@@ -48,7 +48,7 @@ def get_room_deleted_embed() -> Embed:
     return embed
 
 
-
+@success_color()
 def get_room_upped_embed() -> Embed:
     embed = Embed(
         title="Поднятие комнаты",
@@ -57,7 +57,7 @@ def get_room_upped_embed() -> Embed:
     return embed
 
 
-
+@info_color()
 def get_room_settings_embed() -> Embed:
     embed = Embed(
         title="Управление приватными каналами",
@@ -100,7 +100,7 @@ def get_room_settings_embed() -> Embed:
     return embed
 
 
-
+@info_color()
 def get_room_link_embed(url: str) -> Embed:
     embed = Embed(
         title="Приглашение в комнату",
@@ -113,7 +113,7 @@ def get_room_link_embed(url: str) -> Embed:
     return embed
 
 
-
+@success_color()
 def get_created_room_embed() -> Embed:
     embed = Embed(
         title="Комната создана",
@@ -122,7 +122,7 @@ def get_created_room_embed() -> Embed:
     return embed
 
 
-
+@success_color()
 def get_room_closed_embed() -> Embed:
     embed = Embed(
         title="Комната закрыта",
@@ -131,7 +131,7 @@ def get_room_closed_embed() -> Embed:
     return embed
 
 
-
+@info_color()
 def get_slow_down_embed(cooldown: float) -> Embed:
     embed = Embed(
         title="Подождите!",
@@ -142,7 +142,7 @@ def get_slow_down_embed(cooldown: float) -> Embed:
     return embed
 
 
-
+@success_color()
 def get_room_opened_embed() -> Embed:
     embed = Embed(
         title="Комната открыта!",
@@ -151,7 +151,7 @@ def get_room_opened_embed() -> Embed:
     return embed
 
 
-
+@success_color()
 def get_rename_room_embed(new_name: str) -> Embed:
     embed = Embed(
         title="Комната переименована!",
@@ -160,7 +160,7 @@ def get_rename_room_embed(new_name: str) -> Embed:
     return embed
 
 
-
+@success_color()
 def get_change_user_limit_room_embed(user_limit: str) -> Embed:
     embed = Embed(
         title="Количество участников изменено!",
@@ -169,7 +169,7 @@ def get_change_user_limit_room_embed(user_limit: str) -> Embed:
     return embed
 
 
-
+@success_color()
 def get_new_owner_embed(member_name: str) -> Embed:
     embed = Embed(
         title="Новый владелец!",
@@ -178,7 +178,7 @@ def get_new_owner_embed(member_name: str) -> Embed:
     return embed
 
 
-
+@success_color()
 def get_kick_embed(member_name: str) -> Embed:
     embed = Embed(
         title=f"Пользователь выгнан!",
@@ -187,7 +187,7 @@ def get_kick_embed(member_name: str) -> Embed:
     return embed
 
 
-
+@error_color()
 def get_kick_self_embed() -> Embed:
     embed = Embed(
         title=f"Нельзя Исключить",
@@ -196,30 +196,30 @@ def get_kick_self_embed() -> Embed:
     return embed
 
 
-
+@error_color()
 def get_havent_rights_embed(member_name: str) -> Embed:
     embed = Embed(
         title=f"У вас недостаточно прав!",
     )
     embed.add_field(
-        name=f"Вы не являетесь владельцем канала где находится {member_name.name}!", value=""
+        name="", value=f"Вы не являетесь владельцем канала где находится {member_name.name}!"
     )
     return embed
 
 
-
+@error_color()
 def get_unknown_member_embed(membr_name: str) -> Embed:
     embed = Embed(
         title="Участник не найдет!",
     )
     embed.add_field(
-        name=f"Пользователь с именем {membr_name} не обнаружен на этом сервере!",
-        value="",
+        name="",
+        value=f"Пользователь с именем {membr_name} не обнаружен на этом сервере!",
     )
     return embed
 
 
-
+@error_color()
 def get_unknown_member_id_embed(member_id: int) -> Embed:
     embed = Embed(
         title="Участник не найдет!",
@@ -231,7 +231,7 @@ def get_unknown_member_id_embed(member_id: int) -> Embed:
     return embed
 
 
-
+@error_color()
 def get_unknown_value_embed(value: str):
     embed = Embed(
         title="Введено неверное значение!",

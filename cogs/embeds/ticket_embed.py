@@ -4,7 +4,7 @@ from .url_icons import *
 from .embed_utils import *
 
 
-@error_color()
+@info_color()
 def get_slow_down_embed(cooldown: float) -> Embed:
     embed = Embed(
         title="Подождите!",
@@ -45,7 +45,7 @@ def get_ticket_embed() -> Embed:
 @success_color()
 def get_report_sent_embed() -> Embed:
     embed = Embed()
-    embed.set_author(icon_url=dot_url, name=" Оставьте жалобу на участника")
+    embed.set_author(icon_url=star_url, name=" Оставьте жалобу на участника")
     embed.add_field(
         name="",
         value="""```Наши модераторы в кратчайшие сроки постараются проверить вашу жалому, нарушитель будет наказан!```""",
@@ -57,6 +57,7 @@ def get_report_sent_embed() -> Embed:
     return embed
 
 
+@error_color()
 def get_self_report_embed() -> Embed:
     embed = Embed(
         title="Попытка саморепорта!",
@@ -69,6 +70,7 @@ def get_self_report_embed() -> Embed:
     return embed
 
 
+@info_color()
 def get_report_info_embed(author: str, reported_user: str, description: str) -> Embed:
     embed = Embed(
         title="Cоздана новая жалоба на пользователя",
@@ -100,6 +102,7 @@ def get_report_info_embed(author: str, reported_user: str, description: str) -> 
 
 
 ### ЖАЛОБА ЗАКРЫТА
+@success_color()
 def get_report_was_resolved_embed(jump_url, moderator_name) -> Embed:
     embed = Embed(
         title="Жалоба закрыта",
@@ -114,6 +117,7 @@ def get_report_was_resolved_embed(jump_url, moderator_name) -> Embed:
 
 
 ### ПРЕДУПРЕЖДЕНИЕ
+@error_color()
 def get_user_warn_embed(description: str) -> Embed:
     embed = Embed(
         title="Замечание",
@@ -123,6 +127,7 @@ def get_user_warn_embed(description: str) -> Embed:
     return embed
 
 
+@success_color()
 def get_user_warn_sent_embed() -> Embed:
     embed = Embed(
         title="Замечание",
@@ -137,6 +142,7 @@ def get_user_warn_sent_embed() -> Embed:
 
 
 ### КИК
+@error_color()
 def get_user_kick_embed(description: str) -> Embed:
     embed = Embed(
         title="Кик",
@@ -155,6 +161,7 @@ def get_user_kick_embed(description: str) -> Embed:
     return embed
 
 
+@success_color()
 def get_user_kick_sent_embed() -> Embed:
     embed = Embed(
         title="Кик",
@@ -170,6 +177,7 @@ def get_user_kick_sent_embed() -> Embed:
 
 
 ### ВРЕМЕННЫЙ МУТ
+@error_color()
 def get_user_temp_mute_embed(description: str, time: int) -> Embed:
     embed = Embed(
         title="Временный мут",
@@ -188,6 +196,7 @@ def get_user_temp_mute_embed(description: str, time: int) -> Embed:
     return embed
 
 
+@success_color()
 def get_user_temp_mute_sent_embed() -> Embed:
     embed = Embed(
         title="Временный мут",
@@ -201,6 +210,7 @@ def get_user_temp_mute_sent_embed() -> Embed:
     return embed
 
 
+@success_color()
 def get_user_unmute_embed() -> Embed:
     embed = Embed(
         title="Временный мут",
@@ -215,6 +225,7 @@ def get_user_unmute_embed() -> Embed:
     ### ВРЕМЕННЫЙ ЗАПРЕТ ПЕЧАТИ
 
 
+@error_color()
 def get_user_temp_stop_typing_embed(description: str, time: int) -> Embed:
     embed = Embed(
         title="Временный мут",
@@ -233,19 +244,21 @@ def get_user_temp_stop_typing_embed(description: str, time: int) -> Embed:
     return embed
 
 
+@success_color()
 def get_user_temp_stop_typing_sent_embed() -> Embed:
     embed = Embed(
         title="Временный мут",
     )
     embed.add_field(
         name="",
-        value="```Пользователю было успешно запрещено использовать текстовый чат!```",
+        value="```Пользователю было запрещено использовать текстовый чат!```",
         inline=False,
     )
     embed.set_footer(text=f"Дата: {datetime.now()}")
     return embed
 
 
+@success_color()
 def get_user_temp_unstop_typing_embed() -> Embed:
     embed = Embed(
         title="Временный мут",
@@ -260,6 +273,7 @@ def get_user_temp_unstop_typing_embed() -> Embed:
 
 
 ### ВРЕМЕННЫЙ БАН
+@error_color()
 def get_user_temp_ban_embed(description: str, time: int) -> Embed:
     embed = Embed(
         title="Временная блокировка",
@@ -278,19 +292,21 @@ def get_user_temp_ban_embed(description: str, time: int) -> Embed:
     return embed
 
 
+@success_color()
 def get_user_temp_ban_sent_embed() -> Embed:
     embed = Embed(
         title="Временная блокировка",
     )
     embed.add_field(
         name="",
-        value="```Пользователь было успешно заблокирован на указанное время!```",
+        value="```Пользователь было заблокирован на указанное время!```",
         inline=False,
     )
     embed.set_footer(text=f"Дата: {datetime.now()}")
     return embed
 
 
+@success_color()
 def get_user_unban_embed() -> Embed:
     embed = Embed(
         title="Временный мут",
@@ -305,6 +321,7 @@ def get_user_unban_embed() -> Embed:
 
 
 ### ВЕЧНЫЙ БАН
+@error_color()
 def get_user_ban_embed(description: str) -> Embed:
     embed = Embed(
         title="Вечная блокировка",
@@ -323,6 +340,7 @@ def get_user_ban_embed(description: str) -> Embed:
     return embed
 
 
+@success_color()
 def get_user_ban_sent_embed() -> Embed:
     embed = Embed(
         title="Временная блокировка",

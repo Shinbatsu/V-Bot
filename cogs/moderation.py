@@ -206,7 +206,7 @@ class Moderation(commands.Cog, name="moderation"):
 
     @commands.hybrid_command(
         name="purge",
-        description="Delete a number of messages.",
+        description="Удалить количество сообщений в канале.",
     )
     @commands.has_guild_permissions(manage_messages=True)
     @commands.bot_has_permissions(manage_messages=True)

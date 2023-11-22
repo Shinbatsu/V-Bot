@@ -2,6 +2,7 @@ from discord import Embed
 from .url_icons import *
 from .embed_utils import *
 
+@info_color()
 def get_slow_down_embed(cooldown: float) -> Embed:
     embed = Embed(
         title="Подождите!",
@@ -11,7 +12,7 @@ def get_slow_down_embed(cooldown: float) -> Embed:
     )
     return embed
 
-
+@info_color()
 def get_pick_rank_embed() -> Embed:
     embed = Embed()
     embed.set_author(
@@ -38,7 +39,7 @@ def get_pick_rank_embed() -> Embed:
     )
     return embed
 
-
+@error_color()
 def get_different_nicknames_embed(nick: str, repeat_nick: str) -> Embed:
     embed = Embed(
         title="Введенные формы не совпадают!",
@@ -53,7 +54,7 @@ def get_different_nicknames_embed(nick: str, repeat_nick: str) -> Embed:
     )
     return embed
 
-
+@error_color()
 def get_already_has_nickname_embed(nick: str) -> Embed:
     embed = Embed(
         title="Ник уже занят!",
@@ -64,7 +65,7 @@ def get_already_has_nickname_embed(nick: str) -> Embed:
     )
     return embed
 
-
+@success_color()
 def get_you_got_rank_embed(username: str, rank: str) -> Embed:
     embed = Embed(title="Ваш ранг успешно добавлен!")
     embed.add_field(
@@ -73,7 +74,7 @@ def get_you_got_rank_embed(username: str, rank: str) -> Embed:
     )
     return embed
 
-
+@success_color()
 def get_you_update_rank_embed(username: str, rank: str) -> Embed:
     embed = Embed(
         title="Ваш ранг успешно обновлен!",
@@ -81,7 +82,7 @@ def get_you_update_rank_embed(username: str, rank: str) -> Embed:
     embed.add_field(name=f"{username.capitalize()}, Теперь ваш Valorant ранг:", value=f"{rank}")
     return embed
 
-
+@error_color()
 def get_cant_get_rank_embed() -> Embed:
     embed = Embed(
         title="Не удалось получить ранг!",
@@ -89,7 +90,7 @@ def get_cant_get_rank_embed() -> Embed:
     embed.add_field(name="Произошла ошибка присвоения ранга, попробуйте позже!", value="")
     return embed
 
-
+@error_color()
 def get_cant_update_rank_embed() -> Embed:
     embed = Embed(
         title="Не удалось обновить ранг!",
@@ -97,15 +98,7 @@ def get_cant_update_rank_embed() -> Embed:
     embed.add_field(name="Произошла ошибка обновления ранга, попробуйте позже!", value="")
     return embed
 
-
-def get_cant_update_rank_embed() -> Embed:
-    embed = Embed(
-        title="Не удалось обновить ранг!",
-    )
-    embed.add_field(name="У вас пока что нет ранга!", value="")
-    return embed
-
-
+@info_color()
 def get_pick_your_agents_embed() -> Embed:
     embed = Embed(
     )
@@ -122,7 +115,7 @@ def get_pick_your_agents_embed() -> Embed:
     )
     return embed
 
-
+@info_color()
 def get_pick_your_nick_color_embed() -> Embed:
     embed = Embed(
     )
@@ -137,40 +130,40 @@ def get_pick_your_nick_color_embed() -> Embed:
     embed.set_footer(text="Ваш любимый цвет станет цветом вашего никнейма.", icon_url=v_icon_url)
     return embed
 
-
+@success_color()
 def get_color_nick_removed_embed() -> Embed:
     embed = Embed(
         title="Изменение цвета",
     )
     embed.add_field(
-        name="Ваши цвета ника успешно убраны!",
+        name="Ваши цвета ника успешно убраны",
         value="",
     )
     return embed
 
-
+@success_color()
 def get_color_been_changed_embed() -> Embed:
     embed = Embed(
         title="Изменение цвета",
     )
     embed.add_field(
-        name="Ваш цвет ника изменен!",
+        name="Ваш цвет ника изменен",
         value="",
     )
     return embed
 
-
+@success_color()
 def get_color_nick_added_embed() -> Embed:
     embed = Embed(
         title="Изменение цвета",
     )
     embed.add_field(
-        name="Ваш цвет ника успешно установлен!",
+        name="Ваш цвет ника успешно установлен",
         value="",
     )
     return embed
 
-
+@error_color()
 def get_no_color_to_remove_embed() -> Embed:
     embed = Embed(
         title="Изменение цвета",
@@ -181,35 +174,25 @@ def get_no_color_to_remove_embed() -> Embed:
     )
     return embed
 
-
+@success_color()
 def get_agent_added_embed() -> Embed:
     embed = Embed(
         title="Изменение агента",
     )
     embed.add_field(
-        name="Ваш агент успешно изменен!",
-        value="",
+        name="",
+        value="Ваш агент успешно добавлен!",
     )
     return embed
 
-
+@success_color()
 def get_agent_removed_embed() -> Embed:
     embed = Embed(
         title="Изменение агента",
     )
     embed.add_field(
-        name="Ваш агент успешно убран!",
-        value="",
+        name="",
+        value="Ваш агент успешно убран!",
     )
     return embed
 
-
-def get_agent_already_selected_embed() -> Embed:
-    embed = Embed(
-        title="Изменение агента",
-    )
-    embed.add_field(
-        name="У вас уже есть агент этого типа!",
-        value="",
-    )
-    return embed
