@@ -81,7 +81,7 @@ def get_report_info_embed(author: str, reported_user: str, description: str) -> 
         inline=False,
     )
     embed.add_field(
-        name=f"""```{dot}Виновник: {reported_user}```""",
+        name=f"""{dot}Виновник: {reported_user}""",
         value="",
         inline=False,
     )
@@ -96,7 +96,7 @@ def get_report_info_embed(author: str, reported_user: str, description: str) -> 
         inline=False,
     )
     embed.set_footer(
-        text="ПРИМЕЧАНИЕ: Иногда могут потребоваться скриншоты, видео или другая информация."
+        text="ПРИМЕЧАНИЕ: Иногда могут потребоваться скриншоты, видео или \nдругая информация."
     )
     return embed
 
@@ -109,7 +109,7 @@ def get_report_was_resolved_embed(jump_url, moderator_name) -> Embed:
     )
     embed.add_field(
         name="",
-        value=f"""[Заявка]({jump_url}) ```была разрешена модератором {moderator_name}.```""",
+        value=f"""[Заявка]({jump_url}) была разрешена модератором {dot}{moderator_name}.""",
         inline=False,
     )
     embed.set_footer(text=f"Дата: {datetime.now()}")
@@ -122,7 +122,7 @@ def get_user_warn_embed(description: str) -> Embed:
     embed = Embed(
         title="Замечание",
     )
-    embed.add_field(name="", value=f"```ПРИЧИНА: {description.capitalize()}```")
+    embed.add_field(name="", value=f"{dot}ПРИЧИНА: {description.capitalize()}")
     embed.set_footer(text=f"Дата: {datetime.now()}")
     return embed
 
@@ -134,7 +134,7 @@ def get_user_warn_sent_embed() -> Embed:
     )
     embed.add_field(
         name="",
-        value="```Замечание пользователю было успешно отправлено!```",
+        value=f"{dot}Замечание пользователю было успешно отправлено!",
         inline=False,
     )
     embed.set_footer(text=f"Дата: {datetime.now()}")
@@ -149,12 +149,12 @@ def get_user_kick_embed(description: str) -> Embed:
     )
     embed.add_field(
         name="",
-        value=f"```Модерация вас кикнула с сервера!```",
+        value=f"Модерация вас кикнула с сервера!",
         inline=False,
     )
     embed.add_field(
         name="",
-        value=f"```ПРИЧИНА: {description}```",
+        value=f"{dot}ПРИЧИНА: {description}",
         inline=False,
     )
     embed.set_footer(text=f"Дата: {datetime.now()}")
@@ -168,7 +168,7 @@ def get_user_kick_sent_embed() -> Embed:
     )
     embed.add_field(
         name="",
-        value="```Пользователь был успешно кикнут!```",
+        value="Пользователь был успешно кикнут!",
         inline=False,
     )
     embed.set_footer(text=f"Дата: {datetime.now()}")
@@ -184,12 +184,12 @@ def get_user_temp_mute_embed(description: str, time: int) -> Embed:
     )
     embed.add_field(
         name="",
-        value=f"```Модерация запретила вам использовать голосовые сообщение в течении следующих: {time} сек.```",
+        value=f"Модерация запретила вам использовать голосовые сообщение в течении следующих: {time} сек.",
         inline=False,
     )
     embed.add_field(
         name="",
-        value=f"```ПРИЧИНА: {description}```",
+        value=f"{dot}ПРИЧИНА: {description}",
         inline=False,
     )
     embed.set_footer(text=f"Дата: {datetime.now()}")
@@ -203,7 +203,7 @@ def get_user_temp_mute_sent_embed() -> Embed:
     )
     embed.add_field(
         name="",
-        value="```Пользователю было успешно запрещено говорить!```",
+        value="Пользователю было успешно запрещено говорить!",
         inline=False,
     )
     embed.set_footer(text=f"Дата: {datetime.now()}")
@@ -217,7 +217,7 @@ def get_user_unmute_embed() -> Embed:
     )
     embed.add_field(
         name="",
-        value=f"```Теперь вам снова разрешено использовать голосовые сообщения!```",
+        value=f"Теперь вам снова разрешено использовать голосовые сообщения!",
         inline=False,
     )
     embed.set_footer(text=f"Дата: {datetime.now()}")
@@ -232,12 +232,12 @@ def get_user_temp_stop_typing_embed(description: str, time: int) -> Embed:
     )
     embed.add_field(
         name="",
-        value=f"```Модерация запретила вам использовать текстовый чат в течении следующих: {time} сек.```",
+        value=f"Модерация запретила вам использовать текстовый чат в течении следующих: {time} сек.",
         inline=False,
     )
     embed.add_field(
         name="",
-        value=f"```ПРИЧИНА: {description}```",
+        value=f"{dot}ПРИЧИНА: {description}",
         inline=False,
     )
     embed.set_footer(text=f"Дата: {datetime.now()}")
@@ -251,7 +251,7 @@ def get_user_temp_stop_typing_sent_embed() -> Embed:
     )
     embed.add_field(
         name="",
-        value="```Пользователю было запрещено использовать текстовый чат!```",
+        value="Пользователю было запрещено использовать текстовый чат!",
         inline=False,
     )
     embed.set_footer(text=f"Дата: {datetime.now()}")
@@ -265,7 +265,7 @@ def get_user_temp_unstop_typing_embed() -> Embed:
     )
     embed.add_field(
         name="",
-        value=f"```Теперь вам снова разрешено использовать текстовый чат!```",
+        value=f"Теперь вам снова разрешено использовать текстовый чат!",
         inline=False,
     )
     embed.set_footer(text=f"Дата: {datetime.now()}")
@@ -280,12 +280,12 @@ def get_user_temp_ban_embed(description: str, time: int) -> Embed:
     )
     embed.add_field(
         name="",
-        value=f"```Модерация запретила вам посещать сервер в течении следующих: {time} сек.```",
+        value=f"Модерация запретила вам посещать сервер в течении следующих: {time} сек.",
         inline=False,
     )
     embed.add_field(
         name="",
-        value=f"```ПРИЧИНА: {description}```",
+        value=f"{dot}ПРИЧИНА: {description}",
         inline=False,
     )
     embed.set_footer(text=f"Дата: {datetime.now()}")
@@ -299,7 +299,7 @@ def get_user_temp_ban_sent_embed() -> Embed:
     )
     embed.add_field(
         name="",
-        value="```Пользователь было заблокирован на указанное время!```",
+        value="Пользователь было заблокирован на указанное время!",
         inline=False,
     )
     embed.set_footer(text=f"Дата: {datetime.now()}")
@@ -313,7 +313,7 @@ def get_user_unban_embed() -> Embed:
     )
     embed.add_field(
         name="",
-        value=f"```Теперь вам снова разрешено пользоваться сервером!```",
+        value=f"Теперь вам снова разрешено пользоваться сервером!",
         inline=False,
     )
     embed.set_footer(text=f"Дата: {datetime.now()}")
@@ -328,12 +328,12 @@ def get_user_ban_embed(description: str) -> Embed:
     )
     embed.add_field(
         name="",
-        value=f"```Модерация запретила вам посещать сервер на неопределенное время!```",
+        value=f"Модерация запретила вам посещать сервер на неопределенное время!",
         inline=False,
     )
     embed.add_field(
         name="",
-        value=f"```ПРИЧИНА: {description}```",
+        value=f"{dot}ПРИЧИНА: {description}",
         inline=False,
     )
     embed.set_footer(text=f"Дата: {datetime.now()}")
@@ -347,7 +347,7 @@ def get_user_ban_sent_embed() -> Embed:
     )
     embed.add_field(
         name="",
-        value="```Пользователь было успешно заблокирован!```",
+        value="Пользователь было успешно заблокирован!  ",
         inline=False,
     )
     embed.set_footer(text=f"Дата: {datetime.now()}")
