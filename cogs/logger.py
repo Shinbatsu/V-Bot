@@ -197,7 +197,7 @@ class Log(commands.Cog, name="log"):
     async def on_guild_channel_create(self, channel):
         channel_name = channel.name
         embed = Embed(
-            title="Channel Created",
+            title="Канал создан",
             description=f"Channel '{channel_name}' was created.",
             color=discord.Color.green(),
         )
@@ -208,8 +208,8 @@ class Log(commands.Cog, name="log"):
     async def on_guild_channel_delete(self, channel):
         channel_name = channel.name
         embed = Embed(
-            title="Channel Deleted",
-            description=f"Channel '{channel_name}' was deleted.",
+            title="Канал удален",
+            description=f"Канал '{channel_name}' был удален.",
             color=discord.Color.red(),
         )
         embed.set_footer(text=f"Guild ID: {channel.guild.id} | Deleted at {datetime.now()}")
@@ -219,14 +219,14 @@ class Log(commands.Cog, name="log"):
     async def on_guild_channel_update(self, before, after):
         if before.name != after.name:
             embed = Embed(
-                title="Channel Renamed",
-                description=f"Channel '{before.name}' was renamed to '{after.name}'.",
+                title="Канал переименован",
+                description=f"Канал '{before.name}' был переименован в '{after.name}'.",
                 color=discord.Color.blue(),
             )
         else:
             embed = Embed(
-                title="Channel Edited",
-                description=f"Channel '{before.name}' was edited.",
+                title="Канал изменен",
+                description=f"Канал '{before.name}' был изменен.",
                 color=discord.Color.blue(),
             )
         embed.set_footer(text=f"Guild ID: {before.guild.id} | Edited at {datetime.now()}")

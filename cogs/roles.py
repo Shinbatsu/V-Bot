@@ -25,7 +25,7 @@ class Roles(commands.Cog, name="roles"):
 
     @commands.hybrid_command(
         name="panel_roles",
-        description="Create a roles panel.",
+        description="Создает панель с ролями.",
     )
     async def _panel_roles(self, context: Context) -> None:
         await context.defer(ephemeral=True)
