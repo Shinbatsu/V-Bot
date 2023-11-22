@@ -191,7 +191,7 @@ class PickAgentsView(View):
                     await interaction.user.remove_roles(role)
                 await interaction.followup.send(embed=get_agent_removed_embed(), ephemeral=True)
         elif user_pick=="Убрать":
-            await interaction.user.remove_roles(*duelist_roles)
+            await interaction.user.remove_roles(*duelist_roles_o)
             await interaction.followup.send(embed=get_all_agent_removed_embed(), ephemeral=True)
         else:
             for role in duelist_roles_o:
@@ -216,7 +216,7 @@ class PickAgentsView(View):
                     await interaction.user.remove_roles(role)
                 await interaction.followup.send(embed=get_agent_removed_embed(), ephemeral=True)
         elif user_pick=="Убрать":
-            await interaction.user.remove_roles(*initiator_roles)
+            await interaction.user.remove_roles(*initiator_roles_o)
             await interaction.followup.send(embed=get_all_agent_removed_embed(), ephemeral=True)
         else:
             for role in initiator_roles_o:
@@ -242,7 +242,7 @@ class PickAgentsView(View):
                     await interaction.user.remove_roles(role)
                 await interaction.followup.send(embed=get_agent_removed_embed(), ephemeral=True)
         elif user_pick=="Убрать":
-            await interaction.user.remove_roles(*specialist_roles)
+            await interaction.user.remove_roles(*specialist_roles_o)
             await interaction.followup.send(embed=get_all_agent_removed_embed(), ephemeral=True)
         else:
             for role in specialist_roles_o:
